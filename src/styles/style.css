@@ -1,0 +1,394 @@
+  :root {
+    /*--bg-primary: #b47e57;*/
+    /*--bg-primary: #FFC0CB;*/
+    --bg-primary: #FFF5E1;
+    --bg-secondary: white;
+    --text-primary: #8B4513;
+    --background: ;
+  }
+
+
+  @keyframes movimiento {
+
+    0% {
+      transform: translateX(-1000px);
+    }
+
+  }
+
+  @keyframes movimiento-invert {
+
+    0% {
+      transform: translateX(1000px);
+    }
+
+  }
+
+  @keyframes movimiento-carousel {}
+
+
+
+  .navbar-boostrap {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+  }
+
+  .navbar-home {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+  }
+
+  .input-color {
+    background-color: var(--bg-primary);
+  }
+
+  .navbar {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+  }
+
+  .dropdown-color {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+  }
+
+
+  .footer {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+  }
+
+  .text-customize {
+    color: var(--text-primary);
+  }
+
+  .input {
+    border-color: var(--bg-primary);
+    box-shadow: 0 0 0 1px var(--bg-primary);
+  }
+
+  .text-5xl-animation {
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+    position: relative;
+    animation: movimiento 1s;
+  }
+
+  .subtitle-animation {
+    animation: movimiento 2s;
+  }
+
+  .btn-animation {
+    animation: movimiento 3s;
+  }
+
+  .input {
+    color: rgb(0, 0, 0);
+  }
+
+  .card-animation {
+    animation: movimiento 1s;
+  }
+
+  .invert-card-animation {
+    animation: movimiento-invert 1s;
+  }
+
+  /* .btn-hover:hover {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+  } */
+
+  body {
+    background-color: #FFF5E1;
+    color: #5D4037;
+    font-family: "lato", sans-serif;
+  }
+
+  .card-img-top {
+    width: 100%;
+    /* Ocupa todo el ancho de la tarjeta */
+    height: 250px;
+    /* El alto que veo que se ve mejor */
+    object-fit: cover;
+    /* Mantiene proporción y recorta la imagen ajustandola al recuadro si es necesario */
+  }
+
+  .card {
+    height: 100%;
+  }
+
+  footer {
+    background-color: #dfd2ba;
+  }
+
+  body {
+    background-color: #FFF5E1;
+    color: #5D4037;
+    font-family: "lato", sans-serif;
+  }
+
+  /* css nuestra historia*/
+
+  .timeline {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .timeline::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    background-color: #FFC0CB;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -3px;
+  }
+
+  .timeline-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+    position: relative;
+    gap: 20px;
+  }
+
+  .timeline-item.left .content1 {
+    order: 1;
+    text-align: right;
+  }
+
+  .timeline-item.left .image {
+    order: 2;
+  }
+
+  .timeline-item.right .image {
+    order: 1;
+  }
+
+  .timeline-item.right .content1 {
+    order: 2;
+    text-align: left;
+  }
+
+  .timeline-item .content1,
+  .timeline-item .image {
+    width: 48%;
+  }
+
+  .timeline-item .image img {
+    width: 100%;
+    height: 310px;
+    border-radius: 8px;
+  }
+
+  @media (max-width: 768px) {
+    .timeline::after {
+      display: none;
+      /* opcional: ocultar línea en móvil */
+    }
+
+    /* Texto arriba, imagen abajo */
+    .timeline-item.left {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    /* Imagen arriba, texto abajo */
+    .timeline-item.right {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+    }
+
+    .timeline-item .content1,
+    .timeline-item .image {
+      width: 100%;
+      /* ocupan todo el ancho */
+    }
+
+    .timeline-item .image img {
+      height: auto;
+      /* no se deforma, se adapta */
+    }
+  }
+
+  .hero {
+    background-image: url('../assets/img/fondo/aestheticpasteleriainside.jpg');
+    /* Ajusta según tu estructura */
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .hero h1 {
+    color: #ffffff;
+  }
+
+  .content {
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin: -100px auto 2rem auto;
+    /* Para superponerse un poco al hero */
+    max-width: 900px;
+  }
+
+  /* Mostrar dropdown al pasar el mouse */
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    /* elimina el pequeño espacio entre botón y menú */
+  }
+
+
+  .mj-hero {
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 60vh;
+    width: 100%;
+  }
+
+  .slide-1 {
+    background-image: url("../assets/img/fondo/cupcakeschoco.jpg");
+  }
+
+  .slide-2 {
+    background-image: url("../assets/img/fondo/fondouno.jpg");
+  }
+
+  .slide-3 {
+    background-image: url("../assets/img/fondo/pielimon.jpg");
+  }
+
+  .btn-color {
+    background-color: rgba(180, 126, 87, 0.7);
+
+    color: white;
+    border: 2px solid #b47e57;
+    transition: all 0.3s ease;
+  }
+
+  .btn-color:hover {
+    background-color: transparent;
+    border: 2px solid #b47e57;
+    color: white;
+  }
+
+  .btn-color-car {
+    background-color: rgba(180, 126, 87, 0.7);
+
+    color: white;
+    border: 2px solid #b47e57;
+    transition: all 0.3s ease;
+  }
+
+  .btn-color-car:hover {
+    background-color: transparent;
+    border: 2px solid #b47e57;
+    color: rgb(0, 0, 0);
+  }
+
+
+
+
+  .carrusel-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .carrusel-inner {
+    display: flex;
+    gap: 1rem;
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .carrusel-item {
+    min-width: calc(33.33% - 1rem);
+    transition: transform 0.5s ease;
+  }
+
+  .carrusel-inner.slide {
+    transform: translateX(-10px);
+  }
+
+  .carrusel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.4);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .carrusel-btn:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  .carrusel-btn.prev {
+    left: -2rem;
+  }
+
+  .carrusel-btn.next {
+    right: -2rem;
+  }
+
+  .embla__button {
+    color: #8B4513;
+    /* color del icono de la flecha */
+  }
+
+  .embla__button:hover {
+    transform: scale(1.1);
+    /* aumenta un 10% al hover */
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .hero-section {
+    margin-top: 2rem;
+  }
+
+  .text-color {
+    color: #8B4513;
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Empuja el botón hacia abajo */
+    height: 100%;
+    /* Asegura que todas las cards tengan misma altura */
+
+  }
+
+  .list-group-item.active {
+    background-color: #dfd2ba;
+    color: rgb(0, 0, 0);
+    border: 1px solid #b47e57;
+  }
+
+  .bg-custom {
+    color: #ffffff;
+}
+  
