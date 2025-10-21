@@ -31,7 +31,7 @@ export default function Header() {
         <div className="container-fluid">
    
           <a className="navbar-brand" href="/">
-            <img src="assets/img/icons/logo.png" alt="Logo" height="80" />
+            <img src="assets/img/icons/logo.png" alt="logo pasteleria" height="80" />
           </a>
 
 
