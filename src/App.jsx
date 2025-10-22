@@ -22,8 +22,6 @@ import Comunidad from './pages/Comunidad'
 function App() {
   return (
     <React.StrictMode>
-      <CartProvider>
-        <BrowserRouter>
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />
@@ -38,8 +36,6 @@ function App() {
             <Route path="/Registro" element={<Registro />} />
           </Routes>
           <Footer />
-        </BrowserRouter>
-      </CartProvider>
     </React.StrictMode>
   );
 }
