@@ -31,7 +31,7 @@ export default function Header() {
         <div className="container-fluid">
    
           <a className="navbar-brand" href="/">
-            <img src="assets/img/icons/logo.png" alt="Logo" height="80" />
+            <img src="./assets/img/icons/logo.png" alt="Logo" height="80" />
           </a>
 
 
@@ -128,8 +128,8 @@ export default function Header() {
 
                   <li className="nav-item">
                     <Link to="/edit_perfil" className="nav-link">
-                    <i class="bi bi-bell-fill"></i>
-                    <span class="badge text-bg-danger">4</span>
+                    <i className="bi bi-bell-fill"></i>
+                    <span className="badge text-bg-danger">4</span>
                     </Link>
                   </li>
                 </>
