@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../components/header.jsx';
-import Footer from '../components/footer.jsx';
 import '../styles/style.css';
 import { productos } from '../constantes/productos.js';
-import { masVendidos } from '../constantes/masVendidos.js';
+
 import { catalogoItems } from '../constantes/catalogoItems.js';
-import { CartProvider, useCart } from '../components/CartContext.jsx';
+import { useCart } from '../components/CartContext.jsx';
 import { useParams, useNavigate } from "react-router-dom";
 
 
