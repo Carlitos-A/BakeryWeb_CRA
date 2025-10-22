@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -9,37 +10,37 @@ export default function Footer() {
         <nav className="mb-3">
           <ul className="list-unstyled mb-0">
             <li className="mb-2">
-              <a className="text-customize text-decoration-none" href="#">
+              <Link className="text-customize text-decoration-none" to="/">
                 Cómo modificar mis datos
-              </a>
+              </Link>
             </li>
             <li className="mb-2">
-              <a className="text-customize text-decoration-none" href="#">
+              <Link className="text-customize text-decoration-none" href="/">
                 Política de privacidad
-              </a>
+              </Link>
             </li>
             <li className="mb-2">
-              <a className="text-customize text-decoration-none" href="#">
+              <Link className="text-customize text-decoration-none" to="/">
                 Términos y condiciones
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>
 
         {/* Íconos */}
         <div className="d-flex justify-content-center gap-3 fs-4">
-          <a href="#" target="_blank" className="text-customize">
+          <Link to="/" target="_blank" rel="noopener noreferrer" className="text-customize">
             <i className="bi bi-instagram"></i>
-          </a>
-          <a href="#" target="_blank" className="text-customize">
+          </Link>
+          <Link to="/" target="_blank" rel="noopener noreferrer" className="text-customize">
             <i className="bi bi-facebook"></i>
-          </a>
-          <a href="#" target="_blank" className="text-customize">
+          </Link>
+          <Link to="/" target="_blank" rel="noopener noreferrer" className="text-customize">
             <i className="bi bi-tiktok"></i>
-          </a>
-          <a href="#" target="_blank" className="text-customize">
+          </Link>
+          <Link to="/" target="_blank" rel="noopener noreferrer" className="text-customize">
             <i className="bi bi-youtube"></i>
-          </a>
+          </Link>
         </div>
       </div>
 

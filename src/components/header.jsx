@@ -72,7 +72,7 @@ export default function Header() {
               </li>
 
               <li className="nav-item dropdown">
-                <Link to="" className="nav-link dropdown-toggle">
+                <Link className="nav-link dropdown-toggle">
                   Sobre Nosotros
                 </Link>
                <ul className="dropdown-menu">
@@ -99,7 +99,7 @@ export default function Header() {
               </li>
             </ul>
 
-            <form className="d-flex" role="search">
+            <form className="d-flex ms-auto" role="search">
               <input
                 className="form-control me-2"
                 type="search"
@@ -138,11 +138,11 @@ export default function Header() {
                   </li>
 
                   <li className="nav-item">
-                    <Link to="/edit_perfil" className="nav-link">Editar Perfil</Link>
+                    <Link to="/Perfil" className="nav-link">Perfil</Link>
                   </li>
 
                   <li className="nav-item">
-                    <Link to="/edit_perfil" className="nav-link">
+                    <Link to="/EditarPerfil" className="nav-link">
                     <i className="bi bi-bell-fill"></i>
                     <span class="badge text-bg-danger">4</span>
                     </Link>

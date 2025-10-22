@@ -1,9 +1,4 @@
-
-
-import Header from '../components/header';
-import Footer from '../components/footer';
 import '../styles/style.css';
-import Registro from '../pages/Registro.jsx';
 import { masVendidos } from '../constantes/masVendidos';
 import { reviews } from '../constantes/reviews';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -64,9 +59,9 @@ export default function App() {
                 recíbelo en la comodidad de tu hogar.
               </p>
               <div className="text-center">
-                <a href="Registro" className="btn btn-color btn-lg">
+                <Link to="/Registro" className="btn btn-color btn-lg">
                   Registrarse
-                </a>
+                </Link>
               </div>
             </div>
           </div>

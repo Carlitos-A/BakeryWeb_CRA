@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles/style.css';
+import './styles/editPerfil.css';
 import Home from './pages/Home';
 import CartPage from './pages/CartPage';
 import Catalogo from './pages/Catalogo' ;
@@ -15,6 +16,8 @@ import Procesos from './pages/Procesos';
 import NuestraHistoria from './pages/NuestraHistoria';
 import Equipo from './pages/Equipo';
 import Comunidad from './pages/Comunidad';
+import EditPerfil from './pages/editPerfil';
+import Perfil from './pages/Perfil'
 
 function App() {
   return (
@@ -31,6 +34,8 @@ function App() {
             <Route path='/comunidad' element={<Comunidad />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/Registro" element={<Registro />} />
+            <Route path='/EditarPerfil' element={<EditPerfil/>}/>
+            <Route path='/Perfil' element={<Perfil/>}/>
           </Routes>
           <Footer />
           </>
