@@ -389,3 +389,10 @@
     color: #ffffff;
 }
   
+.search-form {
+  margin-left: auto;       /* Empuja el formulario hacia el extremo derecho */
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-right: 2rem;      /* Ajusta la distancia del borde o del ícono del carrito */
+}

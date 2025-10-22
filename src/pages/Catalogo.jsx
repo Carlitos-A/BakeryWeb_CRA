@@ -91,7 +91,7 @@ export default function Catalogo() {
                                                 alt={product.alt}
                                                 style={{ objectFit: "cover", height: "180px" }}
                                             />
-                                            <div className="card-body d-flex flex-column justify-content-between">
+                                            <div className="card-body d-flex flex-column justify-content-between" data-testid="producto">
                                                 <div>
                                                     <p className="small text-muted mb-1">{product.category}</p>
                                                     <h6 className="fw-bold">{product.title}</h6>

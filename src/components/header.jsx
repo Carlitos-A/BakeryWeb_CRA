@@ -52,9 +52,9 @@ export default function Header() {
             {/* Menú central */}
             <ul className="navbar-nav mb-2 mb-lg-0 central-menu">
               <li className="nav-item">
-                <a className="nav-link" href="/">
+                <Link className="nav-link" to="/">
                   Inicio
-                </a>
+                </Link>
               </li>
 
               <li className="nav-item dropdown">
@@ -72,9 +72,9 @@ export default function Header() {
               </li>
 
               <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle">
+                <Link to="" className="nav-link dropdown-toggle">
                   Sobre Nosotros
-                </a>
+                </Link>
                <ul className="dropdown-menu">
                 <li>
                   <Link className="dropdown-item" to="/nuestrahistoria">
@@ -98,6 +98,20 @@ export default function Header() {
                 <Link to="/comunidad" className="nav-link" >Comunidad</Link>
               </li>
             </ul>
+
+            <form className="d-flex" role="search">
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Buscar..."
+                aria-label="Buscar"
+              />
+              <button className="btn btn-buscar" type="submit">
+                Buscar
+              </button>
+            </form>
+
+
         
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               {!logueado && (
@@ -129,7 +143,7 @@ export default function Header() {
 
                   <li className="nav-item">
                     <Link to="/edit_perfil" className="nav-link">
-                    <i class="bi bi-bell-fill"></i>
+                    <i className="bi bi-bell-fill"></i>
                     <span class="badge text-bg-danger">4</span>
                     </Link>
                   </li>
