@@ -14,26 +14,36 @@ module.exports = function (config) {
       mode: 'development',
       module: {
         rules: [
-        {
+          {
             test: /\.jsx?$/,
             exclude: /node_modules/,
             use: {
-                loader: 'babel-loader',
-                options: {
+              loader: 'babel-loader',
+              options: {
                 presets: [
-                    '@babel/preset-env',
-                    ['@babel/preset-react', { runtime: 'automatic', development: true }]
+                  '@babel/preset-env',
+                  ['@babel/preset-react', { runtime: 'automatic', development: true }]
                 ]
-                }
+              }
             }
-        },
-          //regla para imágenes (jpg/png/gif/webp/svg)
+          },
+          // regla para CSS
+          {
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader']
+          },
+          // regla para imágenes
           {
             test: /\.(png|jpe?g|gif|webp|svg)$/i,
-            //use: [{ loader: 'null-loader' }], // Para no cargar imagenes (npm i -D null-loader).
-            //type: 'asset/resource', //Cargar imagenes.
             type: 'asset/inline',
-          }
+          },
+          {
+      test: /\.(woff|woff2|eot|ttf|otf)$/,
+      type: 'asset/resource',
+      generator: {
+        filename: 'fonts/[name][ext]'
+      }
+    }
         ]
       },
       resolve: {
@@ -43,7 +53,7 @@ module.exports = function (config) {
 
     reporters: ['spec', 'coverage'],
     specReporter: {
-      suppressPassed: false, // muestra los passed
+      suppressPassed: false,
       suppressSkipped: true,
       showSpecTiming: true
     },

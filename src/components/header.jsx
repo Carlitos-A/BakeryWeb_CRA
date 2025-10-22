@@ -1,8 +1,9 @@
 
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { catalogoItems } from '../constantes/catalogoItems';
 import CartIcon from './CartIcon';
 import { Link } from "react-router-dom";
+import logopasteleria from '../assets/img/icons/logo.png';
 
 
 export default function Header() {
@@ -31,7 +32,7 @@ export default function Header() {
         <div className="container-fluid">
    
           <a className="navbar-brand" href="/">
-            <img src="assets/img/icons/logo.png" alt="logo pasteleria" height="80" />
+            <img className="logo" src={logopasteleria} alt="Logo Pastelería" height="80" />
           </a>
 
 

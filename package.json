@@ -7,11 +7,11 @@
     "@testing-library/jest-dom": "^6.8.0",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
+    "embla-carousel-react": "^8.6.0",
     "react": "^19.2.0",
-    "react-bootstrap": "^2.10.10",
-    "react-dom": "^19.2.0",
+    "react-dom": "^19.1.1",
     "react-helmet": "^6.1.0",
-    "react-router-dom": "^7.9.3",
+    "react-router-dom": "^7.9.2",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
@@ -22,15 +22,12 @@
     "eject": "react-scripts eject",
     "test:ui": "karma start --single-run"
   },
- "eslintConfig": {
-  "env": {
-    "jasmine": true
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
-  "extends": [
-    "react-app",
-    "react-app/jest"
-  ]
-},
   "browserslist": {
     "production": [
       ">0.2%",
@@ -51,12 +48,15 @@
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
     "babel-loader": "^10.0.0",
+    "css-loader": "^7.1.2",
     "esbuild": "^0.25.10",
     "esbuild-plugin-istanbul": "^0.3.0",
-    "jasmine-core": "^5.11.0",
+    "jasmine": "^5.12.0",
+    "jasmine-core": "^5.12.0",
     "karma": "^6.4.4",
     "karma-babel-preprocessor": "^8.0.2",
     "karma-chrome-launcher": "^3.2.0",
+    "karma-cli": "^2.0.0",
     "karma-coverage": "^2.2.1",
     "karma-esbuild": "^2.3.0",
     "karma-jasmine": "^5.1.0",
@@ -64,6 +64,7 @@
     "karma-spec-reporter": "^0.0.36",
     "karma-webpack": "^5.0.1",
     "null-loader": "^4.0.1",
-    "react-test-renderer": "^19.2.0"
+    "react-test-renderer": "^19.2.0",
+    "style-loader": "^4.0.0"
   }
 }

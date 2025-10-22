@@ -1,29 +1,24 @@
-import React from 'react'
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'
-import 'bootstrap-icons/font/bootstrap-icons.css'
-import './styles/style.css'
-import Home from './pages/Home'
-import CartPage from './pages/CartPage'
-import Catalogo from './pages/Catalogo' 
-import Login from './pages/Login'
-import Registro from './pages/Registro'
+
+import { Routes, Route } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import './styles/style.css';
+import Home from './pages/Home';
+import CartPage from './pages/CartPage';
+import Catalogo from './pages/Catalogo' ;
+import Login from './pages/Login';
+import Registro from './pages/Registro';
 import Header from "./components/header";
 import Footer from './components/footer';
-import { CartProvider } from './components/CartContext'
-import Procesos from './pages/Procesos'
-import NuestraHistoria from './pages/NuestraHistoria'
-import Equipo from './pages/Equipo'
-import Comunidad from './pages/Comunidad'
+import Procesos from './pages/Procesos';
+import NuestraHistoria from './pages/NuestraHistoria';
+import Equipo from './pages/Equipo';
+import Comunidad from './pages/Comunidad';
 
 function App() {
   return (
-    <React.StrictMode>
-      <CartProvider>
-        <BrowserRouter>
+        <>
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />
@@ -38,9 +33,7 @@ function App() {
             <Route path="/Registro" element={<Registro />} />
           </Routes>
           <Footer />
-        </BrowserRouter>
-      </CartProvider>
-    </React.StrictMode>
+          </>
   );
 }
 

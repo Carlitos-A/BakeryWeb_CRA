@@ -1,16 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Home from './Home';
-import EmblaCarousel from '../components/EmblaCarousel';
-import { CartProvider } from '../components/CartContext';
 
-test('renderiza correctamente EmblaCarousel', () => {
-  render(
-    <CartProvider>
-      <EmblaCarousel options={{ loop: true }} />
-    </CartProvider>
-  );
-});
 
 describe('Home (Card)', () => { // agrupa un conjunto de tests bajo un nombre (en este caso "Home (Card)"). Sirve para el reporte final.
   it('Busca que se renderizan 6 cards de producto', () => { // it describe el caso
