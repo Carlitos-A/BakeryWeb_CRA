@@ -6,6 +6,8 @@ import { CartProvider } from './CartContext';
 import EmblaCarousel from './EmblaCarousel';
 
 
+
+
 describe('EmblaCarousel', () => {
   it('permite agregar productos al carrito', () => {
     render(
@@ -13,12 +15,10 @@ describe('EmblaCarousel', () => {
         <EmblaCarousel />
       </CartProvider>
     );
-
-    // aquí irían tus expectativas
-    // por ejemplo: buscar un botón de "Agregar al carrito"
     expect(screen.getAllByText(/agregar/i).length).toBeGreaterThan(0);
   });
 });
+
 
 
 describe('Elementos del Header', () => {
@@ -47,7 +47,8 @@ describe('Elementos del Header', () => {
       screen.getByRole('img', { name: /logo pastelería/i })
     ).toBeInTheDocument();
   });
-/*
+
+
   it('Busca los links de navegación principales', () => {
     render(
 
@@ -58,32 +59,50 @@ describe('Elementos del Header', () => {
       </MemoryRouter>
       
     );
-
     // Links internos (react-router)
-expect(screen.getByRole('link', { name: /catalogo/i })).toBeInTheDocument();
-expect(screen.getByRole('link', { name: /comunidad/i })).toBeInTheDocument();
-expect(screen.getByRole('link', { name: /login/i })).toBeInTheDocument();
-expect(screen.getByRole('link', { name: /cart/i })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /inicio/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /login/i })).toBeInTheDocument();
+});
 
-
-    // Link externo: Blogs y Noticias
-    /*const noticias = screen.getByRole('link', { name: /blogs y noticias/i });
-    const href = noticias.getAttribute('href');
-    expect(href).toContain('duoc.cl/noticias');
-    });
-it('Valida la configuración de como se ve el boton busqueda', () => {
-  render(
-    <CartProvider>
+   it('Valida la configuración de como se ve el boton busqueda', () => {
+    render(
       <MemoryRouter>
-        <Header />
+        <CartProvider>
+          <Header />
+     </CartProvider>
       </MemoryRouter>
-    </CartProvider>
-  );
+    );
+    expect(screen.getByRole('searchbox', { name: /buscar/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /buscar/i })).toBeInTheDocument();
+  });
 
-  // Validar input de búsqueda
-  expect(screen.getByRole('searchbox', { name: /buscar/i })).toBeInTheDocument();
+ it('Renderiza los enlaces "Login" y "Registrarse" cuando no hay usuario logueado', () => {
+    render(
+      <CartProvider>
+        <MemoryRouter>
+          <Header />
+        </MemoryRouter>
+      </CartProvider>
+    );
 
-  // Validar botón de búsqueda
-  expect(screen.getByRole('button', { name: /buscar/i })).toBeInTheDocument();
-});*/
+    expect(screen.getByText(/Login/i)).toBeInTheDocument();
+    expect(screen.getByText(/Registrarse/i)).toBeInTheDocument();
+  });
+
+
+  it('Renderiza "Cerrar Sesión" con el nombre del usuario cuando está logueado', () => {
+      localStorage.setItem("logueado", "true");
+      localStorage.setItem("usuario", "Carlos");
+  
+      render(
+        <CartProvider>
+          <MemoryRouter>
+            <Header />
+          </MemoryRouter>
+        </CartProvider>
+      );
+  
+      expect(screen.getByText(/Cerrar Sesion \(Carlos\)/i)).toBeInTheDocument();
+    });
+
 });

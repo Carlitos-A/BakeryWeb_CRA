@@ -39,25 +39,12 @@ describe('Home (Card)', () => { // agrupa un conjunto de tests bajo un nombre (e
           </CartProvider>
         </MemoryRouter>
  
-
-    
   );
     expect(screen.getByRole('heading', { name: 'Torta Vegana de Chocolate', level: 6 })) // Busca un texto exacto en el contenido
       .toBeInTheDocument(); //Verifica que el elemento (nombre buscado) existe en el DOM renderizado.
   });
 });
-/*
-describe('Elementos del Home', () => {
-  it('Busca titulo de productos', async () => {
-    render(
-  
-          <CartProvider>
-          <Home />
-          </CartProvider>
-      
-    
-  );
-    const titulo = await screen.findByText(/Todos los productos/i);
-    expect(titulo).toBeInTheDocument();
-  }); 
-});*/
+
+
+
+
