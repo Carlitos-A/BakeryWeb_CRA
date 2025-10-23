@@ -1,36 +1,35 @@
 import React from "react";
 import Header from "../components/header";
 import Footer from "../components/footer";
-import "../styles/style.css";
+import "../styles/BakeryStyles.css";
 import bakeryFondo from "../assets/img/fondo/bakerysimpleinside.jpg";
 
-export default function BakeryBlog() {
+export default function BakeryNews() {
   return (
-    <div className="d-flex flex-column min-vh-100 bg-custom">
+    <div className="bakery-news-page d-flex flex-column min-vh-100">
+      
 
-
-      <main className="flex-grow-1">
+      <main className="bakery-news-main flex-grow-1">
         <div
-          className="d-flex flex-column align-items-center justify-content-start py-5"
-          style={{
-            background: `url(${bakeryFondo}) center/cover no-repeat`,
-            minHeight: "100vh",
-          }}
+          className="bakery-news-background d-flex flex-column align-items-center justify-content-start py-5"
+          style={{ backgroundImage: `url(${bakeryFondo})` }}
         >
-          <div className="container bg-dark bg-opacity-50 p-5 rounded text-white text-center">
-            <h1 className="mb-4 display-5 fw-bold"> Gastronomia Blog</h1>
-            <p className="mb-4 lead">
-              Aquí puedes consultar las noticias y novedades de Gasronomia relacionadas con todo tipo de comidas.           </p>
+          <div className="bakery-news-content container text-center">
+            <h1 className="bakery-news-title mb-4">Bakery News</h1>
+            <p className="bakery-news-description mb-4">
+              Aquí puedes ver noticias de carácter internacional
+            </p>
 
-            <div className="mt-5 col-12 col-md-10 mx-auto">
-              <h3 className="text-center mb-3 fw-bold">Blog Cocina</h3>
-              <div className="ratio ratio-16x9">
+            <div className="bakery-news-iframe-section mt-5 col-12 col-md-10 mx-auto">
+              <h3 className="bakery-news-iframe-title mb-3">Blog Cocina</h3>
+
+              <div className="bakery-news-iframe-wrapper ratio ratio-16x9">
                 <iframe
-                  src="https://www.supermarketnews.com/grocery-categories/bakery"
+                  src="https://www.univision.com/temas/pasteleria"
                   title="Noticias DUOC"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  style={{ border: 0 }}
+                  className="bakery-news-iframe"
                 ></iframe>
               </div>
             </div>
@@ -38,6 +37,7 @@ export default function BakeryBlog() {
         </div>
       </main>
 
+    
     </div>
   );
 }

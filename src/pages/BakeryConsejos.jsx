@@ -1,49 +1,43 @@
 import React from "react";
 import Header from "../components/header";
 import Footer from "../components/footer";
-import "../styles/style.css";
+import "../styles/BakeryStyles.css";
 import bakeryFondo from "../assets/img/fondo/bakerysimpleinside.jpg";
 
-export default function BakeryBlog() {
+export default function BakeryTips() {
   return (
-    <div className="d-flex flex-column min-vh-100 bg-custom">
- 
+    <div className="bakery-tips-page d-flex flex-column min-vh-100">
+    
 
-      <main className="flex-grow-1">
+      <main className="bakery-tips-main flex-grow-1">
         <div
-          className="d-flex flex-column align-items-center justify-content-start py-5"
-          style={{
-            background: `url(${bakeryFondo}) center/cover no-repeat`,
-            minHeight: "100vh",
-          }}
+          className="bakery-tips-background d-flex flex-column align-items-center justify-content-start py-5"
+          style={{ backgroundImage: `url(${bakeryFondo})` }}
         >
-          <div className="container bg-dark bg-opacity-50 p-5 rounded text-white text-center">
-            <h1 className="mb-4 display-5 fw-bold">Gastronomía Blog</h1>
-            <p className="mb-4 lead">
-              Aquí puedes consultar las noticias y novedades de Gastronomía relacionadas con todo tipo de comidas.
+          <div className="bakery-tips-content container text-center">
+            <h1 className="bakery-tips-title mb-4">Bakery Consejos</h1>
+            <p className="bakery-tips-description mb-4">
+              Aquí tienes consejos para pastelería para tus próximas creaciones
             </p>
 
-            <div className="mt-5 col-12 col-md-10 mx-auto">
-              <h3 className="text-center mb-3 fw-bold">Video Cocina</h3>
-              
-              {/* Video de YouTube responsivo */}
-              <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden" }}>
+            <div className="bakery-tips-video-section mt-5 col-12 col-md-10 mx-auto">
+              <h3 className="bakery-tips-video-title mb-3">Video Bakery</h3>
+
+              <div className="bakery-tips-video-wrapper">
                 <iframe
-                  src="https://www.youtube.com/watch?v=JqIHlDVqUTw&list=RDJqIHlDVqUTw&start_radio=1"
+                  src="https://www.youtube.com/embed/NXmYBg84uc8"
                   title="Bakery Consejo"
-                  style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+                  className="bakery-tips-video"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 ></iframe>
               </div>
-
             </div>
           </div>
         </div>
       </main>
-
-
+      
     </div>
   );
 }

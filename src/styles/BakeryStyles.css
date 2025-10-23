@@ -1,0 +1,110 @@
+/* ==============================================
+   Propiedades generales compartidas
+   ============================================== */
+.bakery-background,
+.bakery-tips-background,
+.bakery-news-background,
+.bakery-recetas-background {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+.bakery-content,
+.bakery-tips-content,
+.bakery-news-content,
+.bakery-recetas-content {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 3rem;
+  border-radius: 0.5rem;
+  color: white;
+}
+
+/* Asegura letra blanca en todos los hijos */
+.bakery-content * ,
+.bakery-tips-content * ,
+.bakery-news-content * ,
+.bakery-recetas-content * {
+  color: white;
+}
+
+/* ==============================================
+   Estilos específicos por componente
+   ============================================== */
+.bakery-blog {
+  background-color: #f8f9fa;
+}
+
+.bakery-blog .bakery-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.bakery-blog .bakery-description {
+  font-size: 1.2rem;
+}
+
+.bakery-blog .bakery-iframe-wrapper,
+.bakery-news-iframe-wrapper,
+.bakery-recetas-iframe-wrapper,
+.bakery-tips-video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  overflow: hidden;
+}
+
+.bakery-blog .bakery-iframe,
+.bakery-news-iframe,
+.bakery-recetas-iframe,
+.bakery-tips-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Tips */
+.bakery-tips-page {
+  background-color: #f8f9fa;
+}
+
+.bakery-tips-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.bakery-tips-description {
+  font-size: 1.2rem;
+}
+
+/* News */
+.bakery-news-page {
+  background-color: #f8f9fa;
+}
+
+.bakery-news-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.bakery-news-description {
+  font-size: 1.2rem;
+}
+
+/* Recetas */
+.bakery-recetas-page {
+  background-color: #f8f9fa;
+}
+
+.bakery-recetas-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.bakery-recetas-description {
+  font-size: 1.2rem;
+}

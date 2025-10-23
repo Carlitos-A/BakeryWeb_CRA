@@ -21,7 +21,7 @@ import Comunidad from './pages/Comunidad'
 import BakeryBlog from './pages/BakeryBlog'
 import BakeryNews from './pages/BakeryNews'
 import BakeryConsejos from './pages/BakeryConsejos'
-
+import RecetasChilenas from './pages/RecetasChilenas'
 
 
 function App() {
@@ -44,6 +44,7 @@ function App() {
             <Route path="/bakeryBlog" element={<BakeryBlog />} />
             <Route path="/bakeryNews" element={<BakeryNews/>}/>
             <Route path="/bakeryConsejos" element={<BakeryConsejos/>}/>
+            <Route path="/RecetasChilenas" element={<RecetasChilenas/>}/>
            </Routes>
           <Footer />
         </BrowserRouter>

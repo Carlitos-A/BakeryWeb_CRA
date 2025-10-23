@@ -25,29 +25,24 @@ export default function Comunidad() {
             </p>
 
             <div className="d-grid gap-3 col-10 mx-auto mt-4">
-          
+
               <Link to="/bakeryBlog" className="btn btn-color btn-lg fw-bold">
                 Gastronomia Blog
               </Link>
 
-                
+
               <Link to="/bakeryNews" className="btn btn-color btn-lg fw-bold">
                 Bakery News
               </Link>
 
 
-             <Link to="/bakeryConsejos" className="btn btn-color btn-lg fw-bold">
+              <Link to="/bakeryConsejos" className="btn btn-color btn-lg fw-bold">
                 Consejos Bakery
               </Link>
 
-              <a
-                href="https://www.recetasnestle.cl/categorias/pasteleria-chilena"
-                className="btn btn-color btn-lg fw-bold"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <Link to="/RecetasCHilenas" className="btn btn-color btn-lg fw-bold">
                 Recetas Chilenas
-              </a>
+              </Link>
             </div>
 
             <div className="mt-5 col-12 col-md-10 mx-auto">
