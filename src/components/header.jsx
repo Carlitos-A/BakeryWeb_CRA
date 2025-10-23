@@ -140,6 +140,9 @@ export default function Header() {
                   <li className="nav-item">
                     <Link to="/Perfil" className="nav-link">Perfil</Link>
                   </li>
+                  <li className="nav-item">
+                    <Link to="/MisCompras" className="nav-link">Mis Compras</Link>
+                  </li>
 
                   <li className="nav-item">
                     <Link to="/EditarPerfil" className="nav-link">
