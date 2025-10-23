@@ -1,30 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import Header from '../components/header';
+import React from 'react';
 import Footer from '../components/footer';
 import '../styles/style.css';
 
+// ✅ Importar imagen desde src/assets
+import pastelFondo from '../assets/img/fondo/p_pastel.jpg';
 
 export default function Procesos() {
   return (
     <div className="d-flex flex-column min-vh-100 bg-custom">
+
       <main className="flex-grow-1">
         <div
           className="w-100 d-flex flex-column justify-content-center align-items-center text-center"
           style={{
-            background: "url('/assets/img/fondo/p_pastel.jpg') center/cover no-repeat",
+            background: `url(${pastelFondo}) center/cover no-repeat`,
             height: "100vh",
           }}
         >
+                    <div className="col-md-8 col-lg-6 bg-dark bg-opacity-50 p-5 rounded">
+
           <div className="col-md-8 col-lg-6 bg-dark bg-opacity-50 p-5 rounded">
             <h1 className="mb-4 display-4 fw-bold text-white text-center">Procesos</h1>
           </div>
-
         </div>
+               </div>
+ 
+
         <div className="container my-5">
           <h2 className="text-center text-black">Nuestros Procesos</h2>
           <p className="text-muted lh-lg">
             Cada producto que elaboramos pasa por un proceso cuidado y transparente:
           </p>
+
           <ul className="text-black">
             <li>
               <strong>Selección de ingredientes:</strong> trabajamos con proveedores locales
@@ -54,6 +61,8 @@ export default function Procesos() {
           </p>
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 }

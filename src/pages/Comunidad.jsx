@@ -1,63 +1,72 @@
 import React from "react";
-import Header from "../components/header";
-import Footer from "../components/footer";
 import "../styles/style.css";
-
+import bakeryFondo from "../assets/img/fondo/bakerysimpleinside.jpg";
+import { Link } from "react-router-dom";
 
 export default function Comunidad() {
   return (
     <div className="d-flex flex-column min-vh-100 bg-custom">
-
       <main className="flex-grow-1">
-
         <div
-          className="w-100 d-flex justify-content-center align-items-start pt-5"
+          className="d-flex flex-column align-items-center justify-content-start py-5"
           style={{
-            background: "url('/assets/img/fondo/bakerysimpleinside.jpg') center/cover no-repeat",
+            background: `url(${bakeryFondo}) center/cover no-repeat`,
             minHeight: "100vh",
           }}
         >
-          <div className="col-md-8 col-lg-6 bg-dark bg-opacity-50 p-5 rounded text-center text-white">
-            <h1 className="mb-4 display-4 fw-bold">Bienvenido a la Baker Community</h1>
+          <div className="container bg-dark bg-opacity-50 p-5 rounded text-white text-center">
+            <h1 className="mb-4 display-5 fw-bold">
+              Bienvenido a la Baker Community
+            </h1>
 
             <p className="mb-4 lead">
-              Aquí podrás encontrar todo lo necesario para aprender y comunicarte con estudiantes y
-              profesionales del área de Gastronomía (pastelería).
+              Encuentra todo lo necesario para aprender, compartir y mantenerte
+              informado sobre el mundo de la pastelería y tambien Gastronimia en general.
             </p>
 
-         
             <div className="d-grid gap-3 col-10 mx-auto mt-4">
-              <a
-                href="https://butternutbakeryblog.com/"
-                className="btn btn-color btn-lg fw-bold blog-btn"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Bakery Blog
-              </a>
-              <a
-                href="https://www.duoc.cl/noticias/"
-                className="btn btn-color btn-lg fw-bold noticias-btn"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Noticias
-              </a>
-              <a href="/consejosDUOC" className="btn btn-color btn-lg fw-bold consejos-btn">
-                Consejos Estudiantes DUOC
-              </a>
+          
+              <Link to="/bakeryBlog" className="btn btn-color btn-lg fw-bold">
+                Gastronomia Blog
+              </Link>
+
+                
+              <Link to="/bakeryNews" className="btn btn-color btn-lg fw-bold">
+                Bakery News
+              </Link>
+
+
+             <Link to="/bakeryConsejos" className="btn btn-color btn-lg fw-bold">
+                Consejos Bakery
+              </Link>
+
               <a
                 href="https://www.recetasnestle.cl/categorias/pasteleria-chilena"
-                className="btn btn-color btn-lg fw-bold recetas-btn"
+                className="btn btn-color btn-lg fw-bold"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Recetas
+                Recetas Chilenas
               </a>
             </div>
 
+            <div className="mt-5 col-12 col-md-10 mx-auto">
+              <h3 className="text-center mb-3 fw-bold">Blogs y Noticias</h3>
+              <div className="ratio ratio-16x9">
+                <iframe
+                  src="https://www.biobiochile.cl/especial/food-service-2025/noticias/2025/10/10/destacan-impacto-de-feria-espacio-food-service-en-chile-anuncian-su-version-2026.shtml"
+                  title="BioBio Noticias"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  style={{ border: 0 }}
+                ></iframe>
+              </div>
+            </div>
+
             <div className="comentarios-container mt-5 col-md-10 mx-auto">
-              <h3 className="text-center mb-3 fw-bold">Déjanos tu consulta o comentario</h3>
+              <h3 className="text-center mb-3 fw-bold">
+                Déjanos tu consulta o comentario
+              </h3>
               <form>
                 <div className="mb-3">
                   <textarea
@@ -67,7 +76,7 @@ export default function Comunidad() {
                   ></textarea>
                 </div>
                 <div className="text-center">
-                  <button type="submit" className="btn btn-color enviar-btn">
+                  <button type="submit" className="btn btn-color fw-bold">
                     Enviar
                   </button>
                 </div>
@@ -76,8 +85,6 @@ export default function Comunidad() {
           </div>
         </div>
       </main>
-
-
     </div>
   );
 }
