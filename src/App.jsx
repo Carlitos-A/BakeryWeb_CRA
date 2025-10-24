@@ -18,10 +18,12 @@ import Equipo from './pages/Equipo';
 import Comunidad from './pages/Comunidad';
 import EditPerfil from './pages/editPerfil';
 import Perfil from './pages/Perfil'
+import Compras from './pages/MisCompras';
+import { AuthProvider } from "./auth/AuthContext";
 
 function App() {
   return (
-        <>
+         <AuthProvider>
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />
@@ -36,9 +38,10 @@ function App() {
             <Route path="/Registro" element={<Registro />} />
             <Route path='/EditarPerfil' element={<EditPerfil/>}/>
             <Route path='/Perfil' element={<Perfil/>}/>
+            <Route path='/MisCompras' element={<Compras/>}/>
           </Routes>
           <Footer />
-          </>
+           </AuthProvider>
   );
 }
 
