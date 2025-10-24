@@ -1,0 +1,118 @@
+.historia-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: url("../assets/img/fondo/tortafondo.jpg") center/cover no-repeat fixed;
+  background-attachment: fixed;
+}
+
+.historia-main {
+  flex-grow: 1;
+  backdrop-filter: brightness(0.95);
+}
+
+
+.historia-section {
+  background-color: rgba(255, 255, 255, 0.85);
+  margin: 3rem auto;
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  width: 90%;
+  max-width: 1100px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.historia-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #3a2d1f;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
+}
+
+
+.historia-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+
+.historia-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.historia-item.left .historia-content {
+  order: 1;
+}
+
+.historia-item.left .historia-image {
+  order: 2;
+}
+
+.historia-item.right .historia-image {
+  order: 1;
+}
+
+.historia-item.right .historia-content {
+  order: 2;
+}
+
+.historia-content {
+  flex: 1 1 45%;
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.historia-content h4 {
+  color: #8b4513;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+.historia-content p {
+  color: #444;
+  line-height: 1.6;
+}
+
+.historia-image {
+  flex: 1 1 45%;
+  display: flex;
+  justify-content: center;
+}
+
+.historia-image img {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease;
+}
+
+.historia-image img:hover {
+  transform: scale(1.03);
+}
+
+
+@media (max-width: 768px) {
+  .historia-item {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .historia-content,
+  .historia-image {
+    flex: 1 1 100%;
+  }
+
+  .historia-title {
+    font-size: 2rem;
+  }
+}

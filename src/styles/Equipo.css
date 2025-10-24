@@ -1,0 +1,61 @@
+.equipo-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #fafafa;
+}
+
+.equipo-main {
+  flex-grow: 1;
+}
+
+.equipo-background {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 80vh;
+  padding: 4rem 1rem;
+}
+
+.equipo-header {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 2rem 3rem;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+}
+
+.equipo-title {
+  color: #fff;
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.equipo-content {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #222;
+  padding: 2.5rem;
+  border-radius: 1rem;
+  max-width: 900px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.equipo-subtitle {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.equipo-text {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #555;
+  text-align: left;
+  margin-bottom: 1rem;
+}

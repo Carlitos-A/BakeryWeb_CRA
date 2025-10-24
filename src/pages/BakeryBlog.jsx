@@ -1,6 +1,4 @@
 import React from "react";
-import Header from "../components/header";
-import Footer from "../components/footer";
 import bakeryFondo from "../assets/img/fondo/bakerysimpleinside.jpg";
 import "../styles/BakeryStyles.css";
 

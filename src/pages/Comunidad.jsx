@@ -1,80 +1,67 @@
 import React from "react";
-import "../styles/style.css";
+import "../styles/Comunidad.css";
 import bakeryFondo from "../assets/img/fondo/bakerysimpleinside.jpg";
 import { Link } from "react-router-dom";
 
 export default function Comunidad() {
   return (
-    <div className="d-flex flex-column min-vh-100 bg-custom">
-      <main className="flex-grow-1">
+    <div className="comunidad-page">
+      <main className="comunidad-main">
         <div
-          className="d-flex flex-column align-items-center justify-content-start py-5"
-          style={{
-            background: `url(${bakeryFondo}) center/cover no-repeat`,
-            minHeight: "100vh",
-          }}
+          className="comunidad-background"
+          style={{ backgroundImage: `url(${bakeryFondo})` }}
         >
-          <div className="container bg-dark bg-opacity-50 p-5 rounded text-white text-center">
-            <h1 className="mb-4 display-5 fw-bold">
-              Bienvenido a la Baker Community
-            </h1>
+          <div className="comunidad-content">
+            <h1 className="comunidad-title">Bienvenido a la Baker Community</h1>
 
-            <p className="mb-4 lead">
-              Encuentra todo lo necesario para aprender, compartir y mantenerte
-              informado sobre el mundo de la pastelería y tambien Gastronimia en general.
+            <p className="comunidad-description">
+              Encuentra todo lo necesario para aprender, compartir y mantenerte informado sobre el mundo de la pastelería y también gastronomía en general.
             </p>
 
-            <div className="d-grid gap-3 col-10 mx-auto mt-4">
-
-              <Link to="/bakeryBlog" className="btn btn-color btn-lg fw-bold">
-                Gastronomia Blog
+            <div className="comunidad-links">
+              <Link to="/bakeryBlog" className="comunidad-btn">
+                Gastronomía Blog
               </Link>
 
-
-              <Link to="/bakeryNews" className="btn btn-color btn-lg fw-bold">
+              <Link to="/bakeryNews" className="comunidad-btn">
                 Bakery News
               </Link>
 
-
-              <Link to="/bakeryConsejos" className="btn btn-color btn-lg fw-bold">
+              <Link to="/bakeryConsejos" className="comunidad-btn">
                 Consejos Bakery
               </Link>
 
-              <Link to="/RecetasCHilenas" className="btn btn-color btn-lg fw-bold">
+              <Link to="/RecetasCHilenas" className="comunidad-btn">
                 Recetas Chilenas
               </Link>
             </div>
 
-            <div className="mt-5 col-12 col-md-10 mx-auto">
-              <h3 className="text-center mb-3 fw-bold">Blogs y Noticias</h3>
-              <div className="ratio ratio-16x9">
+            <div className="comunidad-iframe-section">
+              <h3 className="comunidad-iframe-title">Blogs y Noticias</h3>
+              <div className="comunidad-iframe-wrapper">
                 <iframe
                   src="https://www.biobiochile.cl/especial/food-service-2025/noticias/2025/10/10/destacan-impacto-de-feria-espacio-food-service-en-chile-anuncian-su-version-2026.shtml"
                   title="BioBio Noticias"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  style={{ border: 0 }}
+                  className="comunidad-iframe"
                 ></iframe>
               </div>
             </div>
 
-            <div className="comentarios-container mt-5 col-md-10 mx-auto">
-              <h3 className="text-center mb-3 fw-bold">
+            <div className="comunidad-comentarios">
+              <h3 className="comunidad-comentarios-title">
                 Déjanos tu consulta o comentario
               </h3>
               <form>
-                <div className="mb-3">
-                  <textarea
-                    className="form-control comentario-textarea"
-                    rows="4"
-                    placeholder="Escribe tu mensaje aquí..."
-                  ></textarea>
-                </div>
-                <div className="text-center">
-                  <button type="submit" className="btn btn-color fw-bold">
-                    Enviar
-                  </button>
-                </div>
+                <textarea
+                  className="comunidad-textarea"
+                  rows="4"
+                  placeholder="Escribe tu mensaje aquí..."
+                ></textarea>
+                <button type="submit" className="comunidad-btn comunidad-btn-enviar">
+                  Enviar
+                </button>
               </form>
             </div>
           </div>

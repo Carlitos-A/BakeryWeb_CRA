@@ -1,38 +1,28 @@
 import React from 'react';
-import Footer from '../components/footer';
-import '../styles/style.css';
+import '../styles/Procesos.css';
 
-// ✅ Importar imagen desde src/assets
 import pastelFondo from '../assets/img/fondo/p_pastel.jpg';
 
 export default function Procesos() {
   return (
-    <div className="d-flex flex-column min-vh-100 bg-custom">
-
-      <main className="flex-grow-1">
-        <div
-          className="w-100 d-flex flex-column justify-content-center align-items-center text-center"
-          style={{
-            background: `url(${pastelFondo}) center/cover no-repeat`,
-            height: "100vh",
-          }}
+    <div className="procesos-page">
+      <main className="procesos-main">
+        <section
+          className="procesos-hero"
+          style={{ backgroundImage: `url(${pastelFondo})` }}
         >
-                    <div className="col-md-8 col-lg-6 bg-dark bg-opacity-50 p-5 rounded">
-
-          <div className="col-md-8 col-lg-6 bg-dark bg-opacity-50 p-5 rounded">
-            <h1 className="mb-4 display-4 fw-bold text-white text-center">Procesos</h1>
+          <div className="procesos-overlay">
+            <h1 className="procesos-title">Procesos</h1>
           </div>
-        </div>
-               </div>
- 
+        </section>
 
-        <div className="container my-5">
-          <h2 className="text-center text-black">Nuestros Procesos</h2>
-          <p className="text-muted lh-lg">
+        <section className="procesos-content container">
+          <h2 className="procesos-subtitle">Nuestros Procesos</h2>
+          <p className="procesos-text">
             Cada producto que elaboramos pasa por un proceso cuidado y transparente:
           </p>
 
-          <ul className="text-black">
+          <ul className="procesos-list">
             <li>
               <strong>Selección de ingredientes:</strong> trabajamos con proveedores locales
               para garantizar frescura y calidad en frutas, harinas y chocolates.
@@ -55,14 +45,13 @@ export default function Procesos() {
             </li>
           </ul>
 
-          <p className="mt-4 text-muted">
+          <p className="procesos-text mt-4">
             De esta forma, <strong>Pastelería Mil Sabores</strong> no solo vende postres, sino
             que crea experiencias que celebran la vida, la tradición y la creatividad.
           </p>
-        </div>
+        </section>
       </main>
 
-      <Footer />
     </div>
   );
 }

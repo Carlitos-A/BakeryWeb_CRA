@@ -1,45 +1,35 @@
-import React from 'react';
-import '../styles/style.css';
-import fondo from '../assets/img/fondo/pasteleria.jpg'; 
-
-
+import React from "react";
+import "../styles/Equipo.css";
+import fondo from "../assets/img/fondo/pasteleria.jpg";
 
 export default function Equipo() {
   return (
-    <div className="d-flex flex-column min-vh-100 bg-custom">
-
-      <main className="flex-grow-1">
-
-
+    <div className="equipo-page">
+      <main className="equipo-main">
         <div
-          className="container-fluid d-flex flex-column justify-content-center align-items-center text-center text-black py-5"
-          style={{
-           background: `url(${fondo}) center/cover no-repeat`, // 👈 usa la variable importada
-              minHeight: "80vh",
-          }}
+          className="equipo-background"
+          style={{ backgroundImage: `url(${fondo})` }}
         >
-                    <div className="col-md-8 col-lg-6 bg-dark bg-opacity-50 p-5 rounded">
+          <div className="equipo-header">
+            <h1 className="equipo-title">Quiénes Somos</h1>
+          </div>
 
-            <h1 className="mb-4 display-4 fw-bold text-white text-center">Quienes Somos</h1>
-                </div>
-
-          <div className="container bg-light bg-opacity-75 p-4 rounded-4 shadow">
-            <h2 className="text-start text-black mb-4">Equipo de Trabajo</h2>
-            <p className="text-start text-muted lh-lg">
+          <div className="equipo-content">
+            <h2 className="equipo-subtitle">Equipo de Trabajo</h2>
+            <p className="equipo-text">
               El corazón de la Pastelería Mil Sabores está formado por un equipo diverso de reposteros, pasteleros,
               diseñadores de tortas y personal de atención al cliente que comparten una misma pasión: crear experiencias
               inolvidables.
             </p>
-            <p className="text-start text-muted lh-lg">
+            <p className="equipo-text">
               Maestros pasteleros con décadas de experiencia mantienen vivas las recetas tradicionales, cuidando cada
-              Reposteros jóvenes aportan innovación y creatividad, diseñando tortas modernas y postres adaptados a nuevas
-              tendencias como productos veganos, sin gluten y sin azúcar.
-              Nuestro equipo de servicio acompaña a los clientes en cada etapa de su compra, asegurando un trato cercano y
-              amable que refleja la esencia de nuestra marca.
+              detalle. Reposteros jóvenes aportan innovación y creatividad, diseñando tortas modernas y postres adaptados
+              a nuevas tendencias como productos veganos, sin gluten y sin azúcar. Nuestro equipo de servicio acompaña a
+              los clientes en cada etapa de su compra, asegurando un trato cercano y amable que refleja la esencia de
+              nuestra marca.
             </p>
           </div>
         </div>
-
       </main>
     </div>
   );
