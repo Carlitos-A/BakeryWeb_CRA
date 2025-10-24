@@ -18,6 +18,11 @@ import Procesos from './pages/Procesos'
 import NuestraHistoria from './pages/NuestraHistoria'
 import Equipo from './pages/Equipo'
 import Comunidad from './pages/Comunidad'
+import BakeryBlog from './pages/BakeryBlog'
+import BakeryNews from './pages/BakeryNews'
+import BakeryConsejos from './pages/BakeryConsejos'
+import RecetasChilenas from './pages/RecetasChilenas'
+
 
 function App() {
   return (
@@ -36,7 +41,11 @@ function App() {
             <Route path='/comunidad' element={<Comunidad />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/Registro" element={<Registro />} />
-          </Routes>
+            <Route path="/bakeryBlog" element={<BakeryBlog />} />
+            <Route path="/bakeryNews" element={<BakeryNews/>}/>
+            <Route path="/bakeryConsejos" element={<BakeryConsejos/>}/>
+            <Route path="/RecetasChilenas" element={<RecetasChilenas/>}/>
+           </Routes>
           <Footer />
         </BrowserRouter>
       </CartProvider>
