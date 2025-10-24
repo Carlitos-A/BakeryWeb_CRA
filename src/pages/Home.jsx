@@ -18,6 +18,9 @@ export default function App() {
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   const OPTIONS = { align: 'start' };
 
+  const logueado = localStorage.getItem("logueado") === "true";
+  const user = localStorage.getItem("usuario");
+
   return (
     <div className="d-flex flex-column min-vh-100">
 
@@ -58,11 +61,18 @@ export default function App() {
                 con ingredientes frescos y mucho amor. Haz tu pedido online y
                 recíbelo en la comodidad de tu hogar.
               </p>
+
+                {!logueado && (
+                  <>
               <div className="text-center">
                 <Link to="/Registro" className="btn btn-color btn-lg">
                   Registrarse
                 </Link>
               </div>
+              </>
+            )}
+
+
             </div>
           </div>
         </div>
