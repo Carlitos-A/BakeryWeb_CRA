@@ -137,7 +137,7 @@ export default function Header() {
               {!logueado && (
                 <>
                   <li className="nav-item">
-                    <Link to="/login" className="nav-link">Login</Link>
+                    <Link to="/Login" className="nav-link">Login</Link>
                   </li>
                   <li className="nav-item">
                     <Link to="/Registro" className="nav-link">Registrarse</Link>

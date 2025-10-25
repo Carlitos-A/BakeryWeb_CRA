@@ -61,7 +61,7 @@ describe('Elementos del Header', () => {
     );
     // Links internos (react-router)
   expect(screen.getByRole('link', { name: /inicio/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /login/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Login/i })).toBeInTheDocument();
 });
 
    it('Valida la configuración de como se ve el boton busqueda', () => {
