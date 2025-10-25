@@ -10,7 +10,7 @@ export default function Header() {
   const logueado = localStorage.getItem("logueado") === "true";
   const user = localStorage.getItem("usuario");
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-
+  const [showClickDropdown, setShowClickDropdown] = useState(false);
 
   const openLogoutModal = () => {
     setShowLogoutModal(true);
@@ -25,6 +25,10 @@ export default function Header() {
     setShowLogoutModal(false);
     window.location.href = "/";
   };
+
+   const toggleClickDropdown = () => {
+        setShowClickDropdown(!showClickDropdown);
+   };
 
   return (
     <>
@@ -127,28 +131,34 @@ export default function Header() {
 
               {logueado && (
                 <>
-                  <li className="nav-item">
-                    <button 
-                      className="nav-link btn btn-link border-0" 
-                      onClick={openLogoutModal}
-                      style={{ textDecoration: 'none', background: 'none' }}
-                    >
-                      Cerrar Sesion ({user})
-                    </button>
-                  </li>
 
+                  <li className="nav-item">
+                    <div className="dropdown">
+                      <button className="btn btn-transparent dropdown-toggle" type="button" onClick={toggleClickDropdown}>
+                        <i className="bi bi-bell-fill"></i>
+                        <span className="badge text-bg-danger">3</span>
+                      </button>
+                      {showClickDropdown && (<ul className="dropdown-menu show dropdown-menu-start">
+                        <li><Link className="dropdown-item" to="">Notificacion 1</Link></li>
+                        <li><Link className="dropdown-item" to="">Notificacion 2</Link></li>
+                        <li><Link className="dropdown-item" to="">Notificacion 3</Link></li>
+                      </ul>)}
+                    </div>
+                  </li>
                   <li className="nav-item">
                     <Link to="/Perfil" className="nav-link">Perfil</Link>
                   </li>
                   <li className="nav-item">
                     <Link to="/MisCompras" className="nav-link">Mis Compras</Link>
                   </li>
-
                   <li className="nav-item">
-                    <Link to="/EditarPerfil" className="nav-link">
-                    <i className="bi bi-bell-fill"></i>
-                    <span class="badge text-bg-danger">4</span>
-                    </Link>
+                    <button
+                      className="nav-link btn btn-link border-0"
+                      onClick={openLogoutModal}
+                      style={{ textDecoration: 'none', background: 'none' }}
+                    >
+                      Cerrar Sesion ({user})
+                    </button>
                   </li>
                 </>
               )}

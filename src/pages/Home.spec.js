@@ -4,8 +4,8 @@ import Home from './Catalogo';
 import { MemoryRouter } from 'react-router-dom';
 import { CartProvider } from '../components/CartContext';
 
-describe('Home (Card)', () => { // agrupa un conjunto de tests bajo un nombre (en este caso "Home (Card)"). Sirve para el reporte final.
-  it('Busca que se renderizan 6 cards de producto', () => { // it describe el caso
+describe('Home (Card)', () => { 
+  it('Busca que se renderizan 6 cards de producto', () => { 
     render(
     <CartProvider>
     <MemoryRouter>
@@ -13,9 +13,9 @@ describe('Home (Card)', () => { // agrupa un conjunto de tests bajo un nombre (e
     </MemoryRouter>
   </CartProvider>
 
-); // Render monta el componente en DOM virtual.
-    const cards = screen.getAllByTestId('producto'); // Busca todos los elementos con data-testid="producto"
-    expect(cards.length).toBe(25); // Valida que existan exactamente 6 cards renderizadas
+); 
+    const cards = screen.getAllByTestId('producto'); 
+    expect(cards.length).toBe(25); 
   });
 
   it('Busca 6 títulos (h6) de producto', () => { 
@@ -26,7 +26,7 @@ describe('Home (Card)', () => { // agrupa un conjunto de tests bajo un nombre (e
           </CartProvider>
         </MemoryRouter>
   );
-    const titles = screen.getAllByRole('heading', { level: 6 }); // Busca por rol "heading" nivel 5 (equivale a <h5>)
+    const titles = screen.getAllByRole('heading', { level: 6 }); 
     expect(titles.length).toBe(25);
   });
 
@@ -40,8 +40,8 @@ describe('Home (Card)', () => { // agrupa un conjunto de tests bajo un nombre (e
         </MemoryRouter>
  
   );
-    expect(screen.getByRole('heading', { name: 'Torta Vegana de Chocolate', level: 6 })) // Busca un texto exacto en el contenido
-      .toBeInTheDocument(); //Verifica que el elemento (nombre buscado) existe en el DOM renderizado.
+    expect(screen.getByRole('heading', { name: 'Torta Vegana de Chocolate', level: 6 })) 
+      .toBeInTheDocument(); 
   });
 });
 

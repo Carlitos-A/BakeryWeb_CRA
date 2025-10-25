@@ -13,7 +13,6 @@ module.exports = function (config) {
       'src/setupTests.js': ['webpack'],
       'src/**/*.spec.js': ['webpack']
     },
-
     webpack: {
       mode: 'development',
       module: {

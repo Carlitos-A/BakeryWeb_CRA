@@ -1,0 +1,120 @@
+.comunidad-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.comunidad-main {
+  flex-grow: 1;
+}
+
+.comunidad-background {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 5rem 0;
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.comunidad-content {
+  background-color: rgba(0, 0, 0, 0.55);
+  padding: 2.5rem;
+  border-radius: 1rem;
+  color: #fff;
+  text-align: center;
+  width: 90%;
+  max-width: 900px;
+}
+
+.comunidad-title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.comunidad-description {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.comunidad-links {
+  display: grid;
+  gap: 1rem;
+  width: 80%;
+  margin: 2rem auto 3rem;
+}
+
+.comunidad-btn {
+  display: block;
+  background-color: #f5b041;
+  color: #222;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.comunidad-btn:hover {
+  background-color: #e67e22;
+  color: #fff;
+}
+
+.comunidad-iframe-section {
+  margin-top: 3rem;
+}
+
+.comunidad-iframe-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.comunidad-iframe-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 */
+}
+
+.comunidad-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.comunidad-comentarios {
+  margin-top: 4rem;
+}
+
+.comunidad-comentarios-title {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.comunidad-textarea {
+  width: 100%;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  border: none;
+  resize: none;
+  margin-bottom: 1rem;
+}
+
+.comunidad-btn-enviar {
+  background-color: #f39c12;
+  color: #fff;
+}
+
+.comunidad-btn-enviar:hover {
+  background-color: #d35400;
+}

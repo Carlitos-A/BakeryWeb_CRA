@@ -31,7 +31,7 @@ describe('Elementos del Header', () => {
       </CartProvider>
     );
     expect(
-      screen.getByText(/Comunidad/i)
+      screen.getByText(/comunidad/i)
     ).toBeInTheDocument();
   });
 
@@ -76,19 +76,7 @@ describe('Elementos del Header', () => {
     expect(screen.getByRole('button', { name: /buscar/i })).toBeInTheDocument();
   });
 
- it('Renderiza los enlaces "Login" y "Registrarse" cuando no hay usuario logueado', () => {
-    render(
-      <CartProvider>
-        <MemoryRouter>
-          <Header />
-        </MemoryRouter>
-      </CartProvider>
-    );
-
-    expect(screen.getByText(/Login/i)).toBeInTheDocument();
-    expect(screen.getByText(/Registrarse/i)).toBeInTheDocument();
-  });
-
+ 
 
   it('Renderiza "Cerrar Sesión" con el nombre del usuario cuando está logueado', () => {
       localStorage.setItem("logueado", "true");

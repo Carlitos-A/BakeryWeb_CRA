@@ -1,0 +1,308 @@
+
+
+/* CSS DE GASTRONOMIA BLOG */
+.bakery-blog {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.bakery-main {
+  flex-grow: 1;
+}
+
+.bakery-background {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 5rem 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+.bakery-content {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 2rem;
+  color: #fff;
+  text-align: center;
+  border-radius: 0.5rem;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.bakery-title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.bakery-description {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.bakery-iframe-section {
+  margin-top: 3rem;
+  width: 100%;
+}
+
+.bakery-iframe-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.bakery-iframe-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; 
+}
+
+.bakery-iframe-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+
+/* CSS DE LOS CONSEJOS */
+.bakery-tips-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.bakery-tips-main {
+  flex-grow: 1;
+}
+
+.bakery-tips-background {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 5rem 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+.bakery-tips-content {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 2rem;
+  color: #fff;
+  text-align: center;
+  border-radius: 0.5rem;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.bakery-tips-title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.bakery-tips-description {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.bakery-tips-video-section {
+  margin-top: 3rem;
+  width: 100%;
+}
+
+.bakery-tips-video-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.bakery-tips-video-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; 
+}
+
+.bakery-tips-video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+/* CSS DE LAS NOTICIAS */
+
+.news-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.news-main {
+  flex-grow: 1;
+}
+
+.news-background {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 5rem 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+.news-content {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 2rem;
+  color: #fff;
+  text-align: center;
+  border-radius: 0.5rem;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.news-title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.news-description {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.news-iframe-section {
+  margin-top: 3rem;
+  width: 100%;
+}
+
+.news-iframe-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.news-iframe-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 */
+}
+
+.news-iframe-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* CSS DE LAS RECETAS */
+.recetas-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.recetas-main {
+  flex-grow: 1;
+}
+
+.recetas-background {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.recetas-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 1rem;
+}
+
+.recetas-content {
+  text-align: center;
+  color: white;
+  max-width: 900px;
+}
+
+.recetas-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.recetas-description {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.recetas-iframe-section {
+  margin-top: 2rem;
+}
+
+.recetas-iframe-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #ffd8b1;
+}
+
+.recetas-iframe-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  aspect-ratio: 16 / 9;
+  margin: 0 auto;
+}
+
+.recetas-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 12px;
+}
+
+
+@media (max-width: 768px) {
+  .recetas-title {
+    font-size: 2.2rem;
+  }
+
+  .recetas-description {
+    font-size: 1rem;
+  }
+
+  .recetas-overlay {
+    padding: 2rem 1rem;
+  }
+}

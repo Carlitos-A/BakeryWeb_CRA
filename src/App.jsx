@@ -20,6 +20,12 @@ import EditPerfil from './pages/editPerfil';
 import Perfil from './pages/Perfil'
 import Compras from './pages/MisCompras';
 import { AuthProvider } from "./auth/AuthContext";
+import { CartProvider } from './components/CartContext'
+import BakeryBlog from './pages/BakeryBlog'
+import BakeryNews from './pages/BakeryNews'
+import BakeryConsejos from './pages/BakeryConsejos'
+import RecetasChilenas from './pages/RecetasChilenas'
+
 
 function App() {
   return (
@@ -39,7 +45,11 @@ function App() {
             <Route path='/EditarPerfil' element={<EditPerfil/>}/>
             <Route path='/Perfil' element={<Perfil/>}/>
             <Route path='/MisCompras' element={<Compras/>}/>
-          </Routes>
+            <Route path="/bakeryBlog" element={<BakeryBlog />} />
+            <Route path="/bakeryNews" element={<BakeryNews/>}/>
+            <Route path="/bakeryConsejos" element={<BakeryConsejos/>}/>
+            <Route path="/RecetasChilenas" element={<RecetasChilenas/>}/>
+           </Routes>
           <Footer />
            </AuthProvider>
   );
