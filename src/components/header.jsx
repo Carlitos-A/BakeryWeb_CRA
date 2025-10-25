@@ -19,16 +19,32 @@ export default function Header() {
   const closeLogoutModal = () => {
     setShowLogoutModal(false);
   };
+
   const confirmLogout = () => {
-    localStorage.removeItem("logueado");
-    localStorage.removeItem("usuario");
-    setShowLogoutModal(false);
-    window.location.href = "/";
-  };
+
+  localStorage.removeItem("logueado");
+  localStorage.removeItem("usuario");      
+  localStorage.removeItem("usuarioActivo"); 
+
+  const usuariosRegistrados = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
+  const usuarioActual = JSON.parse(localStorage.getItem("usuarioActivo")); 
+  if (usuarioActual) {
+    const usuariosActualizados = usuariosRegistrados.map(u =>
+      u.usuario === usuarioActual.usuario ? usuarioActual : u
+    );
+    localStorage.setItem("usuariosRegistrados", JSON.stringify(usuariosActualizados));
+  }
+
+  setShowLogoutModal(false);
+
+  window.location.href = "/";
+};
 
    const toggleClickDropdown = () => {
         setShowClickDropdown(!showClickDropdown);
    };
+
+
 
   return (
     <>
