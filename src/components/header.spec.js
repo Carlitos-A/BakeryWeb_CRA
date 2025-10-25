@@ -1,48 +1,96 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { MemoryRouter } from 'react-router-dom';
-import Header from './header.jsx';
+import Header from './header';
+import { CartProvider } from './CartContext';
+import EmblaCarousel from './EmblaCarousel';
 
-// Mock del localStorage
-beforeEach(() => {
-  const store = {};
-  spyOn(window.localStorage, 'getItem').and.callFake((key) => store[key]);
-  spyOn(window.localStorage, 'setItem').and.callFake((key, value) => (store[key] = value));
-  spyOn(window.localStorage, 'removeItem').and.callFake((key) => delete store[key]);
+
+
+
+describe('EmblaCarousel', () => {
+  it('permite agregar productos al carrito', () => {
+    render(
+      <CartProvider>
+        <EmblaCarousel />
+      </CartProvider>
+    );
+    expect(screen.getAllByText(/agregar/i).length).toBeGreaterThan(0);
+  });
 });
 
-describe('Componente <Header />', () => {
-  it('debería renderizar correctamente el logo y los enlaces principales', () => {
+
+
+describe('Elementos del Header', () => {
+  it('Busca el Nav de comunidad', () => {
     render(
-      <MemoryRouter>
-        <Header />
-      </MemoryRouter>
+      <CartProvider>
+        <MemoryRouter>
+          <Header />
+        </MemoryRouter>
+      </CartProvider>
     );
-
-    // Verifica que se muestra el logo
-    const logo = screen.getByAltText('Logo');
-    expect(logo).toBeInTheDocument();
-
-    // Verifica algunos enlaces del menú
-    expect(screen.getByText(/Inicio/i)).toBeInTheDocument();
-    expect(screen.getByText(/Catálogo/i)).toBeInTheDocument();
-    expect(screen.getByText(/Sobre Nosotros/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/comunidad/i)
+    ).toBeInTheDocument();
   });
 
-  it('debería mostrar opciones de login cuando no está logueado', () => {
-    spyOn(window.localStorage, 'getItem').and.callFake((key) => {
-      if (key === 'logueado') return 'false';
-      return null;
+  it('Busca que la imagen tenga descripción', () => {
+    render(
+      <CartProvider>
+        <MemoryRouter>
+          <Header />
+        </MemoryRouter>
+      </CartProvider>
+    );
+    expect(
+      screen.getByRole('img', { name: /logo pastelería/i })
+    ).toBeInTheDocument();
+  });
+
+
+  it('Busca los links de navegación principales', () => {
+    render(
+
+      <MemoryRouter>
+        <CartProvider>
+          <Header />
+     </CartProvider>
+      </MemoryRouter>
+      
+    );
+    // Links internos (react-router)
+  expect(screen.getByRole('link', { name: /inicio/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /login/i })).toBeInTheDocument();
+});
+
+   it('Valida la configuración de como se ve el boton busqueda', () => {
+    render(
+      <MemoryRouter>
+        <CartProvider>
+          <Header />
+     </CartProvider>
+      </MemoryRouter>
+    );
+    expect(screen.getByRole('searchbox', { name: /buscar/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /buscar/i })).toBeInTheDocument();
+  });
+
+ 
+
+  it('Renderiza "Cerrar Sesión" con el nombre del usuario cuando está logueado', () => {
+      localStorage.setItem("logueado", "true");
+      localStorage.setItem("usuario", "Carlos");
+  
+      render(
+        <CartProvider>
+          <MemoryRouter>
+            <Header />
+          </MemoryRouter>
+        </CartProvider>
+      );
+  
+      expect(screen.getByText(/Cerrar Sesion \(Carlos\)/i)).toBeInTheDocument();
     });
 
-    render(
-      <MemoryRouter>
-        <Header />
-      </MemoryRouter>
-    );
-
-    expect(screen.getByText(/Login/i)).toBeInTheDocument();
-    expect(screen.getByText(/Registrarse/i)).toBeInTheDocument();
-  });
 });

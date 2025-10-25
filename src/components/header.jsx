@@ -1,15 +1,16 @@
 
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { catalogoItems } from '../constantes/catalogoItems';
 import CartIcon from './CartIcon';
 import { Link } from "react-router-dom";
+import logopasteleria from '../assets/img/icons/logo.png';
 
 
 export default function Header() {
   const logueado = localStorage.getItem("logueado") === "true";
   const user = localStorage.getItem("usuario");
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-
+  const [showClickDropdown, setShowClickDropdown] = useState(false);
 
   const openLogoutModal = () => {
     setShowLogoutModal(true);
@@ -18,12 +19,32 @@ export default function Header() {
   const closeLogoutModal = () => {
     setShowLogoutModal(false);
   };
+
   const confirmLogout = () => {
-    localStorage.removeItem("logueado");
-    localStorage.removeItem("usuario");
-    setShowLogoutModal(false);
-    window.location.href = "/";
-  };
+
+  localStorage.removeItem("logueado");
+  localStorage.removeItem("usuario");      
+  localStorage.removeItem("usuarioActivo"); 
+
+  const usuariosRegistrados = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
+  const usuarioActual = JSON.parse(localStorage.getItem("usuarioActivo")); 
+  if (usuarioActual) {
+    const usuariosActualizados = usuariosRegistrados.map(u =>
+      u.usuario === usuarioActual.usuario ? usuarioActual : u
+    );
+    localStorage.setItem("usuariosRegistrados", JSON.stringify(usuariosActualizados));
+  }
+
+  setShowLogoutModal(false);
+
+  window.location.href = "/";
+};
+
+   const toggleClickDropdown = () => {
+        setShowClickDropdown(!showClickDropdown);
+   };
+
+
 
   return (
     <>
@@ -31,7 +52,7 @@ export default function Header() {
         <div className="container-fluid">
    
           <a className="navbar-brand" href="/">
-            <img src="assets/img/icons/logo.png" alt="Logo" height="80" />
+            <img className="logo" src={logopasteleria} alt="Logo Pastelería" height="80" />
           </a>
 
 
@@ -51,9 +72,9 @@ export default function Header() {
             {/* Menú central */}
             <ul className="navbar-nav mb-2 mb-lg-0 central-menu">
               <li className="nav-item">
-                <a className="nav-link" href="/">
+                <Link className="nav-link" to="/">
                   Inicio
-                </a>
+                </Link>
               </li>
 
               <li className="nav-item dropdown">
@@ -71,9 +92,9 @@ export default function Header() {
               </li>
 
               <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle">
+                <Link className="nav-link dropdown-toggle">
                   Sobre Nosotros
-                </a>
+                </Link>
                <ul className="dropdown-menu">
                 <li>
                   <Link className="dropdown-item" to="/nuestrahistoria">
@@ -97,6 +118,20 @@ export default function Header() {
                 <Link to="/comunidad" className="nav-link" >Comunidad</Link>
               </li>
             </ul>
+
+            <form className="d-flex ms-auto" role="search">
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Buscar..."
+                aria-label="Buscar"
+              />
+              <button className="btn btn-buscar" type="submit">
+                Buscar
+              </button>
+            </form>
+
+
         
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               {!logueado && (
@@ -112,25 +147,34 @@ export default function Header() {
 
               {logueado && (
                 <>
+
                   <li className="nav-item">
-                    <button 
-                      className="nav-link btn btn-link border-0" 
+                    <div className="dropdown">
+                      <button className="btn btn-transparent dropdown-toggle" type="button" onClick={toggleClickDropdown}>
+                        <i className="bi bi-bell-fill"></i>
+                        <span className="badge text-bg-danger">3</span>
+                      </button>
+                      {showClickDropdown && (<ul className="dropdown-menu show dropdown-menu-start">
+                        <li><Link className="dropdown-item" to="">Notificacion 1</Link></li>
+                        <li><Link className="dropdown-item" to="">Notificacion 2</Link></li>
+                        <li><Link className="dropdown-item" to="">Notificacion 3</Link></li>
+                      </ul>)}
+                    </div>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="/Perfil" className="nav-link">Perfil</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="/MisCompras" className="nav-link">Mis Compras</Link>
+                  </li>
+                  <li className="nav-item">
+                    <button
+                      className="nav-link btn btn-link border-0"
                       onClick={openLogoutModal}
                       style={{ textDecoration: 'none', background: 'none' }}
                     >
                       Cerrar Sesion ({user})
                     </button>
-                  </li>
-
-                  <li className="nav-item">
-                    <Link to="/edit_perfil" className="nav-link">Editar Perfil</Link>
-                  </li>
-
-                  <li className="nav-item">
-                    <Link to="/edit_perfil" className="nav-link">
-                    <i class="bi bi-bell-fill"></i>
-                    <span class="badge text-bg-danger">4</span>
-                    </Link>
                   </li>
                 </>
               )}

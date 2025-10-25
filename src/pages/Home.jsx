@@ -1,18 +1,13 @@
-
-
-import Header from '../components/header'
-import Footer from '../components/footer'
-import '../styles/style.css'
-import Registro from '../pages/Registro.jsx'
-import { masVendidos } from '../constantes/masVendidos'
-import { reviews } from '../constantes/reviews'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'
-import 'bootstrap-icons/font/bootstrap-icons.css'
+import '../styles/style.css';
+import { masVendidos } from '../constantes/masVendidos';
+import { reviews } from '../constantes/reviews';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import React, { useState, useEffect } from 'react';
-import EmblaCarousel from '../components/EmblaCarousel'
-import '../styles/embla.css'
-import { Link } from 'react-router-dom'
+import EmblaCarousel from '../components/EmblaCarousel';
+import '../styles/embla.css';
+import { Link } from 'react-router-dom';
 
 
 
@@ -22,6 +17,9 @@ export default function App() {
   const SLIDE_COUNT = 3;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   const OPTIONS = { align: 'start' };
+
+  const logueado = localStorage.getItem("logueado") === "true";
+  const user = localStorage.getItem("usuario");
 
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -63,11 +61,18 @@ export default function App() {
                 con ingredientes frescos y mucho amor. Haz tu pedido online y
                 recíbelo en la comodidad de tu hogar.
               </p>
+
+                {!logueado && (
+                  <>
               <div className="text-center">
-                <a href="Registro" className="btn btn-color btn-lg">
+                <Link to="/Registro" className="btn btn-color btn-lg">
                   Registrarse
-                </a>
+                </Link>
               </div>
+              </>
+            )}
+
+
             </div>
           </div>
         </div>

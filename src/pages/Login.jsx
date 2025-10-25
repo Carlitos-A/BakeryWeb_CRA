@@ -7,12 +7,42 @@ function Login() {
     const [contrasena, setContrasena] = useState('');
     const [showModal, setShowModal] = useState(false);
     const { login } = useAuth();
+    
 
     const user = "Admin";
     const pass = "123456";
 
     const handleLogin = (e) => {
         e.preventDefault();
+
+    const usuariosGuardados = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
+
+    const usuarioEncontrado = usuariosGuardados.find(
+      (u) => u.usuario === usuario && u.contrasena === contrasena
+    );
+
+
+        if (usuarioEncontrado) {
+            login(usuarioEncontrado.usuario);
+            localStorage.setItem("usuarioActivo", JSON.stringify(usuarioEncontrado));
+            window.location.href = "/";
+        } else if (usuario === "Admin" && contrasena === "123456") {
+            login("Admin");
+            localStorage.setItem("usuarioActivo", JSON.stringify({ usuario: "Admin" }));
+            window.location.href = "/";
+        } else {
+            setUsuario('');
+            setContrasena('');
+            setShowModal(true);
+        }
+  };
+
+const closeModal = () => {
+    setShowModal(false);
+  };
+
+  /*
+
         
         if (usuario === user && contrasena === pass) {
             login(usuario);
@@ -27,7 +57,7 @@ function Login() {
     const closeModal = () => {
         setShowModal(false);
     };
-
+*/
     return (
         <div>
             <main className="d-flex justify-content-center align-items-center vh-100">
@@ -67,6 +97,7 @@ function Login() {
                     </form>
                 </div>
             </main>
+
 
             {showModal && (
                 <div className="modal fade show d-block" style={{backgroundColor: 'rgba(0,0,0,0.5)'}} tabIndex="-1">

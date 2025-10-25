@@ -1,23 +1,26 @@
-import React from 'react'
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'
-import 'bootstrap-icons/font/bootstrap-icons.css'
-import './styles/style.css'
-import Home from './pages/Home'
-import CartPage from './pages/CartPage'
-import Catalogo from './pages/Catalogo' 
-import Login from './pages/Login'
-import Registro from './pages/Registro'
+
+import { Routes, Route } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import './styles/style.css';
+import './styles/editPerfil.css';
+import Home from './pages/Home';
+import CartPage from './pages/CartPage';
+import Catalogo from './pages/Catalogo' ;
+import Login from './pages/Login';
+import Registro from './pages/Registro';
 import Header from "./components/header";
 import Footer from './components/footer';
+import Procesos from './pages/Procesos';
+import NuestraHistoria from './pages/NuestraHistoria';
+import Equipo from './pages/Equipo';
+import Comunidad from './pages/Comunidad';
+import EditPerfil from './pages/editPerfil';
+import Perfil from './pages/Perfil'
+import Compras from './pages/MisCompras';
+import { AuthProvider } from "./auth/AuthContext";
 import { CartProvider } from './components/CartContext'
-import Procesos from './pages/Procesos'
-import NuestraHistoria from './pages/NuestraHistoria'
-import Equipo from './pages/Equipo'
-import Comunidad from './pages/Comunidad'
 import BakeryBlog from './pages/BakeryBlog'
 import BakeryNews from './pages/BakeryNews'
 import BakeryConsejos from './pages/BakeryConsejos'
@@ -26,9 +29,7 @@ import RecetasChilenas from './pages/RecetasChilenas'
 
 function App() {
   return (
-    <React.StrictMode>
-      <CartProvider>
-        <BrowserRouter>
+         <AuthProvider>
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />
@@ -41,15 +42,16 @@ function App() {
             <Route path='/comunidad' element={<Comunidad />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/Registro" element={<Registro />} />
+            <Route path='/EditarPerfil' element={<EditPerfil/>}/>
+            <Route path='/Perfil' element={<Perfil/>}/>
+            <Route path='/MisCompras' element={<Compras/>}/>
             <Route path="/bakeryBlog" element={<BakeryBlog />} />
             <Route path="/bakeryNews" element={<BakeryNews/>}/>
             <Route path="/bakeryConsejos" element={<BakeryConsejos/>}/>
             <Route path="/RecetasChilenas" element={<RecetasChilenas/>}/>
            </Routes>
           <Footer />
-        </BrowserRouter>
-      </CartProvider>
-    </React.StrictMode>
+           </AuthProvider>
   );
 }
 
