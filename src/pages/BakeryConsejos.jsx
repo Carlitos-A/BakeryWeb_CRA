@@ -1,11 +1,13 @@
 import React from "react";
 import "../styles/BakeryStyles.css";
 import bakeryFondo from "../assets/img/fondo/bakerysimpleinside.jpg";
+import { Link } from "react-router-dom";
+
 
 export default function BakeryConsejos() {
   return (
     <div className="bakery-tips-page">
- 
+
       <main className="bakery-tips-main">
         <div
           className="bakery-tips-background"
@@ -28,6 +30,14 @@ export default function BakeryConsejos() {
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 ></iframe>
+              </div>
+              <div className="Cvolver">
+                <div style={{ paddingTop: "60px" }}>
+                  <Link to="/comunidad" className="comunidad-btn volver-btn"
+                    onClick={() => window.scrollTo(0, 0)}>
+                    ← Volver a Comunidad
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

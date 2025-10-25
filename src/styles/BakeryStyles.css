@@ -305,4 +305,25 @@
   .recetas-overlay {
     padding: 2rem 1rem;
   }
+.Cvolver {
+  text-align: center;
+  margin-top: 60px !important; /* fuerza la separación */
+}
+
+.volver-btn {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #ff6f61;
+  color: white;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 40px !important; /* fuerza el margen */
+  transition: background-color 0.3s ease;
+}
+
+.volver-btn:hover {
+  background-color: #e45a50;
+}
+
 }

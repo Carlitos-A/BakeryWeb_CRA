@@ -1,6 +1,8 @@
 import React from "react";
 import bakeryFondo from "../assets/img/fondo/bakerysimpleinside.jpg";
 import "../styles/BakeryStyles.css";
+import { Link } from "react-router-dom";
+
 
 export default function BakeryBlog() {
   return (
@@ -27,6 +29,14 @@ export default function BakeryBlog() {
                   referrerPolicy="no-referrer-when-downgrade"
                   className="bakery-iframe"
                 ></iframe>
+              </div>
+              <div className="Cvolver">
+                <div style={{ paddingTop: "60px" }}>
+                  <Link to="/comunidad" className="comunidad-btn volver-btn"
+                    onClick={() => window.scrollTo(0, 0)}>
+                    ← Volver a Comunidad
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
