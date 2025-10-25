@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../components/header.jsx';
-import Footer from '../components/footer.jsx';
 import '../styles/style.css';
 import { productos } from '../constantes/productos.js';
-import { masVendidos } from '../constantes/masVendidos.js';
 import { catalogoItems } from '../constantes/catalogoItems.js';
-import { CartProvider, useCart } from '../components/CartContext.jsx';
+import { useCart } from '../components/CartContext.jsx';
 import { useParams, useNavigate } from "react-router-dom";
 
 
@@ -91,7 +88,7 @@ export default function Catalogo() {
                                                 alt={product.alt}
                                                 style={{ objectFit: "cover", height: "180px" }}
                                             />
-                                            <div className="card-body d-flex flex-column justify-content-between">
+                                            <div className="card-body d-flex flex-column justify-content-between" data-testid="producto">
                                                 <div>
                                                     <p className="small text-muted mb-1">{product.category}</p>
                                                     <h6 className="fw-bold">{product.title}</h6>
