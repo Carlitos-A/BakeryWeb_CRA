@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { catalogoItems } from '../constantes/catalogoItems';
 import CartIcon from './CartIcon';
 import { Link } from "react-router-dom";
+import { useCart } from "../components/CartContext";
 import logopasteleria from '../assets/img/icons/logo.png';
 
 
@@ -11,6 +12,7 @@ export default function Header() {
   const user = localStorage.getItem("usuario");
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showClickDropdown, setShowClickDropdown] = useState(false);
+  const { clearCart } = useCart();
 
   const openLogoutModal = () => {
     setShowLogoutModal(true);
@@ -25,6 +27,7 @@ export default function Header() {
   localStorage.removeItem("logueado");
   localStorage.removeItem("usuario");      
   localStorage.removeItem("usuarioActivo"); 
+  
 
   const usuariosRegistrados = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
   const usuarioActual = JSON.parse(localStorage.getItem("usuarioActivo")); 
@@ -35,8 +38,9 @@ export default function Header() {
     localStorage.setItem("usuariosRegistrados", JSON.stringify(usuariosActualizados));
   }
 
-  setShowLogoutModal(false);
 
+  clearCart();
+  setShowLogoutModal(false);
   window.location.href = "/";
 };
 
