@@ -54,7 +54,7 @@ export default function Header() {
     <>
       <nav className="navbar navbar-expand-lg shadow-sm position-relative">
         <div className="container-fluid">
-   
+
           <a className="navbar-brand" href="/">
             <img className="logo" src={logopasteleria} alt="Logo Pastelería" height="80" />
           </a>
@@ -118,8 +118,25 @@ export default function Header() {
               </ul>
               </li>
 
-              <li className="nav-item">
-                <Link to="/comunidad" className="nav-link" >Comunidad</Link>
+              <li className="nav-item dropdown">
+                <a
+                  href="/comunidad"
+                  className="nav-link dropdown-toggle"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  onClick={(e) => {
+                    window.location.href = "/comunidad";
+                  }}
+                >
+                  Comunidad
+                </a>
+                <ul className="dropdown-menu">
+                  <li><Link className="dropdown-item" to="/bakeryBlog">Gastronomía Blog</Link></li>
+                  <li><Link className="dropdown-item" to="/bakeryNews">Bakery News</Link></li>
+                  <li><Link className="dropdown-item" to="/bakeryConsejos">Consejos Bakery</Link></li>
+                  <li><Link className="dropdown-item" to="/RecetasChilenas">Recetas Chilenas</Link></li>
+                </ul>
               </li>
             </ul>
 
@@ -184,7 +201,7 @@ export default function Header() {
               )}
             </ul>
           </div>
-          
+
           <div className="ms-3">
             <CartIcon />
           </div>
@@ -203,16 +220,16 @@ export default function Header() {
                 <p>¿Estás seguro de que quieres cerrar sesión?</p>
               </div>
               <div className="modal-footer">
-                <button 
-                  type="button" 
-                  className="btn btn-secondary" 
+                <button
+                  type="button"
+                  className="btn btn-secondary"
                   onClick={closeLogoutModal}
                 >
                   Cancelar
                 </button>
-                <button 
-                  type="button" 
-                  className="btn btn-primary" 
+                <button
+                  type="button"
+                  className="btn btn-primary"
                   onClick={confirmLogout}
                 >
                   Sí, Cerrar Sesión

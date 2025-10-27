@@ -65,9 +65,9 @@ export default function App() {
                 {!logueado && (
                   <>
               <div className="text-center">
-                <Link to="/Registro" className="btn btn-color btn-lg">
-                  Registrarse
-                </Link>
+                <Link to="/Registro" className="btn btn-color btn-color-small">Registrarse</Link>
+
+    
               </div>
               </>
             )}
