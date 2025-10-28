@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Home from './Catalogo';
+import Catalogo from './Catalogo';
 import { MemoryRouter } from 'react-router-dom';
 import { CartProvider } from '../components/CartContext';
 
@@ -9,7 +9,7 @@ describe('Home (Card)', () => {
     render(
     <CartProvider>
     <MemoryRouter>
-      <Home />
+      <Catalogo />
     </MemoryRouter>
   </CartProvider>
 
@@ -22,7 +22,7 @@ describe('Home (Card)', () => {
     render(
    <MemoryRouter>
           <CartProvider>
-          <Home />
+          <Catalogo />
           </CartProvider>
         </MemoryRouter>
   );
@@ -35,7 +35,7 @@ describe('Home (Card)', () => {
   
         <MemoryRouter>
           <CartProvider>
-          <Home />
+          <Catalogo />
           </CartProvider>
         </MemoryRouter>
  

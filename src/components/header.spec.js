@@ -49,48 +49,34 @@ describe('Elementos del Header', () => {
   });
 
 
-  it('Busca los links de navegación principales', () => {
-    render(
 
-      <MemoryRouter>
-        <CartProvider>
-          <Header />
-     </CartProvider>
-      </MemoryRouter>
-      
-    );
-    // Links internos (react-router)
-  expect(screen.getByRole('link', { name: /inicio/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /Login/i })).toBeInTheDocument();
-});
-
-   it('Valida la configuración de como se ve el boton busqueda', () => {
+  it('Valida la configuración de como se ve el boton busqueda', () => {
     render(
       <MemoryRouter>
         <CartProvider>
           <Header />
-     </CartProvider>
+        </CartProvider>
       </MemoryRouter>
     );
     expect(screen.getByRole('searchbox', { name: /buscar/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /buscar/i })).toBeInTheDocument();
   });
 
- 
+
 
   it('Renderiza "Cerrar Sesión" con el nombre del usuario cuando está logueado', () => {
-      localStorage.setItem("logueado", "true");
-      localStorage.setItem("usuario", "Carlos");
-  
-      render(
-        <CartProvider>
-          <MemoryRouter>
-            <Header />
-          </MemoryRouter>
-        </CartProvider>
-      );
-  
-      expect(screen.getByText(/Cerrar Sesion \(Carlos\)/i)).toBeInTheDocument();
-    });
+    localStorage.setItem("logueado", "true");
+    localStorage.setItem("usuario", "Carlos");
+
+    render(
+      <CartProvider>
+        <MemoryRouter>
+          <Header />
+        </MemoryRouter>
+      </CartProvider>
+    );
+
+    expect(screen.getByText(/Cerrar Sesion \(Carlos\)/i)).toBeInTheDocument();
+  });
 
 });

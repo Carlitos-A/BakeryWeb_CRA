@@ -69,7 +69,10 @@ export default function Catalogo() {
             <div className="row g-4">
               {productosFiltrados.length > 0 ? (
                 productosFiltrados.map((product) => (
-                  <div key={product.id} className="col-sm-6 col-md-4 col-lg-3">
+                  <div 
+                  key={product.id} 
+                  className="col-sm-6 col-md-4 col-lg-3"
+                  data-testid="producto">
                     <div className="card-producto">
                       <img
                         src={product.img}
