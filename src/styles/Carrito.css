@@ -1,0 +1,129 @@
+.carrito-main {
+  min-height: 100vh;
+  background-image: url('../assets/img/fondo/aestheticpasteleriainside.jpg'); /* cambia el nombre según tu imagen */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 60px 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.carrito-box {
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(6px);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 1100px;
+  padding: 40px 30px;
+  color: #333;
+}
+
+/* Título */
+.carrito-title {
+  text-align: center;
+  font-size: 2.3rem;
+  font-weight: 600;
+  margin-bottom: 40px;
+  color: #5c2b70;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Carrito vacío */
+.carrito-vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.carrito-vacio i {
+  font-size: 4rem;
+  color: #a49ca8;
+  margin-bottom: 15px;
+}
+
+.carrito-vacio p {
+  color: #6c757d;
+  margin-bottom: 10px;
+}
+
+.carrito-vacio .btn {
+  background-color: #6f42c1;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.carrito-vacio .btn:hover {
+  background-color: #5a32a3;
+}
+
+/* Tabla */
+.carrito-tabla {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.carrito-tabla thead {
+  background-color: #6f42c1;
+  color: #fff;
+}
+
+.carrito-tabla th,
+.carrito-tabla td {
+  padding: 15px;
+  vertical-align: middle;
+}
+
+.carrito-tabla img {
+  border-radius: 8px;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+/* Footer (total + botones) */
+.carrito-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.carrito-footer h4 {
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.carrito-footer .btn {
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.carrito-footer .btn-danger {
+  background-color: #dc3545;
+  border: none;
+}
+
+.carrito-footer .btn-danger:hover {
+  background-color: #bb2d3b;
+}
+
+.carrito-footer .btn-success {
+  background-color: #198754;
+  border: none;
+}
+
+.carrito-footer .btn-success:hover {
+  background-color: #157347;
+}

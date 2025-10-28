@@ -1,28 +1,30 @@
 import React, { useState, useEffect } from "react";
-import '../styles/style.css';
+import { useNavigate } from "react-router-dom";
+import "../styles/Registrar.css"; 
 
 function Registrar() {
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-     usuario: '',
-      nombre: '',
-      correo: '',
-      celular: '',
-      genero: '',
-      fechaNacimiento: '',
-      pais: '',
-      ciudad: '',
-      direccion: '',
-      codigoDesc: '',
-      contrasena: '',
+    usuario: "",
+    nombre: "",
+    correo: "",
+    celular: "",
+    genero: "",
+    fechaNacimiento: "",
+    pais: "",
+    ciudad: "",
+    direccion: "",
+    codigoDesc: "",
+    contrasena: "",
+    confirmarcontrasena: "",
   });
 
-  const [maxFecha, setMaxFecha] = useState('');
-  const [modal, setModal] = useState({ show: false, title: '', message: '', type: '' }); // type: 'success' | 'error'
+  const [maxFecha, setMaxFecha] = useState("");
+  const [modal, setModal] = useState({ show: false, title: "", message: "", type: "" });
 
   useEffect(() => {
-    // Fecha actual como máximo
-    const today = new Date().toISOString().split('T')[0];
+    const today = new Date().toISOString().split("T")[0];
     setMaxFecha(today);
   }, []);
 
@@ -30,7 +32,7 @@ function Registrar() {
     const { id, value } = e.target;
     setFormData({
       ...formData,
-      [id]: value
+      [id]: value,
     });
   };
 
@@ -40,16 +42,15 @@ function Registrar() {
     if (formData.contrasena !== formData.confirmarcontrasena) {
       setModal({
         show: true,
-        title: 'Error',
-        message: 'Las contraseñas no coinciden.',
-        type: 'error'
+        title: "Error",
+        message: "Las contraseñas no coinciden.",
+        type: "error",
       });
       return;
     }
 
     const usuariosGuardados = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
 
-    // Verificar si ya existe el usuario o el correo
     const usuarioExistente = usuariosGuardados.find(
       (u) => u.usuario === formData.usuario || u.correo === formData.correo
     );
@@ -57,26 +58,25 @@ function Registrar() {
     if (usuarioExistente) {
       setModal({
         show: true,
-        title: 'Error',
-        message: 'El usuario o correo ya están registrados.',
-        type: 'error'
+        title: "Error",
+        message: "El usuario o correo ya están registrados.",
+        type: "error",
       });
       return;
     }
 
-    // Crear nuevo usuario
     const nuevoUsuario = {
-    usuario: formData.usuario,
-  nombre: formData.nombre,
-  correo: formData.correo,
-  celular: formData.celular || '',
-  genero: formData.genero || '',
-  fechaNacimiento: formData.fechaNacimiento,
-  pais: formData.pais || '',
-  ciudad: formData.ciudad || '',
-  direccion: formData.direccion || '',
-  codigoDesc: formData.codigoDesc || null,
-  contrasena: formData.contrasena
+      usuario: formData.usuario,
+      nombre: formData.nombre,
+      correo: formData.correo,
+      celular: formData.celular || "",
+      genero: formData.genero || "",
+      fechaNacimiento: formData.fechaNacimiento,
+      pais: formData.pais || "",
+      ciudad: formData.ciudad || "",
+      direccion: formData.direccion || "",
+      codigoDesc: formData.codigoDesc || null,
+      contrasena: formData.contrasena,
     };
 
     usuariosGuardados.push(nuevoUsuario);
@@ -84,36 +84,44 @@ function Registrar() {
 
     setModal({
       show: true,
-      title: 'Registro exitoso',
-      message: 'El usuario se ha registrado correctamente.',
-      type: 'success'
+      title: "Registro exitoso",
+      message: "El usuario se ha registrado correctamente.",
+      type: "success",
     });
 
     // Limpiar formulario
     setFormData({
-       usuario: '',
-       nombre: '',
-    correo: '',
-    fechaNacimiento: '',
-    codigoDesc: '',
-    contrasena: '',
-    confirmarcontrasena: ''
-
+      usuario: "",
+      nombre: "",
+      correo: "",
+      fechaNacimiento: "",
+      codigoDesc: "",
+      contrasena: "",
+      confirmarcontrasena: "",
     });
+
+    setTimeout(() => {
+      navigate("/login");
+    }, 2000);
   };
 
   const closeModal = () => {
-    setModal({ show: false, title: '', message: '', type: '' });
+
+    if (modal.type === "success") {
+      navigate("/login");
+    }
+    setModal({ show: false, title: "", message: "", type: "" });
   };
 
   return (
-    <main className="flex-grow-1 d-flex align-items-center justify-content-center">
-      <div className="bg-dark bg-opacity-50 p-5 rounded text-white w-100">
+    <main className="registro-main">
+      <div className="registro-box">
         <h1 className="mb-4 text-center">Registro</h1>
         <form onSubmit={handleSubmit}>
-
           <div className="mb-3">
-            <label htmlFor="usuario" className="form-label">Nombre de usuario</label>
+            <label htmlFor="usuario" className="form-label">
+              Nombre de usuario
+            </label>
             <input
               type="text"
               className="form-control"
@@ -129,26 +137,29 @@ function Registrar() {
             />
           </div>
 
-           <div className="mb-3">
-            <label htmlFor="usuario" className="form-label">Nombre </label>
+          <div className="mb-3">
+            <label htmlFor="nombre" className="form-label">
+              Nombre
+            </label>
             <input
               type="text"
               className="form-control"
               id="nombre"
               required
-              placeholder="Nombre "
-              pattern="[A-Za-z][A-Za-z0-9\-]*"
+              placeholder="Nombre completo"
+              pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]+"
               minLength="3"
               maxLength="30"
-              title="Solo letras"
+              title="Solo letras y espacios"
               value={formData.nombre}
               onChange={handleChange}
             />
           </div>
 
-
           <div className="mb-3">
-            <label htmlFor="correo" className="form-label">Correo electrónico</label>
+            <label htmlFor="correo" className="form-label">
+              Correo electrónico
+            </label>
             <input
               type="email"
               className="form-control"
@@ -161,7 +172,9 @@ function Registrar() {
           </div>
 
           <div className="mb-3">
-            <label htmlFor="fechaNacimiento" className="form-label">Fecha de Nacimiento</label>
+            <label htmlFor="fechaNacimiento" className="form-label">
+              Fecha de Nacimiento
+            </label>
             <input
               type="date"
               className="form-control"
@@ -174,7 +187,9 @@ function Registrar() {
           </div>
 
           <div className="mb-3">
-            <label htmlFor="codigoDesc" className="form-label">Código de descuento</label>
+            <label htmlFor="codigoDesc" className="form-label">
+              Código de descuento
+            </label>
             <input
               type="text"
               className="form-control"
@@ -190,7 +205,9 @@ function Registrar() {
           </div>
 
           <div className="mb-3">
-            <label htmlFor="contrasena" className="form-label">Contraseña</label>
+            <label htmlFor="contrasena" className="form-label">
+              Contraseña
+            </label>
             <input
               type="password"
               className="form-control"
@@ -206,7 +223,9 @@ function Registrar() {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="confirmarcontrasena" className="form-label">Confirmar contraseña</label>
+            <label htmlFor="confirmarcontrasena" className="form-label">
+              Confirmar contraseña
+            </label>
             <input
               type="password"
               className="form-control"
@@ -220,7 +239,7 @@ function Registrar() {
           </div>
 
           <div className="d-grid">
-            <button id="btnRegister" type="submit" className="btn btn-color btn-outline-dark">
+            <button id="btnRegister" type="submit" className="btn btn-outline-dark">
               Registrarse
             </button>
           </div>
@@ -231,13 +250,15 @@ function Registrar() {
       {modal.show && (
         <div
           className="modal fade show d-block"
-          style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
           tabIndex="-1"
         >
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div
-                className={`modal-header ${modal.type === 'success' ? 'bg-success text-white' : 'bg-danger text-white'}`}
+                className={`modal-header ${
+                  modal.type === "success" ? "bg-success text-white" : "bg-danger text-white"
+                }`}
               >
                 <h5 className="modal-title">{modal.title}</h5>
                 <button type="button" className="btn-close" onClick={closeModal}></button>
