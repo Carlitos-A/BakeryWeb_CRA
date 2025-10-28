@@ -23,13 +23,13 @@
   color: #333;
 }
 
-/* Título */
+
 .carrito-title {
   text-align: center;
   font-size: 2.3rem;
   font-weight: 600;
   margin-bottom: 40px;
-  color: #5c2b70;
+  color: rgb(174, 79, 212);
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
@@ -54,7 +54,7 @@
 }
 
 .carrito-vacio .btn {
-  background-color: #6f42c1;
+  background-color: #9a71e6;
   border: none;
   transition: background-color 0.3s ease;
 }

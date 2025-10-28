@@ -1,4 +1,4 @@
-/* Fondo general de la vista de compras realizadas */
+/* FONDO CON IMAGEN DE BACKGROUND */
 .compras-main {
   min-height: 100vh;
   background-image: url('../assets/img/fondo/miscompras.jpg'); 
@@ -13,7 +13,7 @@
   font-family: 'Poppins', sans-serif;
 }
 
-/* Título principal */
+/* TITULO */
 .compras-titulo {
   color: #fff;
   font-size: 2.2rem;
@@ -32,7 +32,7 @@
   max-width: 1100px;
 }
 
-/* Tarjetas individuales */
+/* CARDS INDIVIDUALES */
 .compras-card {
   background-color: rgba(255, 255, 255, 0.92);
   border-radius: 15px;
@@ -58,7 +58,7 @@
   padding: 10px;
 }
 
-
+/* esto es para que la card salga lo ma apegada al borde posible*/
 .compras-lista {
   list-style: none;
   margin: 0;
@@ -90,7 +90,7 @@
   justify-content: space-between;
   font-weight: bold;
   margin-top: 10px;
-  font-size: 1rem;
+  font-size: 1.3rem;
 }
 
 

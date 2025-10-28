@@ -176,9 +176,9 @@ export default function Header() {
                         <span className="badge text-bg-danger">3</span>
                       </button>
                       {showClickDropdown && (<ul className="dropdown-menu show dropdown-menu-start">
-                        <li><Link className="dropdown-item" to="">Notificacion 1</Link></li>
-                        <li><Link className="dropdown-item" to="">Notificacion 2</Link></li>
-                        <li><Link className="dropdown-item" to="">Notificacion 3</Link></li>
+                        <li><Link className="dropdown-item" to="/comunidad">! Nuevo Apartado De Comunidad ¡</Link></li>
+                        <li><Link className="dropdown-item" to="/catalogo">!Oferton!: Todas las tortas en oferta</Link></li>
+                        <li><Link className="dropdown-item" to="/NuestraHistoria">Revisa nuestra Historia en Sobre Nosotros</Link></li>
                       </ul>)}
                     </div>
                   </li>
