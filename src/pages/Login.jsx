@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../constantes/validarUsuario';
-import '../styles/style.css';
+import '../styles/Login.css';
 
 function Login() {
     const [usuario, setUsuario] = useState('');
@@ -15,12 +15,11 @@ function Login() {
     const handleLogin = (e) => {
         e.preventDefault();
 
-    const usuariosGuardados = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
+        const usuariosGuardados = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
 
-    const usuarioEncontrado = usuariosGuardados.find(
-      (u) => u.usuario === usuario && u.contrasena === contrasena
-    );
-
+        const usuarioEncontrado = usuariosGuardados.find(
+          (u) => u.usuario === usuario && u.contrasena === contrasena
+        );
 
         if (usuarioEncontrado) {
             login(usuarioEncontrado.usuario);
@@ -35,15 +34,14 @@ function Login() {
             setContrasena('');
             setShowModal(true);
         }
-  };
+    };
 
-const closeModal = () => {
-    setShowModal(false);
-  };
+    const closeModal = () => {
+        setShowModal(false);
+    };
 
-  /*
-
-        
+    /*
+    
         if (usuario === user && contrasena === pass) {
             login(usuario);
             window.location.href = "/";
@@ -57,11 +55,12 @@ const closeModal = () => {
     const closeModal = () => {
         setShowModal(false);
     };
-*/
+    */
+
     return (
         <div>
-            <main className="d-flex justify-content-center align-items-center vh-100">
-                <div className="w-50 w-md-25 text-center">
+            <main className="login-main">
+                <div className="login-box">
                     <h2>Inicio de sesión</h2>
                     <form onSubmit={handleLogin}>
                         <div className="mb-3">
@@ -97,7 +96,6 @@ const closeModal = () => {
                     </form>
                 </div>
             </main>
-
 
             {showModal && (
                 <div className="modal fade show d-block" style={{backgroundColor: 'rgba(0,0,0,0.5)'}} tabIndex="-1">

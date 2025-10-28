@@ -1,0 +1,136 @@
+
+.perfil-main {
+  min-height: 100vh;
+  background: url('../assets/img/fondo/tortafondo.jpg') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 50px 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+
+.perfil-box {
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 30px;
+  max-width: 700px;
+  width: 100%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.perfil-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.perfil-logo {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.perfil-titulo {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+
+.perfil-form-card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.perfil-input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.perfil-label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.perfil-input {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.perfil-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+
+.perfil-texto {
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #555;
+}
+
+
+.perfil-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.perfil-btn:hover {
+  background-color: #0056b3;
+}
+
+
+.modal-content {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.modal-header {
+  background-color: #28a745;
+  color: white;
+  font-weight: bold;
+}
+
+.modal-body {
+  font-size: 16px;
+}
+
+.modal-footer .btn {
+  border-radius: 8px;
+}
+
+
+.text-danger {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .perfil-box {
+    padding: 20px;
+  }
+
+  .perfil-logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .perfil-titulo {
+    font-size: 24px;
+  }
+}

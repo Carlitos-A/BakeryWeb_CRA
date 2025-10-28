@@ -1,75 +1,82 @@
 import React from "react";
-import { productos } from "../constantes/productos"; // Ajusta la ruta según tu proyecto
-import '../styles/style.css';
+import { productos } from "../constantes/productos";
+import "../styles/MisCompras.css";
 
 function ComprasRealizadas() {
-
-  // Lista de compras prediseñadas usando los productos importados
   const compras = [
     {
       id: 1,
       fecha: "2025-10-15",
       productos: [
-        { ...productos[0], cantidad: 1 }, // Torta Cuadrada de Chocolate
-        { ...productos[2], cantidad: 2 }  // Tiramisú Clásico
+        { ...productos[0], cantidad: 1 },
+        { ...productos[2], cantidad: 2 },
       ],
-      estado: "Entregado"
+      estado: "Entregado",
     },
     {
       id: 2,
       fecha: "2025-10-18",
       productos: [
-        { ...productos[4], cantidad: 1 }, // Torta Especial de Cumpleaños 1
-        { ...productos[5], cantidad: 1 }  // Torta Cuadrada de Frutas
+        { ...productos[4], cantidad: 1 },
+        { ...productos[5], cantidad: 1 },
       ],
-      estado: "En proceso"
+      estado: "En proceso",
     },
     {
       id: 3,
       fecha: "2025-10-20",
       productos: [
-        { ...productos[7], cantidad: 3 }, // Mousse de Chocolate
-        { ...productos[10], cantidad: 2 } // Empanada de Manzana
+        { ...productos[7], cantidad: 3 },
+        { ...productos[10], cantidad: 2 },
       ],
-      estado: "Entregado"
+      estado: "Entregado",
     },
   ];
 
   return (
-    <main className="container my-5">
-      <h2 className="text-center mb-4">Compras Realizadas</h2>
-      <div className="row">
-        {compras.map(compra => {
-          const total = compra.productos.reduce((sum, p) => sum + p.price * p.cantidad, 0);
+    <main className="compras-main">
+      <h2 className="compras-titulo">Compras Realizadas</h2>
+      <div className="compras-grid">
+        {compras.map((compra) => {
+          const total = compra.productos.reduce(
+            (sum, p) => sum + p.price * p.cantidad,
+            0
+          );
           return (
-            <div key={compra.id} className="col-md-6 mb-4">
-              <div className="card shadow-sm p-3">
-                <div className="card-header bg-primary text-white">
-                  <strong>Compra #{compra.id}</strong> - {compra.fecha}
+            <div key={compra.id} className="compras-card">
+              <div className="compras-header">
+                Compra #{compra.id} - {compra.fecha}
+              </div>
+              <div className="compras-body">
+                <ul className="compras-lista">
+                  {compra.productos.map((p, index) => (
+                    <li key={index} className="compras-item">
+                      <div>
+                        <img src={p.img} alt={p.alt} />
+                        {p.title} x {p.cantidad}
+                      </div>
+                      <span>${p.price * p.cantidad}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="compras-total">
+                  <span>Total:</span>
+                  <span>${total}</span>
                 </div>
-                <div className="card-body">
-                  <ul className="list-group mb-3">
-                    {compra.productos.map((p, index) => (
-                      <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                          <img src={p.img} alt={p.alt} style={{ width: 50, height: 50, objectFit: 'cover', marginRight: 10 }} />
-                          {p.title} x {p.cantidad}
-                        </div>
-                        <span>${p.price * p.cantidad}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="d-flex justify-content-between">
-                    <strong>Total:</strong>
-                    <strong>${total}</strong>
-                  </div>
-                  <div className={`mt-2 badge ${compra.estado === "Entregado" ? 'bg-success' : 'bg-warning text-dark'}`}>
-                    {compra.estado}
-                  </div>
+
+                <div
+                  className={
+                    compra.estado === "Entregado"
+                      ? "estado-entregado"
+                      : "estado-proceso"
+                  }
+                >
+                  {compra.estado}
                 </div>
               </div>
             </div>
-          )
+          );
         })}
       </div>
     </main>
