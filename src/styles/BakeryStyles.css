@@ -1,6 +1,6 @@
 
 
-
+/* CSS DEL APARTADO DE BLOG*/
 .bakery-blog {
   display: flex;
   flex-direction: column;
@@ -73,9 +73,9 @@
 }
 
 
-/* CSS DE LOS CONSEJOS */
+/*CSS DE LOS CONSEEEEJOS*/
 .bakery-tips-page {
-  display: flex;
+  display: flex; 
   flex-direction: column;
   min-height: 100vh;
   background-color: #f8f9fa;
@@ -144,7 +144,7 @@
   height: 100%;
   border: 0;
 }
-/* CSS DE LAS NOTICIAS */
+/* CSS DE LAS NOTICIAAAAAS */
 
 .news-page {
   display: flex;
@@ -205,7 +205,7 @@
 .news-iframe-wrapper {
   position: relative;
   width: 100%;
-  padding-top: 56.25%; /* 16:9 */
+  padding-top: 56.25%; 
 }
 
 .news-iframe-wrapper iframe {
@@ -217,7 +217,7 @@
   border: 0;
 }
 
-/* CSS DE LAS RECETAS */
+/* CSS DE LAS RECETAS (GOURMET) */
 .recetas-page {
   display: flex;
   flex-direction: column;
@@ -310,6 +310,7 @@
   margin-top: 60px !important; /* fuerza la separación */
 }
 
+/* BOTON VOLVER DE ABAJO*/
 .volver-btn {
   display: inline-block;
   padding: 12px 24px;
