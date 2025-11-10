@@ -48,7 +48,6 @@ const EmblaCarousel = ({ options }) => {
 
                   <div className="d-flex justify-content-between mb-3">
                     <h5 className="mb-0">{product.title}</h5>
-                    <h5 className="text-dark mb-0">{product.price} CLP</h5>
                     <h5 className="text-dark mb-0">{product.price}CLP</h5>
                     
                   </div>
