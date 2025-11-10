@@ -1,76 +1,50 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import Catalogo from './Catalogo';
 import { MemoryRouter } from 'react-router-dom';
-import Header from '../components/Header';
 import { CartProvider } from '../components/CartContext';
 
-describe('Header', () => {
-  beforeEach(() => {
+describe('Home (Card)', () => { 
+  it('Busca que se renderizan 6 cards de producto', () => { 
+    render(
+    <CartProvider>
+    <MemoryRouter>
+      <Catalogo />
+    </MemoryRouter>
+  </CartProvider>
 
-    localStorage.clear();
+); 
+    const cards = screen.getAllByTestId('producto'); 
+    expect(cards.length).toBe(25); 
   });
 
-  it('Renderiza el enlace "Inicio"', () => {
+  it('Busca 6 títulos (h6) de producto', () => { 
     render(
-      <CartProvider>
-        <MemoryRouter>
-          <Header />
+   <MemoryRouter>
+          <CartProvider>
+          <Catalogo />
+          </CartProvider>
         </MemoryRouter>
-      </CartProvider>
-    );
-
-    expect(screen.getByText(/Inicio/i)).toBeInTheDocument();
+  );
+    const titles = screen.getAllByRole('heading', { level: 6 }); 
+    expect(titles.length).toBe(25);
   });
 
-  it('Renderiza los enlaces "Login" y "Registrarse" cuando no hay usuario logueado', () => {
+  it('Busca un producto específico por su título', () => {
     render(
-      <CartProvider>
+  
         <MemoryRouter>
-          <Header />
+          <CartProvider>
+          <Catalogo />
+          </CartProvider>
         </MemoryRouter>
-      </CartProvider>
-    );
-
-    expect(screen.getByText(/Login/i)).toBeInTheDocument();
-    expect(screen.getByText(/Registrarse/i)).toBeInTheDocument();
-  });
-
-  it('Renderiza "Cerrar Sesión" con el nombre del usuario cuando está logueado', () => {
-    localStorage.setItem("logueado", "true");
-    localStorage.setItem("usuario", "Carlos");
-
-    render(
-      <CartProvider>
-        <MemoryRouter>
-          <Header />
-        </MemoryRouter>
-      </CartProvider>
-    );
-
-    expect(screen.getByText(/Cerrar Sesion \(Carlos\)/i)).toBeInTheDocument();
-  });
-
-  it('Renderiza el enlace "Catálogo"', () => {
-    render(
-      <CartProvider>
-        <MemoryRouter>
-          <Header />
-        </MemoryRouter>
-      </CartProvider>
-    );
-
-    expect(screen.getByText(/Catálogo/i)).toBeInTheDocument();
-  });
-
-  it('Renderiza el enlace "Comunidad"', () => {
-    render(
-      <CartProvider>
-        <MemoryRouter>
-          <Header />
-        </MemoryRouter>
-      </CartProvider>
-    );
-
-    expect(screen.getByText(/Comunidad/i)).toBeInTheDocument();
+ 
+  );
+    expect(screen.getByRole('heading', { name: 'Torta Vegana de Chocolate', level: 6 })) 
+      .toBeInTheDocument(); 
   });
 });
+
+
+
+
