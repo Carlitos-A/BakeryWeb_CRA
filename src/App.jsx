@@ -15,6 +15,7 @@ import Procesos from './pages/Procesos'
 import NuestraHistoria from './pages/NuestraHistoria'
 import Equipo from './pages/Equipo'
 import Comunidad from './pages/Comunidad'
+import AgregarProducto from './pages/AgregarProducto.jsx'
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path='/comunidad' element={<Comunidad />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/Registro" element={<Registro />} />
+            <Route path="/agregar" element={<AgregarProducto />} />
           </Routes>
           <Footer />
     </React.StrictMode>

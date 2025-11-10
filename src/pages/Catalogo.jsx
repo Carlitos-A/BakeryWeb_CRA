@@ -1,22 +1,72 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/style.css';
-import { productos } from '../constantes/productos.js';
-
 import { catalogoItems } from '../constantes/catalogoItems.js';
 import { useCart } from '../components/CartContext.jsx';
 import { useParams, useNavigate } from "react-router-dom";
 
 
 export default function Catalogo() {
-
     const { addToCart } = useCart();
     const navigate = useNavigate();
     const { categoria } = useParams();
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("Todos los productos");
 
+    //Conexion con Backend para obtener productos
+
+    const [productos, setProductos] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+
+
+
+    useEffect(() => {
+
+        const fetchProductos = async () => {
+            try {
+                const response = await fetch("http://localhost:8083/api/v1/Productos");
+
+                if (!response.ok) {
+                    throw new Error("Error al obtener productos");
+                }
+
+                const data = await response.json();
+
+                const productosList = data._embedded
+                    ? Object.values(data._embedded)[0]
+                    : Array.isArray(data)
+                        ? data
+                        : [];
+
+
+                const adaptados = productosList.map(p => ({
+                    id: p.id_producto,
+                    title: p.nombre,
+                    category: p.categoria,
+                    description: p.descripcion,
+                    price: p.precio,
+                    sku: p.sku,
+                    stock: p.stock,
+                    img: p.enlaceimg,
+                }));
+
+                setProductos(adaptados);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProductos();
+    }, []);
+
+
+
+    //Conexion con Backend para obtener productos}
+
     useEffect(() => {
         if (categoria) {
-
             const catNombre = categoria.replace(/-/g, " ");
             setCategoriaSeleccionada(catNombre);
         } else {
@@ -34,6 +84,8 @@ export default function Catalogo() {
 
 
 
+    if (loading) return <p className="text-center mt-5">Cargando productos...</p>;
+    if (error) return <p className="text-center text-danger mt-5">{error}</p>;
 
     return (
 
@@ -47,17 +99,20 @@ export default function Catalogo() {
                     <aside className="col-md-3 mb-4">
                         <div className="p-3 bg-white rounded shadow-sm">
                             <h5 className="mb-3 text-center">Filtrar por categoría</h5>
-                            <ul className="list-group">
+                            <ul className="list-group mb-3">
                                 {catalogoItems.map((item) => (
                                     <li
                                         key={item.id}
-                                        className={`list-group-item list-group-item-action ${categoriaSeleccionada.toLowerCase().trim() === item.name.toLowerCase().trim() ? "active" : ""
+                                        className={`list-group-item list-group-item-action ${categoriaSeleccionada.toLowerCase().trim() === item.name.toLowerCase().trim()
+                                                ? "active"
+                                                : ""
                                             }`}
                                         style={{ cursor: "pointer" }}
                                         onClick={() => {
-                                            const ruta = item.name === "Todos los productos"
-                                                ? "/catalogo"
-                                                : `/catalogo/${item.name.toLowerCase().replace(/\s+/g, "-")}`;
+                                            const ruta =
+                                                item.name === "Todos los productos"
+                                                    ? "/catalogo"
+                                                    : `/catalogo/${item.name.toLowerCase().replace(/\s+/g, "-")}`;
                                             navigate(ruta);
                                         }}
                                     >
@@ -65,6 +120,18 @@ export default function Catalogo() {
                                     </li>
                                 ))}
                             </ul>
+
+                           
+                             {/* {esAdmin && (*/}
+                                <div className="text-center mt-3">
+                                    <button
+                                        className="btn btn-color-car w-100"
+                                        onClick={() => navigate("/agregar")}
+                                    >
+                                        Agregar producto
+                                    </button>
+                                </div>
+                            {/* )}  */}
                         </div>
                     </aside>
 
@@ -72,13 +139,17 @@ export default function Catalogo() {
 
                     <div className="col-md-9">
 
-                            <h4 className="mb-4 text-dark">
-                                {categoriaSeleccionada === "Todos los productos"
-                                    ? "Todos los productos"
-                                    : `Categoría: ${categoriaSeleccionada}`}
-                            </h4>
+                        <h4 className="mb-4 text-dark">
+                            {categoriaSeleccionada === "Todos los productos"
+                                ? "Todos los productos"
+                                : `Categoría: ${categoriaSeleccionada}`}
+                        </h4>
+
+
 
                         <div className="row g-4">
+
+
                             {productosFiltrados.length > 0 ? (
                                 productosFiltrados.map((product) => (
                                     <div key={product.id} className="col-sm-6 col-md-4 col-lg-3">
