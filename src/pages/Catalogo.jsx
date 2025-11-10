@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/style.css';
+import '../styles/Catalogo.css';
+import { productos } from '../constantes/productos.js';
 import { catalogoItems } from '../constantes/catalogoItems.js';
 import { useCart } from '../components/CartContext.jsx';
 import { useParams, useNavigate } from "react-router-dom";
-
 
 export default function Catalogo() {
     const { addToCart } = useCart();
@@ -189,9 +189,23 @@ export default function Catalogo() {
                                 <p className="text-muted">No hay productos en esta categoría.</p>
                             )}
                         </div>
+                        <button
+                          className="btn-agregar"
+                          onClick={() => addToCart(product)}
+                        >
+                          Agregar al carrito
+                        </button>
+                      </div>
                     </div>
-                </div>
-            </div >
-        </div >
-    );
+                  </div>
+                ))
+              ) : (
+                <p className="sin-productos">No hay productos en esta categoría.</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

@@ -1,12 +1,12 @@
-import React from 'react'
-import { useCart } from '../components/CartContext'
+import React from 'react';
+import { useCart } from '../components/CartContext';
 import {
   PrevButton,
   NextButton,
   usePrevNextButtons
-} from './EmblaCarouselArrowButtons'
-import useEmblaCarousel from 'embla-carousel-react'
-import { masVendidos } from '../constantes/masVendidos'
+} from './EmblaCarouselArrowButtons';
+import useEmblaCarousel from 'embla-carousel-react';
+import { masVendidos } from '../constantes/masVendidos';
 
 const EmblaCarousel = ({ options }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(options)

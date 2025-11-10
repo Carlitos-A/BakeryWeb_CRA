@@ -1,19 +1,47 @@
 import React, { useState } from 'react';
 import { useAuth } from '../constantes/validarUsuario';
-import '../styles/style.css';
+import '../styles/Login.css';
 
 function Login() {
     const [usuario, setUsuario] = useState('');
     const [contrasena, setContrasena] = useState('');
     const [showModal, setShowModal] = useState(false);
     const { login } = useAuth();
+    
 
     const user = "Admin";
     const pass = "123456";
 
     const handleLogin = (e) => {
         e.preventDefault();
-        
+
+        const usuariosGuardados = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
+
+        const usuarioEncontrado = usuariosGuardados.find(
+          (u) => u.usuario === usuario && u.contrasena === contrasena
+        );
+
+        if (usuarioEncontrado) {
+            login(usuarioEncontrado.usuario);
+            localStorage.setItem("usuarioActivo", JSON.stringify(usuarioEncontrado));
+            window.location.href = "/";
+        } else if (usuario === "Admin" && contrasena === "123456") {
+            login("Admin");
+            localStorage.setItem("usuarioActivo", JSON.stringify({ usuario: "Admin" }));
+            window.location.href = "/";
+        } else {
+            setUsuario('');
+            setContrasena('');
+            setShowModal(true);
+        }
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
+
+    /*
+    
         if (usuario === user && contrasena === pass) {
             login(usuario);
             window.location.href = "/";
@@ -27,11 +55,12 @@ function Login() {
     const closeModal = () => {
         setShowModal(false);
     };
+    */
 
     return (
         <div>
-            <main className="d-flex justify-content-center align-items-center vh-100">
-                <div className="w-50 w-md-25 text-center">
+            <main className="login-main">
+                <div className="login-box">
                     <h2>Inicio de sesión</h2>
                     <form onSubmit={handleLogin}>
                         <div className="mb-3">

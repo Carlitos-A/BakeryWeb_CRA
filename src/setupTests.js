@@ -1,4 +1,4 @@
-// src/setupTests.js
+
 import jasmineDom from '@testing-library/jasmine-dom';
 import { cleanup } from '@testing-library/react';
 

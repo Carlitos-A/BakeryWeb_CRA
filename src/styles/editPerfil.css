@@ -1,0 +1,91 @@
+* {
+  font-family: "Lato", sans-serif;  /* Aplica la fuente Lato a todos los elementos */
+}
+
+:root {
+    --bg-primary: #FFF5E1;
+    --bg-secondary: white;
+    --text-primary: #8B4513;
+    
+  }
+
+.edit-perfil-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Alinea el contenido al inicio */
+  padding: 20px;
+  font-family: "Lato", sans-serif;
+}
+
+/* Encabezado que contiene la imagen y el título */
+.perfil-header {
+  display: flex;
+  justify-content: flex-start; /* Alinea los elementos del encabezado hacia la izquierda */
+  width: 100%;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Estilo para la imagen de perfil, alineada a la derecha */
+.perfil-imagen {
+  margin-left: auto; /* Alinea la imagen a la derecha */
+  margin-right: 0;  /* Elimina cualquier margen derecho */
+}
+
+.perfil-imagen img {
+  width: 200px;  /* Ajusta el tamaño de la imagen */
+  height: 200px; /* Ajusta el tamaño de la imagen */
+}
+
+/* Contenedor del contenido de perfil (texto y formulario) */
+.perfil-info {
+  flex-grow: 1; /* Hace que el contenido crezca ocupando el espacio restante */
+}
+
+/* Estilos para la tarjeta del formulario */
+.card {
+  width: 100%;
+}
+
+/* Añadir algo de espacio entre los campos del formulario */
+.mb-3 {
+  margin-bottom: 1.5rem;
+}
+
+/* Contenedor para los botones */
+.button-container {
+  display: flex;               /* Usa flexbox para alinear los botones en fila */
+  justify-content: space-between; /* Alinea los botones con espacio entre ellos */
+  gap: 10px;                   /* Agrega un espacio fijo entre los botones */
+  width: 100%;                 /* Asegura que los botones ocupen el ancho completo */
+  max-width: 500px;            /* Evita que los botones se estiren demasiado */
+  margin: 0 auto;              /* Centra el contenedor de los botones */
+}
+
+/* Botones con un ancho responsivo */
+.button-container .btn {
+  flex: 1 1 48%;               /* Los botones ocupan un 48% del ancho disponible */
+  width: auto;                 /* Deja que el ancho de los botones sea automático */
+}
+
+/* Asegura que los botones no se vean demasiado grandes en pantallas pequeñas */
+@media (max-width: 768px) {
+  .button-container .btn {
+    width: 100%;               /* Los botones ocuparán el 100% del ancho en pantallas pequeñas */
+  }
+}
+
+
+/* Ajustar el ancho de los input-group-text */
+.input-group-text {
+  width: 200px; /* Ancho fijo para alinear correctamente */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Alinea el contenido hacia la izquierda */
+  gap: 10px; /* Espaciado entre icono y texto */
+}
+
+/* Asegurar que los inputs ocupen el resto del espacio disponible */
+.form-control {
+  width: 100%; /* Asegura que los inputs ocupen el 100% del espacio disponible */
+}
