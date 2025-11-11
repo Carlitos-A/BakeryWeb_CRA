@@ -4,7 +4,7 @@ import { reviews } from '../constantes/reviews';
 import React, { useState, useEffect } from 'react';
 import EmblaCarousel from '../components/EmblaCarousel';
 import { Link } from 'react-router-dom';
-
+import '../styles/embla.css';
 
 
 export default function App() {
