@@ -8,8 +8,6 @@ import '../styles/embla.css';
 
 
 export default function App() {
-  const [startIndex, setIndex] = useState(0);
-  const total = masVendidos.length;
   const SLIDE_COUNT = 3;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   const OPTIONS = { align: 'start' };
