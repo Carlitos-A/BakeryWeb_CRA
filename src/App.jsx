@@ -25,6 +25,7 @@ import BakeryBlog from './pages/BakeryBlog'
 import BakeryNews from './pages/BakeryNews'
 import BakeryConsejos from './pages/BakeryConsejos'
 import RecetasChilenas from './pages/RecetasChilenas'
+import AgregarProducto from './pages/AgregarProducto';
 
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
             <Route path="/bakeryNews" element={<BakeryNews/>}/>
             <Route path="/bakeryConsejos" element={<BakeryConsejos/>}/>
             <Route path="/RecetasChilenas" element={<RecetasChilenas/>}/>
+            <Route path="/AgregarProducto" element={<AgregarProducto/>}/>
            </Routes>
           <Footer />
            </AuthProvider>
