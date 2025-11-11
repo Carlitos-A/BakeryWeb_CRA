@@ -11,17 +11,12 @@ export default function Catalogo() {
     const { categoria } = useParams();
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("Todos los productos");
 
-    //Conexion con Backend para obtener productos
-
+    // Conexion con Backend para obtener productos
     const [productos, setProductos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-
-
-
     useEffect(() => {
-
         const fetchProductos = async () => {
             try {
                 const response = await fetch("http://localhost:8083/api/v1/Productos");
@@ -37,7 +32,6 @@ export default function Catalogo() {
                     : Array.isArray(data)
                         ? data
                         : [];
-
 
                 const adaptados = productosList.map(p => ({
                     id: p.id_producto,
@@ -61,10 +55,6 @@ export default function Catalogo() {
         fetchProductos();
     }, []);
 
-
-
-    //Conexion con Backend para obtener productos}
-
     useEffect(() => {
         if (categoria) {
             const catNombre = categoria.replace(/-/g, " ");
@@ -78,21 +68,14 @@ export default function Catalogo() {
         categoriaSeleccionada === "Todos los productos"
             ? productos
             : productos.filter(
-                (p) => p.category.toLowerCase() === categoriaSeleccionada.toLowerCase()
+                (p) => (p.category || '').toLowerCase() === categoriaSeleccionada.toLowerCase()
             );
-
-
-
 
     if (loading) return <p className="text-center mt-5">Cargando productos...</p>;
     if (error) return <p className="text-center text-danger mt-5">{error}</p>;
 
     return (
-
-
         <div className="d-flex flex-column min-vh-100 bg-custom">
-
-
             <div className="container my-5">
                 <div className="row">
                     {/* Barra lateral */}
@@ -121,35 +104,26 @@ export default function Catalogo() {
                                 ))}
                             </ul>
 
-                           
-                             {/* {esAdmin && (*/}
-                                <div className="text-center mt-3">
-                                    <button
-                                        className="btn btn-color-car w-100"
-                                        onClick={() => navigate("/agregar")}
-                                    >
-                                        Agregar producto
-                                    </button>
-                                </div>
-                            {/* )}  */}
+                            <div className="text-center mt-3">
+                                <button
+                                    className="btn btn-color-car w-100"
+                                    onClick={() => navigate("/AgregarProducto")}
+                                >
+                                    Agregar producto
+                                </button>
+                            </div>
                         </div>
                     </aside>
 
                     {/* Productos */}
-
                     <div className="col-md-9">
-
                         <h4 className="mb-4 text-dark">
                             {categoriaSeleccionada === "Todos los productos"
                                 ? "Todos los productos"
                                 : `Categoría: ${categoriaSeleccionada}`}
                         </h4>
 
-
-
                         <div className="row g-4">
-
-
                             {productosFiltrados.length > 0 ? (
                                 productosFiltrados.map((product) => (
                                     <div key={product.id} className="col-sm-6 col-md-4 col-lg-3">
@@ -157,7 +131,7 @@ export default function Catalogo() {
                                             <img
                                                 src={product.img}
                                                 className="card-img-top rounded-top"
-                                                alt={product.alt}
+                                                alt={product.title || 'producto'}
                                                 style={{ objectFit: "cover", height: "180px" }}
                                             />
                                             <div className="card-body d-flex flex-column justify-content-between">
@@ -189,23 +163,9 @@ export default function Catalogo() {
                                 <p className="text-muted">No hay productos en esta categoría.</p>
                             )}
                         </div>
-                        <button
-                          className="btn-agregar"
-                          onClick={() => addToCart(product)}
-                        >
-                          Agregar al carrito
-                        </button>
-                      </div>
                     </div>
-                  </div>
-                ))
-              ) : (
-                <p className="sin-productos">No hay productos en esta categoría.</p>
-              )}
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }

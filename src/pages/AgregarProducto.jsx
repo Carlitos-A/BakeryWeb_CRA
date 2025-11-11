@@ -38,14 +38,14 @@ export default function AgregarProducto() {
       });
 
       if (respuesta.ok) {
-        setMensaje("✅ Producto agregado correctamente");
+        setMensaje("Producto agregado correctamente");
         setProducto({ nombre: "", descripcion: "", precio: "", stock: "", imagenUrl: "" });
       } else {
         const error = await respuesta.text();
-        setMensaje(`❌ Error al agregar producto: ${error}`);
+        setMensaje(`Error al agregar producto: ${error}`);
       }
     } catch (err) {
-      setMensaje(`⚠️ Error de conexión: ${err.message}`);
+      setMensaje(`Error de conexión: ${err.message}`);
     }
   };
 
@@ -107,7 +107,7 @@ export default function AgregarProducto() {
         </label>
 
         <button type="submit" className="btn-agregar">
-          ➕ Agregar Producto
+          Agregar Producto
         </button>
       </form>
 
