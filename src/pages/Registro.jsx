@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/Registrar.css"; 
+import "../styles/Registrar.css";
+import { auth } from "../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 function Registrar() {
   const navigate = useNavigate();
@@ -18,7 +20,10 @@ function Registrar() {
     codigoDesc: "",
     contrasena: "",
     confirmarcontrasena: "",
+    rol: "COMPRADOR",
   });
+
+  //AQUI DEFINO EL ROL COMO COMPRADOR POR DEFECTO, YA QUE EL UNICO CAPAZ DE CAMBIAR ESO DEBE SER EL ADMIN (AUN NO IMPLEMENTADO)
 
   const [maxFecha, setMaxFecha] = useState("");
   const [modal, setModal] = useState({ show: false, title: "", message: "", type: "" });
@@ -30,13 +35,10 @@ function Registrar() {
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setFormData({
-      ...formData,
-      [id]: value,
-    });
+    setFormData({ ...formData, [id]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (formData.contrasena !== formData.confirmarcontrasena) {
@@ -49,71 +51,88 @@ function Registrar() {
       return;
     }
 
-    const usuariosGuardados = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        formData.correo,
+        formData.contrasena
+      );
+      //SE USA FIREBASE PARA AUTENTICAR AL USUARIO, SE LE ENTREGA EL AUTH QUE SE INICIALIZA EN FIREBASE.JS, EL CORREO Y LA CONTRASEÑA
 
-    const usuarioExistente = usuariosGuardados.find(
-      (u) => u.usuario === formData.usuario || u.correo === formData.correo
-    );
+      const user = userCredential.user;
+      const idToken = await user.getIdToken();
 
-    if (usuarioExistente) {
+      // ESTO ENVIA LOS DATOS DEL USUARIO AL BACKEND PARA GUARDARLOS EN LA BASE DE DATOS COMO SE HIZO EN PRODUCTO PERO EN VEZ DE DEJARSE SOLO UN FETCH
+      //SE DEFINE TODO DENTRO DEL FETCH PARA QUE HAGA EL POST A LA RUTA CORRECTA Y CON LOS HEADERS Y BODY NECESARIOS
+      const response = await fetch("http://localhost:8081/usuarios/registrar", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${idToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nombre: formData.nombre,
+          usuario: formData.usuario,
+          correo: formData.correo,
+          celular: formData.celular,
+          genero: formData.genero,
+          fechaNacimiento: formData.fechaNacimiento,
+          pais: formData.pais,
+          ciudad: formData.ciudad,
+          direccion: formData.direccion,
+          codigoDesc: formData.codigoDesc,
+          rol: formData.rol,
+        }),
+      });
+      //RESPONSE.OK ES UN ESTADO DEL OBJETO QUE INDICA QUE LA RESPUESTA FUE EXITOSA 
+      if (response.ok) {
+        setModal({
+          show: true,
+          title: "Registro exitoso",
+          message: "El usuario se ha registrado correctamente.",
+          type: "success", //COLORCITO VERDE PARA EL MODAL KIAKIA
+        });
+
+        setFormData({
+          usuario: "",
+          nombre: "",
+          correo: "",
+          celular: "",
+          genero: "",
+          fechaNacimiento: "",
+          pais: "",
+          ciudad: "",
+          direccion: "",
+          codigoDesc: "",
+          contrasena: "",
+          confirmarcontrasena: "",
+        });
+        //TE MANDA ALTIRO AL LOGIN DESPUES DE REGISTRARTE
+        setTimeout(() => navigate("/login"), 2000);
+      } else {
+        const errorMsg = await response.text();
+        throw new Error(errorMsg || "Error al guardar datos en el servidor.");
+      }
+
+    } catch (error) {
+      console.error(error);
       setModal({
         show: true,
         title: "Error",
-        message: "El usuario o correo ya están registrados.",
+        message: error.message.includes("email-already-in-use")
+          ? "El correo ya está registrado en Firebase." //SI YA SE TIENE EL CORREO, ENTONCES MUESTRA ESTE MENSAJE
+          : "Error al registrar usuario. " + error.message, //SINO TE MANDA EL ERROR QUE DIO el CATCH
         type: "error",
       });
-      return;
     }
-
-    const nuevoUsuario = {
-      usuario: formData.usuario,
-      nombre: formData.nombre,
-      correo: formData.correo,
-      celular: formData.celular || "",
-      genero: formData.genero || "",
-      fechaNacimiento: formData.fechaNacimiento,
-      pais: formData.pais || "",
-      ciudad: formData.ciudad || "",
-      direccion: formData.direccion || "",
-      codigoDesc: formData.codigoDesc || null,
-      contrasena: formData.contrasena,
-    };
-
-    usuariosGuardados.push(nuevoUsuario);
-    localStorage.setItem("usuariosRegistrados", JSON.stringify(usuariosGuardados));
-
-    setModal({
-      show: true,
-      title: "Registro exitoso",
-      message: "El usuario se ha registrado correctamente.",
-      type: "success",
-    });
-
-    // Limpiar formulario
-    setFormData({
-      usuario: "",
-      nombre: "",
-      correo: "",
-      fechaNacimiento: "",
-      codigoDesc: "",
-      contrasena: "",
-      confirmarcontrasena: "",
-    });
-
-    setTimeout(() => {
-      navigate("/login");
-    }, 2000);
   };
 
   const closeModal = () => {
-
-    if (modal.type === "success") {
-      navigate("/login");
-    }
+    if (modal.type === "success") navigate("/login");
     setModal({ show: false, title: "", message: "", type: "" });
   };
 
-  return (
+  return ( //NADA CAMBIA DE AQUI EN ADELANTE
     <main className="registro-main">
       <div className="registro-box">
         <h1 className="mb-4 text-center">Registro</h1>
@@ -221,6 +240,22 @@ function Registrar() {
               onChange={handleChange}
             />
           </div>
+          {/*//EXCEPTO ESTO. ESTO PERMITE ELEGIR EL ROL DEL USUARIO AL REGISTRARSE. DEBE IMPLEMENTARSE QUE SOLO EL ADMIN PUEDE CAMBIAR ESO DESPUES*/}
+          <div className="mb-3">
+            <label htmlFor="rol" className="form-label">
+              Rol del usuario
+            </label>
+            <select
+              id="rol"
+              className="form-control"
+              value={formData.rol}
+              onChange={handleChange}
+              required
+            >
+              <option value="COMPRADOR">Comprador</option>
+              <option value="ADMIN">Administrador</option>
+            </select>
+          </div>
 
           <div className="mb-4">
             <label htmlFor="confirmarcontrasena" className="form-label">
@@ -246,7 +281,6 @@ function Registrar() {
         </form>
       </div>
 
-      {/* Modal de éxito/error */}
       {modal.show && (
         <div
           className="modal fade show d-block"
@@ -256,9 +290,8 @@ function Registrar() {
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div
-                className={`modal-header ${
-                  modal.type === "success" ? "bg-success text-white" : "bg-danger text-white"
-                }`}
+                className={`modal-header ${modal.type === "success" ? "bg-success text-white" : "bg-danger text-white"
+                  }`}
               >
                 <h5 className="modal-title">{modal.title}</h5>
                 <button type="button" className="btn-close" onClick={closeModal}></button>
