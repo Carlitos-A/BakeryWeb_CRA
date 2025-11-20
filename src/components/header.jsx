@@ -1,64 +1,75 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { catalogoItems } from '../constantes/catalogoItems';
 import CartIcon from './CartIcon';
 import { Link } from "react-router-dom";
 import { useCart } from "../components/CartContext";
 import logopasteleria from '../assets/img/icons/logo.png';
 
-
 export default function Header() {
-  const logueado = localStorage.getItem("logueado") === "true";
-  const user = localStorage.getItem("usuario");
+  const { clearCart } = useCart();
+  const [logueado, setLogueado] = useState(() => localStorage.getItem("logueado") === "true");
+  const [usuarioActivo, setUsuarioActivo] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("usuarioActivo"));
+    } catch {
+      return null;
+    }
+  });
+
+  const rol = usuarioActivo?.rol?.nombreRol;
+
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showClickDropdown, setShowClickDropdown] = useState(false);
-  const { clearCart } = useCart();
 
-  const openLogoutModal = () => {
-    setShowLogoutModal(true);
-  };
-
-  const closeLogoutModal = () => {
-    setShowLogoutModal(false);
-  };
+  const openLogoutModal = () => setShowLogoutModal(true);
+  const closeLogoutModal = () => setShowLogoutModal(false);
 
   const confirmLogout = () => {
+    localStorage.removeItem("logueado");
+    localStorage.removeItem("usuarioActivo");
+    clearCart();
+    window.dispatchEvent(new Event("usuarioDeslogueado"));
+    setShowLogoutModal(false);
+    window.location.href = "/";
+  };
 
-  localStorage.removeItem("logueado");
-  localStorage.removeItem("usuario");      
-  localStorage.removeItem("usuarioActivo"); 
-  
+  const toggleClickDropdown = () => setShowClickDropdown(!showClickDropdown);
 
-  const usuariosRegistrados = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
-  const usuarioActual = JSON.parse(localStorage.getItem("usuarioActivo")); 
-  if (usuarioActual) {
-    const usuariosActualizados = usuariosRegistrados.map(u =>
-      u.usuario === usuarioActual.usuario ? usuarioActual : u
-    );
-    localStorage.setItem("usuariosRegistrados", JSON.stringify(usuariosActualizados));
-  }
+  useEffect(() => {
+    const actualizarDesdeStorage = () => {
+      setLogueado(localStorage.getItem("logueado") === "true");
+      try {
+        setUsuarioActivo(JSON.parse(localStorage.getItem("usuarioActivo")));
+      } catch {
+        setUsuarioActivo(null);
+      }
+    };
 
+    const onUsuarioLogueado = () => actualizarDesdeStorage();
+    const onUsuarioDeslogueado = () => actualizarDesdeStorage();
+    const onStorage = (e) => {
+      if (e.key === "logueado" || e.key === "usuarioActivo") actualizarDesdeStorage();
+    };
 
-  clearCart();
-  setShowLogoutModal(false);
-  window.location.href = "/";
-};
+    window.addEventListener("usuarioLogueado", onUsuarioLogueado);
+    window.addEventListener("usuarioDeslogueado", onUsuarioDeslogueado);
+    window.addEventListener("storage", onStorage);
 
-   const toggleClickDropdown = () => {
-        setShowClickDropdown(!showClickDropdown);
-   };
-
-
+    // cleanup
+    return () => {
+      window.removeEventListener("usuarioLogueado", onUsuarioLogueado);
+      window.removeEventListener("usuarioDeslogueado", onUsuarioDeslogueado);
+      window.removeEventListener("storage", onStorage);
+    };
+  }, []);
 
   return (
     <>
       <nav className="navbar navbar-expand-lg shadow-sm position-relative">
         <div className="container-fluid">
-
-          <a className="navbar-brand" href="/">
+          <Link className="navbar-brand" to="/">
             <img className="logo" src={logopasteleria} alt="Logo Pastelería" height="80" />
-          </a>
-
+          </Link>
 
           <button
             className="navbar-toggler"
@@ -75,62 +86,30 @@ export default function Header() {
           <div className="collapse navbar-collapse" id="navbarContent">
             {/* Menú central */}
             <ul className="navbar-nav mb-2 mb-lg-0 central-menu">
-              <li className="nav-item">
-                <Link className="nav-link" to="/">
-                  Inicio
-                </Link>
-              </li>
+              <li className="nav-item"><Link className="nav-link" to="/">Inicio</Link></li>
 
               <li className="nav-item dropdown">
-                <Link to="/catalogo" className="nav-link dropdown-toggle">
-                  Catálogo</Link>
+                <Link to="/catalogo" className="nav-link dropdown-toggle">Catálogo</Link>
                 <ul className="dropdown-menu">
-                  {catalogoItems.map((item) => (
+                  {catalogoItems.map(item => (
                     <li key={item.id}>
-                      <Link className="dropdown-item" to={item.href}>
-                        {item.name}
-                      </Link>
+                      <Link className="dropdown-item" to={item.href}>{item.name}</Link>
                     </li>
                   ))}
                 </ul>
               </li>
 
               <li className="nav-item dropdown">
-                <Link className="nav-link dropdown-toggle">
-                  Sobre Nosotros
-                </Link>
-               <ul className="dropdown-menu">
-                <li>
-                  <Link className="dropdown-item" to="/nuestrahistoria">
-                    Nuestra Historia
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/equipo">
-                    Equipo
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/procesos">
-                    Procesos
-                  </Link>
-                </li>
-              </ul>
+                <Link className="nav-link dropdown-toggle">Sobre Nosotros</Link>
+                <ul className="dropdown-menu">
+                  <li><Link className="dropdown-item" to="/nuestrahistoria">Nuestra Historia</Link></li>
+                  <li><Link className="dropdown-item" to="/equipo">Equipo</Link></li>
+                  <li><Link className="dropdown-item" to="/procesos">Procesos</Link></li>
+                </ul>
               </li>
 
               <li className="nav-item dropdown">
-                <a
-                  href="/comunidad"
-                  className="nav-link dropdown-toggle"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  onClick={(e) => {
-                    window.location.href = "/comunidad";
-                  }}
-                >
-                  Comunidad
-                </a>
+                <Link to="/comunidad" className="nav-link dropdown-toggle">Comunidad</Link>
                 <ul className="dropdown-menu">
                   <li><Link className="dropdown-item" to="/bakeryBlog">Gastronomía Blog</Link></li>
                   <li><Link className="dropdown-item" to="/bakeryNews">Bakery News</Link></li>
@@ -141,33 +120,28 @@ export default function Header() {
             </ul>
 
             <form className="d-flex ms-auto" role="search">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Buscar..."
-                aria-label="Buscar"
-              />
-              <button className="btn btn-buscar" type="submit">
-                Buscar
-              </button>
+              <input className="form-control me-2" type="search" placeholder="Buscar..." aria-label="Buscar" />
+              <button className="btn btn-buscar" type="submit">Buscar</button>
             </form>
 
-
-        
+            {/* Menú derecho */}
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               {!logueado && (
                 <>
-                  <li className="nav-item">
-                    <Link to="/Login" className="nav-link">Login</Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link to="/Registro" className="nav-link">Registrarse</Link>
-                  </li>
+                  <li className="nav-item"><Link to="/Login" className="nav-link">Login</Link></li>
+                  <li className="nav-item"><Link to="/Registro" className="nav-link">Registrarse</Link></li>
                 </>
               )}
 
               {logueado && (
                 <>
+                  {rol === "ADMIN" && (
+                    <li className="nav-item"><Link to="/PanelAdministrador" className="nav-link">Panel Admin</Link></li>
+                  )}
+
+                  {rol === "CLIENTE" && (
+                    <li className="nav-item"><Link to="/MisPedidos" className="nav-link">Mis Pedidos</Link></li>
+                  )}
 
                   <li className="nav-item">
                     <div className="dropdown">
@@ -175,26 +149,21 @@ export default function Header() {
                         <i className="bi bi-bell-fill"></i>
                         <span className="badge text-bg-danger">3</span>
                       </button>
-                      {showClickDropdown && (<ul className="dropdown-menu show dropdown-menu-start">
-                        <li><Link className="dropdown-item" to="/comunidad">! Nuevo Apartado De Comunidad ¡</Link></li>
-                        <li><Link className="dropdown-item" to="/catalogo">!Oferton!: Todas las tortas en oferta</Link></li>
-                        <li><Link className="dropdown-item" to="/NuestraHistoria">Revisa nuestra Historia en Sobre Nosotros</Link></li>
-                      </ul>)}
+                      {showClickDropdown && (
+                        <ul className="dropdown-menu show dropdown-menu-start">
+                          <li><Link className="dropdown-item" to="/comunidad">! Nuevo Apartado De Comunidad ¡</Link></li>
+                          <li><Link className="dropdown-item" to="/catalogo">!Oferton!: Todas las tortas en oferta</Link></li>
+                        </ul>
+                      )}
                     </div>
                   </li>
+
+                  <li className="nav-item"><Link to="/Perfil" className="nav-link">Perfil</Link></li>
+                  <li className="nav-item"><Link to="/MisCompras" className="nav-link">Mis Compras</Link></li>
+
                   <li className="nav-item">
-                    <Link to="/Perfil" className="nav-link">Perfil</Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link to="/MisCompras" className="nav-link">Mis Compras</Link>
-                  </li>
-                  <li className="nav-item">
-                    <button
-                      className="nav-link btn btn-link border-0"
-                      onClick={openLogoutModal}
-                      style={{ textDecoration: 'none', background: 'none' }}
-                    >
-                      Cerrar Sesion ({user})
+                    <button className="nav-link btn btn-link border-0" onClick={openLogoutModal} style={{ textDecoration: 'none', background: 'none' }}>
+                      Cerrar Sesión ({usuarioActivo?.nombre})
                     </button>
                   </li>
                 </>
@@ -202,14 +171,12 @@ export default function Header() {
             </ul>
           </div>
 
-          <div className="ms-3">
-            <CartIcon />
-          </div>
+          <div className="ms-3"><CartIcon /></div>
         </div>
       </nav>
 
       {showLogoutModal && (
-        <div className="modal fade show d-block" style={{backgroundColor: 'rgba(0,0,0,0.5)'}} tabIndex="-1">
+        <div className="modal fade show d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} tabIndex="-1">
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
@@ -220,20 +187,8 @@ export default function Header() {
                 <p>¿Estás seguro de que quieres cerrar sesión?</p>
               </div>
               <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={closeLogoutModal}
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={confirmLogout}
-                >
-                  Sí, Cerrar Sesión
-                </button>
+                <button type="button" className="btn btn-secondary" onClick={closeLogoutModal}>Cancelar</button>
+                <button type="button" className="btn btn-primary" onClick={confirmLogout}>Sí, Cerrar Sesión</button>
               </div>
             </div>
           </div>
@@ -242,4 +197,3 @@ export default function Header() {
     </>
   );
 }
-

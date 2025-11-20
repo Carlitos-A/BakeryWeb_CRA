@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import '../styles/Perfil.css'; // CSS personalizado
+import '../styles/Perfil.css';
 import Logo from '../assets/img/icons/logo.png';
 
 function Perfil() {
   const [usuario, setUsuario] = useState(null);
   const [editando, setEditando] = useState(false);
   const [maxFecha, setMaxFecha] = useState('');
-  const [contraseñaActual, setContraseñaActual] = useState('');
-  const [contraseñaIncorrecta, setContraseñaIncorrecta] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const closeSuccessModal = () => setShowSuccessModal(false);
@@ -16,16 +14,17 @@ function Perfil() {
     const usuarioActivo = JSON.parse(localStorage.getItem('usuarioActivo'));
     if (usuarioActivo) {
       setUsuario({
-        nombre: usuarioActivo.nombre || '',
+        apellidoPaterno: usuarioActivo.apellidoPaterno || '',
+        apellidoMaterno: usuarioActivo.apellidoMaterno || '',
+        usuario: usuarioActivo.usuario || '',
         correo: usuarioActivo.correo || '',
-        celular: usuarioActivo.celular || '',
-        genero: usuarioActivo.genero || '',
+        telefono: usuarioActivo.telefono || '',
         fechaNacimiento: usuarioActivo.fechaNacimiento || '',
         pais: usuarioActivo.pais || '',
         ciudad: usuarioActivo.ciudad || '',
         direccion: usuarioActivo.direccion || '',
-        contrasena: usuarioActivo.contrasena || '',
-        usuario: usuarioActivo.usuario || ''
+        codigoDesc: usuarioActivo.codigoDesc || '',
+        estado: usuarioActivo.estado || ''
       });
     }
     const today = new Date();
@@ -47,21 +46,13 @@ function Perfil() {
 
   const handleGuardarCambios = (e) => {
     e.preventDefault();
-    if (contraseñaActual !== usuario.contrasena) {
-      setContraseñaIncorrecta(true);
-      return;
-    }
-    setContraseñaIncorrecta(false);
-    setEditando(false);
-
     const usuariosRegistrados = JSON.parse(localStorage.getItem('usuariosRegistrados')) || [];
     const usuariosActualizados = usuariosRegistrados.map(u =>
       u.usuario === usuario.usuario ? usuario : u
     );
-
     localStorage.setItem('usuariosRegistrados', JSON.stringify(usuariosActualizados));
     localStorage.setItem('usuarioActivo', JSON.stringify(usuario));
-    setContraseñaActual('');
+    setEditando(false);
     setShowSuccessModal(true);
   };
 
@@ -83,14 +74,34 @@ function Perfil() {
         </div>
 
         <div className="perfil-form-card shadow-sm p-4">
-          <form>
-            {/** Nombre */}
+          <form autoComplete="off">
+            {/** Apellido Paterno */}
             <div className="perfil-input-group mb-3">
-              <span className="perfil-label">Nombre:</span>
+              <span className="perfil-label">Apellido Paterno:</span>
               {editando ? (
-                <input type="text" id="nombre" value={usuario.nombre} onChange={handleChange} className="perfil-input" required />
+                <input type="text" id="apellidoPaterno" value={usuario.apellidoPaterno} onChange={handleChange} className="perfil-input" required />
               ) : (
-                <span className="perfil-texto bg-light">{usuario.nombre || '...'}</span>
+                <span className="perfil-texto bg-light">{usuario.apellidoPaterno || '...'}</span>
+              )}
+            </div>
+
+            {/** Apellido Materno */}
+            <div className="perfil-input-group mb-3">
+              <span className="perfil-label">Apellido Materno:</span>
+              {editando ? (
+                <input type="text" id="apellidoMaterno" value={usuario.apellidoMaterno} onChange={handleChange} className="perfil-input" required />
+              ) : (
+                <span className="perfil-texto bg-light">{usuario.apellidoMaterno || '...'}</span>
+              )}
+            </div>
+
+            {/** Usuario */}
+            <div className="perfil-input-group mb-3">
+              <span className="perfil-label">Usuario:</span>
+              {editando ? (
+                <input type="text" id="usuario" value={usuario.usuario} onChange={handleChange} className="perfil-input" required />
+              ) : (
+                <span className="perfil-texto bg-light">{usuario.usuario || '...'}</span>
               )}
             </div>
 
@@ -104,28 +115,13 @@ function Perfil() {
               )}
             </div>
 
-            {/** Celular */}
+            {/** Teléfono */}
             <div className="perfil-input-group mb-3">
-              <span className="perfil-label">Celular:</span>
+              <span className="perfil-label">Teléfono:</span>
               {editando ? (
-                <input type="text" id="celular" value={usuario.celular} onChange={handleChange} className="perfil-input" />
+                <input type="number" id="telefono" value={usuario.telefono} onChange={handleChange} className="perfil-input" />
               ) : (
-                <span className="perfil-texto bg-light">{usuario.celular || '...'}</span>
-              )}
-            </div>
-
-            {/** Género */}
-            <div className="perfil-input-group mb-3">
-              <span className="perfil-label">Género:</span>
-              {editando ? (
-                <select id="genero" value={usuario.genero} onChange={handleChange} className="perfil-input">
-                  <option value="">Selecciona tu género</option>
-                  <option value="masculino">Masculino</option>
-                  <option value="femenino">Femenino</option>
-                  <option value="otro">Otro</option>
-                </select>
-              ) : (
-                <span className="perfil-texto bg-light">{usuario.genero || '...'}</span>
+                <span className="perfil-texto bg-light">{usuario.telefono || '...'}</span>
               )}
             </div>
 
@@ -169,19 +165,25 @@ function Perfil() {
               )}
             </div>
 
-            {/** Contraseña actual */}
-            {editando && (
-              <div className="perfil-input-group mb-3">
-                <span className="perfil-label">Contraseña actual:</span>
-                <input type="password" value={contraseñaActual} onChange={(e) => setContraseñaActual(e.target.value)} className="perfil-input" placeholder="Introduce tu contraseña actual" />
-              </div>
-            )}
+            {/** Código de descuento */}
+            <div className="perfil-input-group mb-3">
+              <span className="perfil-label">Código de Descuento:</span>
+              {editando ? (
+                <input type="text" id="codigoDesc" value={usuario.codigoDesc} onChange={handleChange} className="perfil-input" />
+              ) : (
+                <span className="perfil-texto bg-light">{usuario.codigoDesc || '...'}</span>
+              )}
+            </div>
 
-            {contraseñaIncorrecta && (
-              <div className="text-danger mb-3">
-                La contraseña actual es incorrecta.
-              </div>
-            )}
+            {/** Estado */}
+            <div className="perfil-input-group mb-3">
+              <span className="perfil-label">Estado:</span>
+              {editando ? (
+                <input type="text" id="estado" value={usuario.estado} onChange={handleChange} className="perfil-input" />
+              ) : (
+                <span className="perfil-texto bg-light">{usuario.estado || '...'}</span>
+              )}
+            </div>
 
             {/** Botón Editar/Guardar */}
             <div className="text-center mb-3">

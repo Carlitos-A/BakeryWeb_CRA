@@ -3,14 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/Login.css';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
+import axios from 'axios';
 
 function Login() {
 
-    const navigate = useNavigate();
     const [usuario, setUsuario] = useState("");
     const [correo, setCorreo] = useState("");
     const [contrasena, setContrasena] = useState("");
     const [showModal, setShowModal] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -25,17 +27,30 @@ function Login() {
             const token = await userCredential.user.getIdToken();
             localStorage.setItem("token", token);
 
+            // Obtener datos del usuario antes de navegar
+            const response = await axios.get("http://localhost:8081/Usuarios/Personal", {
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "x-api-key": "123456789ABCDEF"
+                }
+            });
+
+            localStorage.setItem("usuarioActivo", JSON.stringify(response.data));
+            localStorage.setItem("logueado", "true");
+
+            // Disparamos un evento personalizado para que Header se actualice
+            window.dispatchEvent(new Event("usuarioLogueado"));
+
+            // Redirigimos al home después de actualizar estado
             navigate("/");
 
         } catch (error) {
             console.error("Error en login", error);
-            setUsuario('');
+            setCorreo('');
             setContrasena('');
             setShowModal(true);
-
         }
     };
-    ;
 
     const closeModal = () => {
         setShowModal(false);
