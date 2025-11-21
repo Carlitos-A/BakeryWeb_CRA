@@ -1,41 +1,82 @@
 import React, { useState, useEffect } from "react";
-import '../styles/Perfil.css'; // CSS personalizado
+import '../styles/Perfil.css';
 import Logo from '../assets/img/icons/logo.png';
+import axios from 'axios';
 
 function Perfil() {
   const [usuario, setUsuario] = useState(null);
   const [editando, setEditando] = useState(false);
   const [maxFecha, setMaxFecha] = useState('');
-  const [contraseñaActual, setContraseñaActual] = useState('');
-  const [contraseñaIncorrecta, setContraseñaIncorrecta] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const closeSuccessModal = () => setShowSuccessModal(false);
+  const closeErrorModal = () => setShowErrorModal(false);
+
 
   useEffect(() => {
-    const usuarioActivo = JSON.parse(localStorage.getItem('usuarioActivo'));
-    if (usuarioActivo) {
-      setUsuario({
-        nombre: usuarioActivo.nombre || '',
-        correo: usuarioActivo.correo || '',
-        celular: usuarioActivo.celular || '',
-        genero: usuarioActivo.genero || '',
-        fechaNacimiento: usuarioActivo.fechaNacimiento || '',
-        pais: usuarioActivo.pais || '',
-        ciudad: usuarioActivo.ciudad || '',
-        direccion: usuarioActivo.direccion || '',
-        contrasena: usuarioActivo.contrasena || '',
-        usuario: usuarioActivo.usuario || ''
-      });
-    }
-    const today = new Date();
-    setMaxFecha(today.toISOString().split('T')[0]);
+    const cargarDatos = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          setErrorMessage('No se encontró token de autenticación');
+          setShowErrorModal(true);
+          setLoading(false);
+          return;
+        }
+
+        const response = await axios.get('http://localhost:8081/Usuarios/Personal', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'x-api-key': '123456789ABCDEF'
+          }
+        });
+
+        const usuarioData = response.data;
+        setUsuario({
+          apellidoPaterno: usuarioData.apellidoPaterno || '',
+          apellidoMaterno: usuarioData.apellidoMaterno || '',
+          usuario: usuarioData.usuario || '',
+          nombre: usuarioData.nombre || '',
+          correo: usuarioData.correo || '',
+          telefono: usuarioData.telefono || '',
+          fechaNacimiento: usuarioData.fechaNacimiento || '',
+          pais: usuarioData.pais || '',
+          ciudad: usuarioData.ciudad || '',
+          direccion: usuarioData.direccion || '',
+          codigoDesc: usuarioData.codigoDesc || '',
+          estado: usuarioData.estado || ''
+        });
+
+        const today = new Date();
+        setMaxFecha(today.toISOString().split('T')[0]);
+        setLoading(false);
+
+      } catch (error) {
+        console.error('Error al cargar datos:', error);
+        setErrorMessage('Error al cargar los datos del perfil');
+        setShowErrorModal(true);
+        setLoading(false);
+      }
+    };
+
+    cargarDatos();
   }, []);
+
+  if (loading) {
+    return (
+      <main className="perfil-main text-center">
+        <p>Cargando perfil...</p>
+      </main>
+    );
+  }
 
   if (!usuario) {
     return (
       <main className="perfil-main text-center">
-        <p>Cargando perfil...</p>
+        <p>No se pudo cargar el perfil</p>
       </main>
     );
   }
@@ -45,24 +86,61 @@ function Perfil() {
     setUsuario(prev => ({ ...prev, [id]: value }));
   };
 
-  const handleGuardarCambios = (e) => {
+  const handleGuardarCambios = async (e) => {
     e.preventDefault();
-    if (contraseñaActual !== usuario.contrasena) {
-      setContraseñaIncorrecta(true);
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setErrorMessage('No se encontró token de autenticación');
+      setShowErrorModal(true);
       return;
     }
-    setContraseñaIncorrecta(false);
-    setEditando(false);
 
-    const usuariosRegistrados = JSON.parse(localStorage.getItem('usuariosRegistrados')) || [];
-    const usuariosActualizados = usuariosRegistrados.map(u =>
-      u.usuario === usuario.usuario ? usuario : u
-    );
+    const payload = {
+      apellidoPaterno: usuario.apellidoPaterno,
+      apellidoMaterno: usuario.apellidoMaterno,
+      usuario: usuario.usuario,
+      nombre: usuario.nombre,
+      correo: usuario.correo,
+      telefono: usuario.telefono,
+      fechaNacimiento: usuario.fechaNacimiento,
+      pais: usuario.pais,
+      ciudad: usuario.ciudad,
+      direccion: usuario.direccion,
+      codigoDesc: usuario.codigoDesc,
+      estado: usuario.estado
+    };
 
-    localStorage.setItem('usuariosRegistrados', JSON.stringify(usuariosActualizados));
-    localStorage.setItem('usuarioActivo', JSON.stringify(usuario));
-    setContraseñaActual('');
-    setShowSuccessModal(true);
+    try {
+      const response = await axios.put('http://localhost:8081/Usuarios/Editar', payload, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'x-api-key': '123456789ABCDEF',
+          'Content-Type': 'application/json'
+        }
+      });
+
+
+      localStorage.setItem('usuarioActivo', JSON.stringify(response.data));
+      
+      window.dispatchEvent(new Event('usuarioActualizado'));
+
+      setEditando(false);
+      setShowSuccessModal(true);
+
+    } catch (error) {
+      console.error('Error al guardar cambios:', error);
+      
+      if (error.response?.status === 401) {
+        setErrorMessage('Sesión expirada. Por favor inicia sesión nuevamente.');
+      } else if (error.response?.status === 400) {
+        setErrorMessage(error.response.data?.message || 'Datos inválidos. Verifica los campos.');
+      } else {
+        setErrorMessage('Error al guardar los cambios. Intenta nuevamente.');
+      }
+      
+      setShowErrorModal(true);
+    }
   };
 
   const handleEditClick = (e) => {
@@ -83,7 +161,7 @@ function Perfil() {
         </div>
 
         <div className="perfil-form-card shadow-sm p-4">
-          <form>
+          <form autoComplete="off">
             {/** Nombre */}
             <div className="perfil-input-group mb-3">
               <span className="perfil-label">Nombre:</span>
@@ -92,6 +170,32 @@ function Perfil() {
               ) : (
                 <span className="perfil-texto bg-light">{usuario.nombre || '...'}</span>
               )}
+            </div>
+
+            {/** Apellido Paterno */}
+            <div className="perfil-input-group mb-3">
+              <span className="perfil-label">Apellido Paterno:</span>
+              {editando ? (
+                <input type="text" id="apellidoPaterno" value={usuario.apellidoPaterno} onChange={handleChange} className="perfil-input" required />
+              ) : (
+                <span className="perfil-texto bg-light">{usuario.apellidoPaterno || '...'}</span>
+              )}
+            </div>
+
+            {/** Apellido Materno */}
+            <div className="perfil-input-group mb-3">
+              <span className="perfil-label">Apellido Materno:</span>
+              {editando ? (
+                <input type="text" id="apellidoMaterno" value={usuario.apellidoMaterno} onChange={handleChange} className="perfil-input" required />
+              ) : (
+                <span className="perfil-texto bg-light">{usuario.apellidoMaterno || '...'}</span>
+              )}
+            </div>
+
+            {/** Usuario */}
+            <div className="perfil-input-group mb-3">
+              <span className="perfil-label">Usuario:</span>
+              <span className="perfil-texto bg-light">{usuario.usuario}</span>
             </div>
 
             {/** Correo */}
@@ -104,28 +208,13 @@ function Perfil() {
               )}
             </div>
 
-            {/** Celular */}
+            {/** Teléfono */}
             <div className="perfil-input-group mb-3">
-              <span className="perfil-label">Celular:</span>
+              <span className="perfil-label">Teléfono:</span>
               {editando ? (
-                <input type="text" id="celular" value={usuario.celular} onChange={handleChange} className="perfil-input" />
+                <input type="tel" id="telefono" value={usuario.telefono} onChange={handleChange} className="perfil-input" />
               ) : (
-                <span className="perfil-texto bg-light">{usuario.celular || '...'}</span>
-              )}
-            </div>
-
-            {/** Género */}
-            <div className="perfil-input-group mb-3">
-              <span className="perfil-label">Género:</span>
-              {editando ? (
-                <select id="genero" value={usuario.genero} onChange={handleChange} className="perfil-input">
-                  <option value="">Selecciona tu género</option>
-                  <option value="masculino">Masculino</option>
-                  <option value="femenino">Femenino</option>
-                  <option value="otro">Otro</option>
-                </select>
-              ) : (
-                <span className="perfil-texto bg-light">{usuario.genero || '...'}</span>
+                <span className="perfil-texto bg-light">{usuario.telefono || '...'}</span>
               )}
             </div>
 
@@ -169,19 +258,21 @@ function Perfil() {
               )}
             </div>
 
-            {/** Contraseña actual */}
-            {editando && (
-              <div className="perfil-input-group mb-3">
-                <span className="perfil-label">Contraseña actual:</span>
-                <input type="password" value={contraseñaActual} onChange={(e) => setContraseñaActual(e.target.value)} className="perfil-input" placeholder="Introduce tu contraseña actual" />
-              </div>
-            )}
+            {/** Código de descuento */}
+            <div className="perfil-input-group mb-3">
+              <span className="perfil-label">Código de Descuento:</span>
+              {editando ? (
+                <input type="text" id="codigoDesc" value={usuario.codigoDesc} onChange={handleChange} className="perfil-input" />
+              ) : (
+                <span className="perfil-texto bg-light">{usuario.codigoDesc || '...'}</span>
+              )}
+            </div>
 
-            {contraseñaIncorrecta && (
-              <div className="text-danger mb-3">
-                La contraseña actual es incorrecta.
-              </div>
-            )}
+            {/** Estado */}
+            <div className="perfil-input-group mb-3">
+              <span className="perfil-label">Estado:</span>
+              <span className="perfil-texto bg-light">{usuario.estado || '...'}</span>
+            </div>
 
             {/** Botón Editar/Guardar */}
             <div className="text-center mb-3">
@@ -193,19 +284,42 @@ function Perfil() {
         </div>
       </div>
 
+      {/* Modal de Éxito */}
       {showSuccessModal && (
         <div className="modal fade show d-block" style={{backgroundColor: 'rgba(0,0,0,0.5)'}} tabIndex="-1">
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
-              <div className="modal-header">
+              <div className="modal-header bg-success text-white">
                 <h5 className="modal-title">Éxito</h5>
-                <button type="button" className="btn-close" onClick={closeSuccessModal}></button>
+                <button type="button" className="btn-close btn-close-white" onClick={closeSuccessModal}></button>
               </div>
               <div className="modal-body">
                 <p>Los cambios se han guardado correctamente.</p>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-primary" onClick={closeSuccessModal}>
+                  Cerrar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Error */}
+      {showErrorModal && (
+        <div className="modal fade show d-block" style={{backgroundColor: 'rgba(0,0,0,0.5)'}} tabIndex="-1">
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header bg-danger text-white">
+                <h5 className="modal-title">Error</h5>
+                <button type="button" className="btn-close btn-close-white" onClick={closeErrorModal}></button>
+              </div>
+              <div className="modal-body">
+                <p>{errorMessage}</p>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" onClick={closeErrorModal}>
                   Cerrar
                 </button>
               </div>

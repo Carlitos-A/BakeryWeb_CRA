@@ -16,11 +16,9 @@ import Procesos from './pages/Procesos';
 import NuestraHistoria from './pages/NuestraHistoria';
 import Equipo from './pages/Equipo';
 import Comunidad from './pages/Comunidad';
-import EditPerfil from './pages/editPerfil';
 import Perfil from './pages/Perfil'
 import Compras from './pages/MisCompras';
 import { AuthProvider } from "./auth/AuthContext";
-import { CartProvider } from './components/CartContext'
 import BakeryBlog from './pages/BakeryBlog'
 import BakeryNews from './pages/BakeryNews'
 import BakeryConsejos from './pages/BakeryConsejos'
@@ -43,7 +41,6 @@ function App() {
             <Route path='/comunidad' element={<Comunidad />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/Registro" element={<Registro />} />
-            <Route path='/EditarPerfil' element={<EditPerfil/>}/>
             <Route path='/Perfil' element={<Perfil/>}/>
             <Route path='/MisCompras' element={<Compras/>}/>
             <Route path="/bakeryBlog" element={<BakeryBlog />} />
