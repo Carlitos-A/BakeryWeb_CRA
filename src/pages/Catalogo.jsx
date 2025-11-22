@@ -1,31 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Catalogo.css';
-import { productos } from '../constantes/productos.js';
+import axios from "axios";
 import { catalogoItems } from '../constantes/catalogoItems.js';
 import { useCart } from '../components/CartContext.jsx';
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 export default function Catalogo() {
     const { addToCart } = useCart();
     const navigate = useNavigate();
     const { categoria } = useParams();
-    const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("Todos los productos");
 
-    // Conexion con Backend para obtener productos
+    const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("Todos los productos");
     const [productos, setProductos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // 🔹 API KEY DEL BACKEND
+   const API_KEY = "123456789ABCDEF";
+
     useEffect(() => {
         const fetchProductos = async () => {
             try {
-                const response = await fetch("http://localhost:8083/api/v1/Productos");
-
-                if (!response.ok) {
-                    throw new Error("Error al obtener productos");
-                }
-
-                const data = await response.json();
+                const response = await axios.get(
+    "http://localhost:8083/api/v1/Productos",
+    {
+        headers: {
+            "X-API-KEY": "123456789ABCDEF" 
+        }
+    }
+);
+                const data = response.data;
 
                 const productosList = data._embedded
                     ? Object.values(data._embedded)[0]
@@ -46,7 +50,7 @@ export default function Catalogo() {
 
                 setProductos(adaptados);
             } catch (err) {
-                setError(err.message);
+                setError("Error al obtener productos: " + err.message);
             } finally {
                 setLoading(false);
             }
@@ -78,6 +82,7 @@ export default function Catalogo() {
         <div className="d-flex flex-column min-vh-100 bg-custom">
             <div className="container my-5">
                 <div className="row">
+
                     {/* Barra lateral */}
                     <aside className="col-md-3 mb-4">
                         <div className="p-3 bg-white rounded shadow-sm">
@@ -86,10 +91,12 @@ export default function Catalogo() {
                                 {catalogoItems.map((item) => (
                                     <li
                                         key={item.id}
-                                        className={`list-group-item list-group-item-action ${categoriaSeleccionada.toLowerCase().trim() === item.name.toLowerCase().trim()
+                                        className={`list-group-item list-group-item-action ${
+                                            categoriaSeleccionada.toLowerCase().trim() ===
+                                            item.name.toLowerCase().trim()
                                                 ? "active"
                                                 : ""
-                                            }`}
+                                        }`}
                                         style={{ cursor: "pointer" }}
                                         onClick={() => {
                                             const ruta =
@@ -139,11 +146,6 @@ export default function Catalogo() {
                                                     <p className="small text-muted mb-1">{product.category}</p>
                                                     <h6 className="fw-bold">{product.title}</h6>
                                                     <div className="d-flex justify-content-between align-items-center">
-                                                        {product.originalPrice && (
-                                                            <span className="text-decoration-line-through text-muted small">
-                                                                {product.originalPrice} CLP
-                                                            </span>
-                                                        )}
                                                         <span className="fw-semibold text-dark">{product.price} CLP</span>
                                                     </div>
                                                 </div>
@@ -164,6 +166,7 @@ export default function Catalogo() {
                             )}
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

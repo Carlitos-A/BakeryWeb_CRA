@@ -133,7 +133,7 @@ export default function Header() {
               {logueado && (
                 <>
                   {rol === "ADMIN" && (
-                    <li className="nav-item"><Link to="/PanelAdministrador" className="nav-link">Panel Admin</Link></li>
+                    <li className="nav-item"><Link to="/PanelAdmin" className="nav-link">Panel Admin</Link></li>
                   )}
 
                   {rol === "CLIENTE" && (

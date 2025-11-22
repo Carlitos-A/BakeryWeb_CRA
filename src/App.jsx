@@ -24,6 +24,7 @@ import BakeryNews from './pages/BakeryNews'
 import BakeryConsejos from './pages/BakeryConsejos'
 import RecetasChilenas from './pages/RecetasChilenas'
 import AgregarProducto from './pages/AgregarProducto';
+import PanelAdmin from './pages/PanelAdmin.jsx';
 
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
             <Route path="/bakeryConsejos" element={<BakeryConsejos/>}/>
             <Route path="/RecetasChilenas" element={<RecetasChilenas/>}/>
             <Route path="/AgregarProducto" element={<AgregarProducto/>}/>
+            <Route path="/PanelAdmin" element={<PanelAdmin/>}/>
            </Routes>
           <Footer />
            </AuthProvider>
