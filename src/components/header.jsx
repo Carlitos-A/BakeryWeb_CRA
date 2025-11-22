@@ -54,8 +54,7 @@ export default function Header() {
     window.addEventListener("usuarioLogueado", onUsuarioLogueado);
     window.addEventListener("usuarioDeslogueado", onUsuarioDeslogueado);
     window.addEventListener("storage", onStorage);
-
-    // cleanup
+    
     return () => {
       window.removeEventListener("usuarioLogueado", onUsuarioLogueado);
       window.removeEventListener("usuarioDeslogueado", onUsuarioDeslogueado);

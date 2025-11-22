@@ -46,7 +46,6 @@ function Perfil() {
           pais: usuarioData.pais || '',
           ciudad: usuarioData.ciudad || '',
           direccion: usuarioData.direccion || '',
-          codigoDesc: usuarioData.codigoDesc || '',
           estado: usuarioData.estado || ''
         });
 
@@ -107,7 +106,6 @@ function Perfil() {
       pais: usuario.pais,
       ciudad: usuario.ciudad,
       direccion: usuario.direccion,
-      codigoDesc: usuario.codigoDesc,
       estado: usuario.estado
     };
 
@@ -255,16 +253,6 @@ function Perfil() {
                 <input type="text" id="direccion" value={usuario.direccion} onChange={handleChange} className="perfil-input" />
               ) : (
                 <span className="perfil-texto bg-light">{usuario.direccion || '...'}</span>
-              )}
-            </div>
-
-            {/** Código de descuento */}
-            <div className="perfil-input-group mb-3">
-              <span className="perfil-label">Código de Descuento:</span>
-              {editando ? (
-                <input type="text" id="codigoDesc" value={usuario.codigoDesc} onChange={handleChange} className="perfil-input" />
-              ) : (
-                <span className="perfil-texto bg-light">{usuario.codigoDesc || '...'}</span>
               )}
             </div>
 

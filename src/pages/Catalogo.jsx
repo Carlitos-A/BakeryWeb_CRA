@@ -4,6 +4,8 @@ import { productos } from '../constantes/productos.js';
 import { catalogoItems } from '../constantes/catalogoItems.js';
 import { useCart } from '../components/CartContext.jsx';
 import { useParams, useNavigate } from "react-router-dom";
+import { obtenerProductos } from '../api/productosService.js';
+
 
 export default function Catalogo() {
     const { addToCart } = useCart();
@@ -19,13 +21,8 @@ export default function Catalogo() {
     useEffect(() => {
         const fetchProductos = async () => {
             try {
-                const response = await fetch("http://localhost:8083/api/v1/Productos");
+                const data = await obtenerProductos();
 
-                if (!response.ok) {
-                    throw new Error("Error al obtener productos");
-                }
-
-                const data = await response.json();
 
                 const productosList = data._embedded
                     ? Object.values(data._embedded)[0]
