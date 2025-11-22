@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/Registrar.css"; 
+import "../styles/Registrar.css";
+import { registrarUsuario } from "../api/usuarioService";
 
 function Registrar() {
   const navigate = useNavigate();
@@ -8,8 +9,11 @@ function Registrar() {
   const [formData, setFormData] = useState({
     usuario: "",
     nombre: "",
+    apellidoPaterno: "",
+    run: "",
+    dv: "",
     correo: "",
-    celular: "",
+    telefono: "",
     genero: "",
     fechaNacimiento: "",
     pais: "",
@@ -18,70 +22,63 @@ function Registrar() {
     codigoDesc: "",
     contrasena: "",
     confirmarcontrasena: "",
+    rol:{
+    idRol: 2,
+    nombreRol: "CLIENTE"
+  },
   });
 
-  const [maxFecha, setMaxFecha] = useState("");
-  const [modal, setModal] = useState({ show: false, title: "", message: "", type: "" });
+//AQUI DEFINO EL ROL COMO COMPRADOR POR DEFECTO, YA QUE EL UNICO CAPAZ DE CAMBIAR ESO DEBE SER EL ADMIN (AUN NO IMPLEMENTADO)
 
-  useEffect(() => {
-    const today = new Date().toISOString().split("T")[0];
-    setMaxFecha(today);
-  }, []);
+const [maxFecha, setMaxFecha] = useState("");
+const [modal, setModal] = useState({ show: false, title: "", message: "", type: "" });
 
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFormData({
-      ...formData,
-      [id]: value,
+useEffect(() => {
+  const today = new Date().toISOString().split("T")[0];
+  setMaxFecha(today);
+}, []);
+
+const handleChange = (e) => {
+  const { id, value } = e.target;
+  setFormData({ ...formData, [id]: value });
+};
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  //Confirmacion de contraseñas iguales en el formulario
+  if (formData.contrasena !== formData.confirmarcontrasena) {
+    setModal({
+      show: true,
+      title: "Error",
+      message: "Las contraseñas no coinciden.",
+      type: "error",
     });
-  };
+    return;
+  }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  try {
 
-    if (formData.contrasena !== formData.confirmarcontrasena) {
-      setModal({
-        show: true,
-        title: "Error",
-        message: "Las contraseñas no coinciden.",
-        type: "error",
-      });
-      return;
-    }
-
-    const usuariosGuardados = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
-
-    const usuarioExistente = usuariosGuardados.find(
-      (u) => u.usuario === formData.usuario || u.correo === formData.correo
-    );
-
-    if (usuarioExistente) {
-      setModal({
-        show: true,
-        title: "Error",
-        message: "El usuario o correo ya están registrados.",
-        type: "error",
-      });
-      return;
-    }
-
-    const nuevoUsuario = {
+    // Registrar en backend usando AXIOS (Post usando bearer token y etc) cosas que antes se definian manualmente con el fecth
+    await registrarUsuario({
       usuario: formData.usuario,
       nombre: formData.nombre,
+      apellidoPaterno: formData.apellidoPaterno,
+      run: formData.run,
+      dv: formData.dv,
       correo: formData.correo,
-      celular: formData.celular || "",
-      genero: formData.genero || "",
+      telefono: formData.telefono,
+      genero: formData.genero,
       fechaNacimiento: formData.fechaNacimiento,
-      pais: formData.pais || "",
-      ciudad: formData.ciudad || "",
-      direccion: formData.direccion || "",
-      codigoDesc: formData.codigoDesc || null,
+      pais: formData.pais,
+      ciudad: formData.ciudad,
+      direccion: formData.direccion,
+      codigoDesc: formData.codigoDesc,
       contrasena: formData.contrasena,
-    };
+      rol: formData.rol,
+    });
 
-    usuariosGuardados.push(nuevoUsuario);
-    localStorage.setItem("usuariosRegistrados", JSON.stringify(usuariosGuardados));
-
+    // Si todo sale bien (considerando que todo esto esta dentro de un catch)
     setModal({
       show: true,
       title: "Registro exitoso",
@@ -89,194 +86,277 @@ function Registrar() {
       type: "success",
     });
 
-    // Limpiar formulario
+    // Reset formulario
     setFormData({
       usuario: "",
       nombre: "",
+      apellidoPaterno: "",
+      run: "",
+      dv: "",
       correo: "",
+      telefono: "",
+      genero: "",
       fechaNacimiento: "",
+      pais: "",
+      ciudad: "",
+      direccion: "",
       codigoDesc: "",
       contrasena: "",
       confirmarcontrasena: "",
+      rol: "COMPRADOR",
     });
 
-    setTimeout(() => {
-      navigate("/login");
-    }, 2000);
-  };
+    // Redirigir de una a login despues de 2 segundos (para que el usuario vea el modal, se ve mas lindo, mas profesional)
+    setTimeout(() => navigate("/login"), 2000);
+    //En caso de error, mostrar modal con el error respectivo
+  } catch (error) {
+    console.error(error);
+    setModal({
+      show: true,
+      title: "Error",
+      //Si ya se tiene el correo registrado en firebase, mostrar mensaje especifico
+      message: error.message.includes("email-already-in-use")
+        ? "El correo ya está registrado en Firebase."
+        //Sino mostrar mensaje generico con el error
+        : "Error al registrar usuario. " + error.message,
+      type: "error",
+    });
+  }
+};
 
-  const closeModal = () => {
+const closeModal = () => {
+  if (modal.type === "success") navigate("/login");
+  setModal({ show: false, title: "", message: "", type: "" });
+};
 
-    if (modal.type === "success") {
-      navigate("/login");
-    }
-    setModal({ show: false, title: "", message: "", type: "" });
-  };
+return ( //NADA CAMBIA DE AQUI EN ADELANTE
+  <main className="registro-main">
+    <div className="registro-box">
+      <h1 className="mb-4 text-center">Registro</h1>
+      <form onSubmit={handleSubmit}>
 
-  return (
-    <main className="registro-main">
-      <div className="registro-box">
-        <h1 className="mb-4 text-center">Registro</h1>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="usuario" className="form-label">
-              Nombre de usuario
-            </label>
+        {/* Usuario */}
+        <div className="mb-3">
+          <label htmlFor="usuario" className="form-label">Nombre de usuario</label>
+          <input
+            type="text"
+            className="form-control"
+            id="usuario"
+            required
+            placeholder="Nombre de usuario"
+            pattern="[A-Za-z][A-Za-z0-9\-]*"
+            minLength="3"
+            maxLength="30"
+            title="Solo letras, números o guión"
+            value={formData.usuario}
+            onChange={handleChange}
+          />
+        </div>
+
+        {/* Nombre */}
+        <div className="mb-3">
+          <label htmlFor="nombre" className="form-label">Nombre</label>
+          <input
+            type="text"
+            className="form-control"
+            id="nombre"
+            required
+            placeholder="Nombre completo"
+            pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]+"
+            maxLength="50"
+            title="Solo letras y espacios"
+            value={formData.nombre}
+            onChange={handleChange}
+          />
+        </div>
+
+        {/* Apellido paterno */}
+        <div className="mb-3">
+          <label htmlFor="apellidoPaterno" className="form-label">Apellido paterno</label>
+          <input
+            type="text"
+            className="form-control"
+            id="apellidoPaterno"
+            required
+            maxLength="30"
+            pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]+"
+            placeholder="Apellido paterno"
+            value={formData.apellidoPaterno}
+            onChange={handleChange}
+          />
+        </div>
+
+        {/* Run */}
+        <div className="mb-3">
+          <label className="form-label">RUN</label>
+          <div className="d-flex align-items-center gap-2">
+            <input
+              type="number"
+              className="form-control"
+              id="run"
+              required
+              min="1000000"
+              max="99999999"
+              placeholder="RUN sin dígito verificador"
+              value={formData.run}
+              onChange={handleChange}
+            />
+
+            <span>-</span>
+
             <input
               type="text"
               className="form-control"
-              id="usuario"
+              id="dv"
               required
-              placeholder="Nombre de usuario"
-              pattern="[A-Za-z][A-Za-z0-9\-]*"
-              minLength="3"
-              maxLength="30"
-              title="Solo letras, números o guión"
-              value={formData.usuario}
+              maxLength="1"
+              pattern="[0-9Kk]"
+              placeholder="DV"
+              value={formData.dv}
               onChange={handleChange}
             />
           </div>
+        </div>
 
-          <div className="mb-3">
-            <label htmlFor="nombre" className="form-label">
-              Nombre
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="nombre"
-              required
-              placeholder="Nombre completo"
-              pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]+"
-              minLength="3"
-              maxLength="30"
-              title="Solo letras y espacios"
-              value={formData.nombre}
-              onChange={handleChange}
-            />
-          </div>
+        {/* Correo */}
+        <div className="mb-3">
+          <label htmlFor="correo" className="form-label">Correo electrónico</label>
+          <input
+            type="email"
+            className="form-control"
+            id="correo"
+            required
+            maxLength="100"
+            placeholder="Correo electrónico"
+            value={formData.correo}
+            onChange={handleChange}
+          />
+        </div>
 
-          <div className="mb-3">
-            <label htmlFor="correo" className="form-label">
-              Correo electrónico
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="correo"
-              placeholder="mail@site.com"
-              required
-              value={formData.correo}
-              onChange={handleChange}
-            />
-          </div>
+        {/* Teléfono */}
+        <div className="mb-3">
+          <label htmlFor="telefono" className="form-label">Teléfono</label>
+          <input
+            type="number"
+            className="form-control"
+            id="telefono"
+            max="999999999"
+            placeholder="Teléfono"
+            value={formData.telefono}
+            onChange={handleChange}
+          />
+        </div>
 
-          <div className="mb-3">
-            <label htmlFor="fechaNacimiento" className="form-label">
-              Fecha de Nacimiento
-            </label>
-            <input
-              type="date"
-              className="form-control"
-              id="fechaNacimiento"
-              max={maxFecha}
-              required
-              value={formData.fechaNacimiento}
-              onChange={handleChange}
-            />
-          </div>
+        {/* Fecha de nacimiento */}
+        <div className="mb-3">
+          <label htmlFor="fechaNacimiento" className="form-label">Fecha de nacimiento</label>
+          <input
+            type="date"
+            className="form-control"
+            id="fechaNacimiento"
+            required
+            max={maxFecha}
+            placeholder="Fecha de nacimiento"
+            value={formData.fechaNacimiento}
+            onChange={handleChange}
+          />
+        </div>
 
-          <div className="mb-3">
-            <label htmlFor="codigoDesc" className="form-label">
-              Código de descuento
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="codigoDesc"
-              placeholder="Código Descuento (opcional)"
-              pattern="[A-Za-z][A-Za-z0-9\-]*"
-              minLength="3"
-              maxLength="30"
-              title="Solo letras, números o guión"
-              value={formData.codigoDesc}
-              onChange={handleChange}
-            />
-          </div>
+        {/* Dirección */}
+        <div className="mb-3">
+          <label htmlFor="direccion" className="form-label">Dirección</label>
+          <input
+            type="text"
+            className="form-control"
+            id="direccion"
+            maxLength="100"
+            placeholder="Dirección"
+            value={formData.direccion}
+            onChange={handleChange}
+          />
+        </div>
 
-          <div className="mb-3">
-            <label htmlFor="contrasena" className="form-label">
-              Contraseña
-            </label>
-            <input
-              type="password"
-              className="form-control"
-              id="contrasena"
-              placeholder="Contraseña"
-              minLength="6"
-              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
-              title="Debe contener más de 6 caracteres, incluyendo número, mayúscula y minúscula"
-              required
-              value={formData.contrasena}
-              onChange={handleChange}
-            />
-          </div>
+        {/* Código descuento */}
+        <div className="mb-3">
+          <label htmlFor="codigoDesc" className="form-label">Código descuento</label>
+          <input
+            type="text"
+            className="form-control"
+            id="codigoDesc"
+            maxLength="30"
+            placeholder="Código descuento"
+            value={formData.codigoDesc}
+            onChange={handleChange}
+          />
+        </div>
 
-          <div className="mb-4">
-            <label htmlFor="confirmarcontrasena" className="form-label">
-              Confirmar contraseña
-            </label>
-            <input
-              type="password"
-              className="form-control"
-              id="confirmarcontrasena"
-              placeholder="Confirmar contraseña"
-              minLength="6"
-              required
-              value={formData.confirmarcontrasena}
-              onChange={handleChange}
-            />
-          </div>
+        {/* Contraseña */}
+        <div className="mb-3">
+          <label htmlFor="contrasena" className="form-label">Contraseña</label>
+          <input
+            type="password"
+            className="form-control"
+            id="contrasena"
+            required
+            minLength="6"
+            placeholder="Contraseña"
+            value={formData.contrasena}
+            onChange={handleChange}
+          />
+        </div>
 
-          <div className="d-grid">
-            <button id="btnRegister" type="submit" className="btn btn-outline-dark">
-              Registrarse
-            </button>
-          </div>
-        </form>
-      </div>
+        {/* Confirmación */}
+        <div className="mb-3">
+          <label htmlFor="confirmarcontrasena" className="form-label">Confirmar contraseña</label>
+          <input
+            type="password"
+            className="form-control"
+            id="confirmarcontrasena"
+            required
+            minLength="6"
+            placeholder="Confirmar contraseña"
+            value={formData.confirmarcontrasena}
+            onChange={handleChange}
+          />
+        </div>
 
-      {/* Modal de éxito/error */}
-      {modal.show && (
-        <div
-          className="modal fade show d-block"
-          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
-          tabIndex="-1"
-        >
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div
-                className={`modal-header ${
-                  modal.type === "success" ? "bg-success text-white" : "bg-danger text-white"
+        <div className="d-grid">
+          <button className="btn btn-outline-dark" type="submit">Registrarse</button>
+        </div>
+
+      </form>
+
+    </div>
+
+    {modal.show && (
+      <div
+        className="modal fade show d-block"
+        style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+        tabIndex="-1"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div
+              className={`modal-header ${modal.type === "success" ? "bg-success text-white" : "bg-danger text-white"
                 }`}
-              >
-                <h5 className="modal-title">{modal.title}</h5>
-                <button type="button" className="btn-close" onClick={closeModal}></button>
-              </div>
-              <div className="modal-body">
-                <p>{modal.message}</p>
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={closeModal}>
-                  Cerrar
-                </button>
-              </div>
+            >
+              <h5 className="modal-title">{modal.title}</h5>
+              <button type="button" className="btn-close" onClick={closeModal}></button>
+            </div>
+            <div className="modal-body">
+              <p>{modal.message}</p>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" onClick={closeModal}>
+                Cerrar
+              </button>
             </div>
           </div>
         </div>
-      )}
-    </main>
-  );
+      </div>
+    )}
+  </main>
+);
 }
 
 export default Registrar;

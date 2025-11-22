@@ -396,3 +396,101 @@
   justify-content: flex-end;
   margin-right: 2rem;      /* Ajusta la distancia del borde o del ícono del carrito */
 }
+  
+
+  /* Contenedor general */
+  .agregar-container {
+    max-width: 450px;
+    margin: 40px auto;
+    padding: 25px 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  /* Título */
+  .agregar-titulo {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  /* Formulario */
+  .agregar-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  /* Inputs y textarea */
+  .agregar-form input,
+  .agregar-form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease;
+    resize: none;
+  }
+
+  .agregar-form input:focus,
+  .agregar-form textarea:focus {
+    border-color: #4a90e2;
+    outline: none;
+  }
+
+  /* Labels */
+  .agregar-form label {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+    color: #444;
+  }
+
+  /* Doble campo (precio y stock) */
+  .agregar-doble {
+    display: flex;
+    gap: 10px;
+  }
+
+  .agregar-doble label {
+    flex: 1;
+  }
+
+  /* Botón */
+  .btn-agregar {
+    background-color: #4a90e2;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+  }
+
+  .btn-agregar:hover {
+    background-color: #3a7bc1;
+    transform: scale(1.02);
+  }
+
+  /* Mensaje */
+  .mensaje {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+
+  .mensaje:contains("✅") {
+    color: #2ecc71;
+  }
+
+  .mensaje:contains("❌"),
+  .mensaje:contains("⚠️") {
+    color: #e74c3c;
+  }
