@@ -22,13 +22,13 @@ export default function Perfil() {
         const response = await axios.get("http://localhost:8081/Usuarios/Personal", {
           headers: {
             Authorization: `Bearer ${token}`,
-            "x-api-key": "123456789ABCDEF",
+            "X-API-KEY": "123456789ABCDEF",
           },
         });
 
         const data = response.data;
         setUsuario({
-          idUsuario: data.idUsuario, // Guardamos el ID
+          idUsuario: data.idUsuario,
           nombre: data.nombre || "",
           apellidoPaterno: data.apellidoPaterno || "",
           apellidoMaterno: data.apellidoMaterno || "",
@@ -39,7 +39,10 @@ export default function Perfil() {
           ciudad: data.ciudad || "",
           direccion: data.direccion || "",
           estado: data.estado || "",
-          rol: data.rol?.nombreRol || "",
+          run: data.run || "",
+          dv: data.dv || "",
+          codigoDesc: data.codigoDesc || "",
+          rol: data.rol || { idRol: 2, nombre: "CLIENTE" }, // Ajusta según tu objeto Rol
         });
 
         setMaxFecha(new Date().toISOString().split("T")[0]);
@@ -60,18 +63,24 @@ export default function Perfil() {
     setUsuario((prev) => ({ ...prev, [id]: value }));
   };
 
-  // Guardar cambios
   const handleGuardar = async (e) => {
     e.preventDefault();
     try {
       if (!usuario?.idUsuario) throw new Error("No se encontró el ID del usuario");
+
       const token = localStorage.getItem("token");
       if (!token) throw new Error("No se encontró token");
 
-      await axios.put(`http://localhost:8081/Usuarios/${usuario.idUsuario}`, usuario, {
+      // Prepara el objeto para enviar al backend
+      const usuarioParaEnviar = {
+        ...usuario,
+        rol: usuario.rol.idRol ? { idRol: usuario.rol.idRol } : { idRol: 2 } // Mantener objeto
+      };
+
+      await axios.patch(`http://localhost:8081/Usuarios/${usuario.idUsuario}`, usuarioParaEnviar, {
         headers: {
           Authorization: `Bearer ${token}`,
-          "x-api-key": "123456789ABCDEF",
+          "X-API-KEY": "123456789ABCDEF",
           "Content-Type": "application/json",
         },
       });
@@ -79,7 +88,7 @@ export default function Perfil() {
       setEditando(false);
       setShowSuccess(true);
     } catch (error) {
-      console.error("Error al guardar perfil:", error);
+      console.log("Error al guardar cambios:", error);
       setErrorMessage(
         error.response?.status === 403
           ? "No tienes permisos para actualizar este perfil"
@@ -190,7 +199,7 @@ export default function Perfil() {
           {/* Rol (solo lectura) */}
           <div className="perfil-input-group mb-4">
             <span className="perfil-label">Rol:</span>
-            <input id="rol" value={usuario.rol} className="perfil-input" disabled />
+            <input id="rol" value={usuario.rol?.nombre || "CLIENTE"} className="perfil-input" disabled />
           </div>
 
           <div className="text-center mb-3">

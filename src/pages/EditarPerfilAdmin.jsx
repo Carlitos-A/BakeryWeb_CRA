@@ -28,8 +28,8 @@ export default function EditarUsuarioAdmin() {
 
   const [maxFecha, setMaxFecha] = useState("");
   const [roles, setRoles] = useState([
-    { idRol: 1, nombreRol: "Admin" },
-    { idRol: 2, nombreRol: "Usuario" },
+    { idRol: 1, nombreRol: "ADMIN" },
+    { idRol: 2, nombreRol: "CLIENTE" },
     // Agrega aquí más roles si los tienes
   ]);
 
@@ -49,7 +49,6 @@ export default function EditarUsuarioAdmin() {
           ciudad: data.ciudad || "",
           direccion: data.direccion || "",
           estado: data.estado || "",
- 
           rolId: data.rol?.idRol || "",
         });
         setMaxFecha(new Date().toISOString().split("T")[0]);
@@ -106,7 +105,7 @@ export default function EditarUsuarioAdmin() {
       <div className="perfil-box">
         <h2 className="text-center mb-4">Editar Usuario (Admin)</h2>
         <form onSubmit={handleGuardar}>
-          {["nombre", "apellidoPaterno", "apellidoMaterno", "correo", "telefono", "fechaNacimiento", "pais", "ciudad", "direccion", "codigoDesc", "estado"].map((field) => (
+          {["nombre", "apellidoPaterno", "apellidoMaterno", "correo", "telefono", "fechaNacimiento", "pais", "ciudad", "direccion", "estado"].map((field) => (
             <div className="perfil-input-group mb-3" key={field}>
               <span className="perfil-label">{field}</span>
               <input

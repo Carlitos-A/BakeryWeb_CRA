@@ -43,6 +43,6 @@ export const buscarUsuarioUID = async (uid) => {
   return response.data;
 };
 export const editarUsuarioAdmin = async (id, datos) => {
-  const response = await axiosClient.put(`/Usuarios/Admin/${id}`, datos);
+  const response = await axiosClient.patch(`${API_URL}/${id}`, datos);
   return response.data;
 };
