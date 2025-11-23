@@ -135,8 +135,55 @@
     padding: 20px;
   }
 
+
+  }
+  .btn-admin-editar {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 100%;
+  margin-top: 10px;
+}
+.btn-admin-editar:hover {
+  background-color: #0056b3;
+}
+.admin-texto-muted {
+  text-align: center;
+  font-size: 18px;
+  color: #555;
+  margin-top: 20px;
+}
+.admin-detalle-box {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  margin-top: 20px;
+}
+.btn-admin-eliminar {
+  background-color: #d9534f;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 100%;
+  margin-top: 10px;
+}
+.btn-admin-eliminar:hover {
+  background-color: #b03a37;
+}
   .lista-usuarios,
   .editar-usuario {
     width: 100%;
-  }
+
 }

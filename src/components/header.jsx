@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { catalogoItems } from '../constantes/catalogoItems';
 import CartIcon from './CartIcon';
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { useCart } from "../components/CartContext";
 import logopasteleria from '../assets/img/icons/logo.png';
 
@@ -144,7 +144,7 @@ export default function Header() {
                     <div className="dropdown">
                       <button className="btn btn-transparent dropdown-toggle" type="button" onClick={toggleClickDropdown}>
                         <i className="bi bi-bell-fill"></i>
-                        <span className="badge text-bg-danger">3</span>
+                        <span className="badge text-bg-danger">2</span>
                       </button>
                       {showClickDropdown && (
                         <ul className="dropdown-menu show dropdown-menu-start">
