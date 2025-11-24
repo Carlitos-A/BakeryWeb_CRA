@@ -6,6 +6,7 @@ import { obtenerDescuentosPorUsuario } from "../api/descuentoService.js";
 
 export default function CarritoPage() {
   const { cart, removeFromCart, clearCart, updateQuantity } = useCart();
+
   const [showModal, setShowModal] = useState(false);
   const [descuentos, setDescuentos] = useState([]);
   const [descuentoDetalle, setDescuentoDetalle] = useState([]);
@@ -14,35 +15,102 @@ export default function CarritoPage() {
   const usuarioActivo = JSON.parse(localStorage.getItem("usuarioActivo"));
   const idUsuario = usuarioActivo ? usuarioActivo.idUsuario : null;
 
+  function isCumple(fechaNacimiento) {
+    if (!fechaNacimiento) return false;
+
+    const [year, month, day] = fechaNacimiento.split("-").map(Number);
+
+    const hoy = new Date();
+    const diaHoy = hoy.getDate(); // día actual
+    const mesHoy = hoy.getMonth() + 1; // meses empiezan en 0
+
+    return day === diaHoy && month === mesHoy;
+  }
+
+
+
   // Obtener descuentos del usuario
   useEffect(() => {
     if (!idUsuario) return;
     obtenerDescuentosPorUsuario(idUsuario)
-      .then((data) => setDescuentos(data))
+      .then((data) => {
+        console.log("DESCUENTOS OBTENIDOS:", data); // <--- AGREGA ESTO
+        setDescuentos(data);
+      })
       .catch((err) => console.error("Error obteniendo descuentos:", err));
   }, [idUsuario]);
 
-  // Calcular total general y desglose de descuentos
+
   useEffect(() => {
-    const subtotal = cart.reduce((acc, item) => acc + item.price * (item.cantidad || 1), 0);
+    const subtotal = cart.reduce(
+      (acc, item) => acc + item.price * (item.cantidad || 1),
+      0
+    );
 
-    const detalle = descuentos.map(d => ({
-      codigo: d.codigo,
-      porcentaje: d.porcentaje,
-      monto: subtotal * (d.porcentaje / 100)
-    }));
+    const descuentosGenerales = descuentos
+      .filter(d => d.codigo !== "DUOC_CUMPLE")
+      .map(d => ({
+        codigo: d.codigo,
+        porcentaje: d.porcentaje,
+        monto: subtotal * (d.porcentaje / 100)
+      }));
 
-    const totalConDescuento = subtotal - detalle.reduce((acc, d) => acc + d.monto, 0);
+    const totalDescuentosGenerales = descuentosGenerales.reduce(
+      (acc, d) => acc + d.monto,
+      0
+    );
+
+    let descuentoTorta = null;
+    const descuentoCumple = descuentos.find(d => d.codigo === "DUOC_CUMPLE");
+
+    const esCumple = usuarioActivo?.fechaNacimiento
+      ? isCumple(usuarioActivo.fechaNacimiento)
+      : false;
+
+    const tortas = cart.filter(item =>
+      item.category?.toLowerCase().includes("torta")
+    );
+
+    if (
+      descuentoCumple &&
+      esCumple &&
+      tortas.length === 1 &&
+      (tortas[0].cantidad || 1) === 1
+    ) {
+      descuentoTorta = {
+        codigo: "DUOC_CUMPLE",
+        porcentaje: 100,
+        monto: tortas[0].price
+      };
+    }
+
+    const totalConDescuento =
+      subtotal -
+      totalDescuentosGenerales -
+      (descuentoTorta ? descuentoTorta.monto : 0);
+
+    const detalleFinal = [
+      ...descuentosGenerales,
+      ...(descuentoTorta ? [descuentoTorta] : [])
+    ];
 
     setTotal(totalConDescuento);
-    setDescuentoDetalle(detalle);
+    setDescuentoDetalle(detalleFinal);
+    console.log("TORTAS ENCONTRADAS:", tortas);
   }, [cart, descuentos]);
+
 
   const handlePago = () => {
     clearCart();
     setShowModal(true);
   };
   const cerrarModal = () => setShowModal(false);
+
+  console.log("FECHA NACIMIENTO LOCALSTORAGE:", usuarioActivo.fechaNacimiento);
+  console.log("ES CUMPLE?:", isCumple(usuarioActivo.fechaNacimiento));
+
+
+
 
   return (
     <main className="carrito-main">
