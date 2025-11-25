@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Catalogo.css';
-import { productos } from '../constantes/productos.js';
 import { catalogoItems } from '../constantes/catalogoItems.js';
 import { useCart } from '../components/CartContext.jsx';
 import { useParams, useNavigate } from "react-router-dom";
-import { obtenerProductos } from '../api/productosService.js';
-
+import { listarProductos } from '../api/productosService.js';
 
 export default function Catalogo() {
     const { addToCart } = useCart();
@@ -13,7 +11,6 @@ export default function Catalogo() {
     const { categoria } = useParams();
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("Todos los productos");
 
-    // Conexion con Backend para obtener productos
     const [productos, setProductos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -21,8 +18,7 @@ export default function Catalogo() {
     useEffect(() => {
         const fetchProductos = async () => {
             try {
-                const data = await obtenerProductos();
-
+                const data = await listarProductos();
 
                 const productosList = data._embedded
                     ? Object.values(data._embedded)[0]
@@ -72,94 +68,99 @@ export default function Catalogo() {
     if (error) return <p className="text-center text-danger mt-5">{error}</p>;
 
     return (
-        <div className="d-flex flex-column min-vh-100 bg-custom">
-            <div className="container my-5">
-                <div className="row">
-                    {/* Barra lateral */}
-                    <aside className="col-md-3 mb-4">
-                        <div className="p-3 bg-white rounded shadow-sm">
-                            <h5 className="mb-3 text-center">Filtrar por categoría</h5>
-                            <ul className="list-group mb-3">
-                                {catalogoItems.map((item) => (
-                                    <li
-                                        key={item.id}
-                                        className={`list-group-item list-group-item-action ${categoriaSeleccionada.toLowerCase().trim() === item.name.toLowerCase().trim()
-                                                ? "active"
-                                                : ""
-                                            }`}
-                                        style={{ cursor: "pointer" }}
-                                        onClick={() => {
-                                            const ruta =
-                                                item.name === "Todos los productos"
-                                                    ? "/catalogo"
-                                                    : `/catalogo/${item.name.toLowerCase().replace(/\s+/g, "-")}`;
-                                            navigate(ruta);
-                                        }}
-                                    >
-                                        {item.name}
-                                    </li>
-                                ))}
-                            </ul>
+        <div className="catalogo-container">
 
-                            <div className="text-center mt-3">
-                                <button
-                                    className="btn btn-color-car w-100"
-                                    onClick={() => navigate("/AgregarProducto")}
+            <div className="container">
+
+                <div className="fila">
+
+                    {/* Filtro Categorías */}
+                    <aside className="col-3 filtro-categorias">
+                        <h5 className="titulo-filtro">Filtrar por categoría</h5>
+
+                        <ul className="lista-categorias">
+                            {catalogoItems.map((item) => (
+                                <li
+                                    key={item.id}
+                                    className={`categoria-item ${
+                                        categoriaSeleccionada.toLowerCase().trim() === item.name.toLowerCase().trim()
+                                            ? "categoria-activa"
+                                            : ""
+                                    }`}
+                                    onClick={() => {
+                                        const ruta =
+                                            item.name === "Todos los productos"
+                                                ? "/catalogo"
+                                                : `/catalogo/${item.name.toLowerCase().replace(/\s+/g, "-")}`;
+                                        navigate(ruta);
+                                    }}
                                 >
-                                    Agregar producto
-                                </button>
-                            </div>
-                        </div>
+                                    {item.name}
+                                </li>
+                            ))}
+                        </ul>
+
+                        <button
+                            className="btn-agregar mt-3"
+                            onClick={() => navigate("/AgregarProducto")}
+                        >
+                            Agregar producto
+                        </button>
                     </aside>
 
                     {/* Productos */}
-                    <div className="col-md-9">
-                        <h4 className="mb-4 text-dark">
+                    <div className="col-9">
+                        <h4 className="titulo-categoria">
                             {categoriaSeleccionada === "Todos los productos"
                                 ? "Todos los productos"
                                 : `Categoría: ${categoriaSeleccionada}`}
                         </h4>
 
-                        <div className="row g-4">
+                        <div className="grid-productos">
                             {productosFiltrados.length > 0 ? (
                                 productosFiltrados.map((product) => (
-                                    <div key={product.id} className="col-sm-6 col-md-4 col-lg-3">
-                                        <div className="card h-100 shadow-sm border-0 hover-shadow">
-                                            <img
-                                                src={product.img}
-                                                className="card-img-top rounded-top"
-                                                alt={product.title || 'producto'}
-                                                style={{ objectFit: "cover", height: "180px" }}
-                                            />
-                                            <div className="card-body d-flex flex-column justify-content-between">
-                                                <div>
-                                                    <p className="small text-muted mb-1">{product.category}</p>
-                                                    <h6 className="fw-bold">{product.title}</h6>
-                                                    <div className="d-flex justify-content-between align-items-center">
-                                                        {product.originalPrice && (
-                                                            <span className="text-decoration-line-through text-muted small">
-                                                                {product.originalPrice} CLP
-                                                            </span>
-                                                        )}
-                                                        <span className="fw-semibold text-dark">{product.price} CLP</span>
-                                                    </div>
-                                                </div>
-                                                <div className="text-center mt-3">
-                                                    <button
-                                                        className="btn btn-color-car w-100 btn-sm"
-                                                        onClick={() => addToCart(product)}
-                                                    >
-                                                        Agregar al carrito
-                                                    </button>
-                                                </div>
+                                    <div key={product.id} className="card-producto">
+
+                                        <img
+                                            src={product.img}
+                                            alt={product.title}
+                                            className="imagen-producto"
+                                        />
+
+                                        <div className="card-cuerpo">
+                                            <p className="categoria-producto">{product.category}</p>
+
+                                            <h6 className="titulo-producto">{product.title}</h6>
+
+                                            <div className="precio-container">
+                                                {product.originalPrice && (
+                                                    <span className="precio-original">
+                                                        {product.originalPrice} CLP
+                                                    </span>
+                                                )}
+
+                                                <span className="precio-final">
+                                                    {product.price} CLP
+                                                </span>
                                             </div>
+
+                                            <button
+                                                className="btn-agregar"
+                                                onClick={() => addToCart(product)}
+                                            >
+                                                Agregar al carrito
+                                            </button>
+
                                         </div>
                                     </div>
                                 ))
                             ) : (
-                                <p className="text-muted">No hay productos en esta categoría.</p>
+                                <p className="sin-productos">
+                                    No hay productos en esta categoría.
+                                </p>
                             )}
                         </div>
+
                     </div>
                 </div>
             </div>
