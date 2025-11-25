@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../styles/style.css";
+import { crearProducto } from "../api/productosService";
 
 export default function AgregarProducto() {
   const [producto, setProducto] = useState({
@@ -7,7 +8,8 @@ export default function AgregarProducto() {
     descripcion: "",
     precio: "",
     stock: "",
-    imagenUrl: ""
+    imagenUrl: "",
+    sku: ""
   });
 
   const [mensaje, setMensaje] = useState("");
@@ -21,37 +23,41 @@ export default function AgregarProducto() {
     e.preventDefault();
     setMensaje("");
 
-    if (!producto.nombre || !producto.precio || !producto.stock) {
-      setMensaje("Completa al menos nombre, precio y stock.");
+    if (!producto.nombre || !producto.precio || !producto.stock || !producto.sku || !producto.imagenUrl) {
+      setMensaje("Completa nombre, precio, stock, SKU y URL de imagen.");
       return;
     }
 
     try {
-      const respuesta = await fetch("http://localhost:8080/api/productos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...producto,
-          precio: parseFloat(producto.precio),
-          stock: parseInt(producto.stock)
-        })
-      });
+      const newProduct = {
+        nombre: producto.nombre,
+        descripcion: producto.descripcion,
+        precio: parseFloat(producto.precio),
+        stock: parseInt(producto.stock, 10),
+        imagenUrl: producto.imagenUrl,
+        sku: producto.sku
+      };
 
-      if (respuesta.ok) {
+      const respuesta = await crearProducto(newProduct);
+
+      // Si crearProducto usa axios:
+      if (respuesta && respuesta.status >= 200 && respuesta.status < 300) {
         setMensaje("Producto agregado correctamente");
-        setProducto({ nombre: "", descripcion: "", precio: "", stock: "", imagenUrl: "" });
+        setProducto({ nombre: "", descripcion: "", precio: "", stock: "", imagenUrl: "", sku: "" });
       } else {
-        const error = await respuesta.text();
-        setMensaje(`Error al agregar producto: ${error}`);
+        // fallback para fetch-like responses
+        const text = respuesta?.data || (await respuesta?.text?.());
+        setMensaje(`Error al agregar producto: ${text}`);
       }
     } catch (err) {
-      setMensaje(`Error de conexión: ${err.message}`);
+      setMensaje(`Error de conexión: ${err?.response?.data?.message || err.message}`);
     }
   };
 
   return (
     <div className="agregar-container">
       <h2 className="agregar-titulo">Agregar Producto</h2>
+
       <form onSubmit={handleSubmit} className="agregar-form">
         <label>
           Nombre:
@@ -59,6 +65,16 @@ export default function AgregarProducto() {
             name="nombre"
             placeholder="Ej: Torta de chocolate"
             value={producto.nombre}
+            onChange={handleChange}
+          />
+        </label>
+
+        <label>
+          SKU:
+          <input
+            name="sku"
+            placeholder="Ej: TORTA001"
+            value={producto.sku}
             onChange={handleChange}
           />
         </label>
@@ -84,6 +100,7 @@ export default function AgregarProducto() {
               onChange={handleChange}
             />
           </label>
+
           <label>
             Stock:
             <input

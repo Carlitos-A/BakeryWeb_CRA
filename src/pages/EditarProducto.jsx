@@ -42,7 +42,7 @@ export default function EditarProducto() {
       };
       await actualizarProducto(id, actualizar);
       alert("Producto actualizado correctamente");
-      navigate("/admin/productos");
+      navigate("/PanelAdmin");
     } catch (error) {
       console.error(error);
       alert("Error al actualizar producto");

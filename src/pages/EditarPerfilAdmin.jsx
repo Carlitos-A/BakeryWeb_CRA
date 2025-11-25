@@ -89,7 +89,7 @@ export default function EditarUsuarioAdmin() {
       await editarUsuarioAdmin(id, datos);
       setShowSuccess(true);
       setShowError(false);
-      setTimeout(() => navigate("/admin/panel"), 1500);
+      setTimeout(() => navigate("/PanelAdmin"), 1500);
     } catch (err) {
       console.error(err);
       setErrorMessage("Error al actualizar usuario");
