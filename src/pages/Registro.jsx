@@ -19,6 +19,7 @@ function Registrar() {
     pais: "",
     ciudad: "",
     direccion: "",
+    codigoDesc: "",
     contrasena: "",
     confirmarcontrasena: "",
     rol: {
@@ -72,7 +73,7 @@ function Registrar() {
         pais: formData.pais,
         ciudad: formData.ciudad,
         direccion: formData.direccion,
-
+        codigoDesc: formData.codigoDesc,
         contrasena: formData.contrasena,
         rol: formData.rol,
       });
@@ -99,7 +100,7 @@ function Registrar() {
         pais: "",
         ciudad: "",
         direccion: "",
-
+        codigoDesc: "",
         contrasena: "",
         confirmarcontrasena: "",
         rol: "COMPRADOR",
@@ -271,6 +272,20 @@ function Registrar() {
               maxLength="100"
               placeholder="Dirección"
               value={formData.direccion}
+              onChange={handleChange}
+            />
+          </div>
+          
+          {/* Código descuento */}
+          <div className="mb-3">
+            <label htmlFor="codigoDesc" className="form-label">Código descuento</label>
+            <input
+              type="text"
+              className="form-control"
+              id="codigoDesc"
+              maxLength="30"
+              placeholder="Código descuento"
+              value={formData.codigoDesc}
               onChange={handleChange}
             />
           </div>

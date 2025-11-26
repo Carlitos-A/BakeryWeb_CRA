@@ -3,6 +3,7 @@ import { useCart } from "../components/CartContext";
 import { Link } from "react-router-dom";
 import "../styles/Carrito.css";
 import { obtenerDescuentosPorUsuario } from "../api/descuentoService.js";
+import { crearPedido } from "../api/pedidoService.js";
 
 export default function CarritoPage() {
   const { cart, removeFromCart, clearCart, updateQuantity } = useCart();
@@ -15,37 +16,68 @@ export default function CarritoPage() {
   const usuarioActivo = JSON.parse(localStorage.getItem("usuarioActivo"));
   const idUsuario = usuarioActivo ? usuarioActivo.idUsuario : null;
 
-  function isCumple(fechaNacimiento) {
+  // --- FUNCIONES AUXILIARES ---
+  const isCumple = (fechaNacimiento) => {
     if (!fechaNacimiento) return false;
-
     const [year, month, day] = fechaNacimiento.split("-").map(Number);
-
     const hoy = new Date();
-    const diaHoy = hoy.getDate(); // día actual
-    const mesHoy = hoy.getMonth() + 1; // meses empiezan en 0
+    return day === hoy.getDate() && month === hoy.getMonth() + 1;
+  };
 
-    return day === diaHoy && month === mesHoy;
-  }
+  const construirPedido = () => {
+    const detalles = cart.map((item) => ({
+      idProducto: item.id,
+      cantidad: item.cantidad || 1
+    }));
+
+    const totalDescuentos = descuentoDetalle.reduce((acc, d) => acc + d.monto, 0);
+    const totalPedido = cart.reduce((acc, item) => acc + item.price * (item.cantidad || 1), 0) - totalDescuentos;
+
+    return {
+      idUsuario: idUsuario,
+      cantidad_productos: cart.reduce((acc, item) => acc + (item.cantidad || 1), 0),
+      metodo_de_pago: "TARJETA",
+      descuentos: totalDescuentos,
+      detalles,   // <-- nombre que espera el backend
+      total: totalPedido
+    };
+  };
 
 
 
-  // Obtener descuentos del usuario
+
+  const handlePago = async () => {
+    const pedido = construirPedido();
+    console.log("ENVIANDO PEDIDO:", pedido);
+
+    try {
+      const data = await crearPedido(pedido);
+      console.log("PEDIDO CREADO:", data);
+
+      clearCart();
+      setShowModal(true);
+    } catch (error) {
+      console.error("ERROR AL CREAR PEDIDO:", error);
+      alert("Hubo un error al procesar el pedido");
+    }
+  };
+
+  const cerrarModal = () => setShowModal(false);
+
+  // --- OBTENER DESCUENTOS ---
   useEffect(() => {
     if (!idUsuario) return;
     obtenerDescuentosPorUsuario(idUsuario)
       .then((data) => {
-        console.log("DESCUENTOS OBTENIDOS:", data); // <--- AGREGA ESTO
+        console.log("DESCUENTOS OBTENIDOS:", data);
         setDescuentos(data);
       })
       .catch((err) => console.error("Error obteniendo descuentos:", err));
   }, [idUsuario]);
 
-
+  // --- CALCULAR TOTALES Y DESCUENTOS ---
   useEffect(() => {
-    const subtotal = cart.reduce(
-      (acc, item) => acc + item.price * (item.cantidad || 1),
-      0
-    );
+    const subtotal = cart.reduce((acc, item) => acc + item.price * (item.cantidad || 1), 0);
 
     const descuentosGenerales = descuentos
       .filter(d => d.codigo !== "DUOC_CUMPLE")
@@ -55,10 +87,7 @@ export default function CarritoPage() {
         monto: subtotal * (d.porcentaje / 100)
       }));
 
-    const totalDescuentosGenerales = descuentosGenerales.reduce(
-      (acc, d) => acc + d.monto,
-      0
-    );
+    const totalDescuentosGenerales = descuentosGenerales.reduce((acc, d) => acc + d.monto, 0);
 
     let descuentoTorta = null;
     const descuentoCumple = descuentos.find(d => d.codigo === "DUOC_CUMPLE");
@@ -96,22 +125,10 @@ export default function CarritoPage() {
 
     setTotal(totalConDescuento);
     setDescuentoDetalle(detalleFinal);
-    console.log("TORTAS ENCONTRADAS:", tortas);
   }, [cart, descuentos]);
 
 
-  const handlePago = () => {
-    clearCart();
-    setShowModal(true);
-  };
-  const cerrarModal = () => setShowModal(false);
-
-  console.log("FECHA NACIMIENTO LOCALSTORAGE:", usuarioActivo.fechaNacimiento);
-  console.log("ES CUMPLE?:", isCumple(usuarioActivo.fechaNacimiento));
-
-
-
-
+  // --- RENDER ---
   return (
     <main className="carrito-main">
       <div className="carrito-box">
