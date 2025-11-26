@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { catalogoItems } from '../constantes/catalogoItems';
 import CartIcon from './CartIcon';
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { useCart } from "../components/CartContext";
 import logopasteleria from '../assets/img/icons/logo.png';
 
@@ -54,8 +54,7 @@ export default function Header() {
     window.addEventListener("usuarioLogueado", onUsuarioLogueado);
     window.addEventListener("usuarioDeslogueado", onUsuarioDeslogueado);
     window.addEventListener("storage", onStorage);
-
-    // cleanup
+    
     return () => {
       window.removeEventListener("usuarioLogueado", onUsuarioLogueado);
       window.removeEventListener("usuarioDeslogueado", onUsuarioDeslogueado);
@@ -98,7 +97,6 @@ export default function Header() {
                   ))}
                 </ul>
               </li>
-
               <li className="nav-item dropdown">
                 <Link className="nav-link dropdown-toggle">Sobre Nosotros</Link>
                 <ul className="dropdown-menu">
@@ -107,7 +105,6 @@ export default function Header() {
                   <li><Link className="dropdown-item" to="/procesos">Procesos</Link></li>
                 </ul>
               </li>
-
               <li className="nav-item dropdown">
                 <Link to="/comunidad" className="nav-link dropdown-toggle">Comunidad</Link>
                 <ul className="dropdown-menu">
@@ -132,11 +129,10 @@ export default function Header() {
                   <li className="nav-item"><Link to="/Registro" className="nav-link">Registrarse</Link></li>
                 </>
               )}
-
               {logueado && (
                 <>
                   {rol === "ADMIN" && (
-                    <li className="nav-item"><Link to="/PanelAdministrador" className="nav-link">Panel Admin</Link></li>
+                    <li className="nav-item"><Link to="/PanelAdmin" className="nav-link">Panel Admin</Link></li>
                   )}
 
                   {rol === "CLIENTE" && (
@@ -147,7 +143,7 @@ export default function Header() {
                     <div className="dropdown">
                       <button className="btn btn-transparent dropdown-toggle" type="button" onClick={toggleClickDropdown}>
                         <i className="bi bi-bell-fill"></i>
-                        <span className="badge text-bg-danger">3</span>
+                        <span className="badge text-bg-danger">2</span>
                       </button>
                       {showClickDropdown && (
                         <ul className="dropdown-menu show dropdown-menu-start">

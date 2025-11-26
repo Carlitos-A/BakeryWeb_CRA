@@ -1,28 +1,138 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCart } from "../components/CartContext";
 import { Link } from "react-router-dom";
 import "../styles/Carrito.css";
+import { obtenerDescuentosPorUsuario } from "../api/descuentoService.js";
+import { crearPedido } from "../api/pedidoService.js";
 
 export default function CarritoPage() {
   const { cart, removeFromCart, clearCart, updateQuantity } = useCart();
+
   const [showModal, setShowModal] = useState(false);
+  const [descuentos, setDescuentos] = useState([]);
+  const [descuentoDetalle, setDescuentoDetalle] = useState([]);
+  const [total, setTotal] = useState(0);
 
-  const total = cart.reduce(
-    (acc, item) => acc + (item.price || 0) * (item.cantidad || 1),
-    0
-  );
+  const usuarioActivo = JSON.parse(localStorage.getItem("usuarioActivo"));
+  const idUsuario = usuarioActivo ? usuarioActivo.idUsuario : null;
 
-  const handlePago = () => {
-    clearCart();
-    setShowModal(true);
+  // --- FUNCIONES AUXILIARES ---
+  const isCumple = (fechaNacimiento) => {
+    if (!fechaNacimiento) return false;
+    const [year, month, day] = fechaNacimiento.split("-").map(Number);
+    const hoy = new Date();
+    return day === hoy.getDate() && month === hoy.getMonth() + 1;
   };
+
+  const construirPedido = () => {
+    const detalles = cart.map((item) => ({
+      idProducto: item.id,
+      cantidad: item.cantidad || 1
+    }));
+
+    const totalDescuentos = descuentoDetalle.reduce((acc, d) => acc + d.monto, 0);
+    const totalPedido = cart.reduce((acc, item) => acc + item.price * (item.cantidad || 1), 0) - totalDescuentos;
+
+    return {
+      idUsuario: idUsuario,
+      cantidad_productos: cart.reduce((acc, item) => acc + (item.cantidad || 1), 0),
+      metodo_de_pago: "TARJETA",
+      descuentos: totalDescuentos,
+      detalles,   // <-- nombre que espera el backend
+      total: totalPedido
+    };
+  };
+
+
+
+
+  const handlePago = async () => {
+    const pedido = construirPedido();
+    console.log("ENVIANDO PEDIDO:", pedido);
+
+    try {
+      const data = await crearPedido(pedido);
+      console.log("PEDIDO CREADO:", data);
+
+      clearCart();
+      setShowModal(true);
+    } catch (error) {
+      console.error("ERROR AL CREAR PEDIDO:", error);
+      alert("Hubo un error al procesar el pedido");
+    }
+  };
+
   const cerrarModal = () => setShowModal(false);
 
+  // --- OBTENER DESCUENTOS ---
+  useEffect(() => {
+    if (!idUsuario) return;
+    obtenerDescuentosPorUsuario(idUsuario)
+      .then((data) => {
+        console.log("DESCUENTOS OBTENIDOS:", data);
+        setDescuentos(data);
+      })
+      .catch((err) => console.error("Error obteniendo descuentos:", err));
+  }, [idUsuario]);
 
+  // --- CALCULAR TOTALES Y DESCUENTOS ---
+  useEffect(() => {
+    const subtotal = cart.reduce((acc, item) => acc + item.price * (item.cantidad || 1), 0);
+
+    const descuentosGenerales = descuentos
+      .filter(d => d.codigo !== "DUOC_CUMPLE")
+      .map(d => ({
+        codigo: d.codigo,
+        porcentaje: d.porcentaje,
+        monto: subtotal * (d.porcentaje / 100)
+      }));
+
+    const totalDescuentosGenerales = descuentosGenerales.reduce((acc, d) => acc + d.monto, 0);
+
+    let descuentoTorta = null;
+    const descuentoCumple = descuentos.find(d => d.codigo === "DUOC_CUMPLE");
+
+    const esCumple = usuarioActivo?.fechaNacimiento
+      ? isCumple(usuarioActivo.fechaNacimiento)
+      : false;
+
+    const tortas = cart.filter(item =>
+      item.category?.toLowerCase().includes("torta")
+    );
+
+    if (
+      descuentoCumple &&
+      esCumple &&
+      tortas.length === 1 &&
+      (tortas[0].cantidad || 1) === 1
+    ) {
+      descuentoTorta = {
+        codigo: "DUOC_CUMPLE",
+        porcentaje: 100,
+        monto: tortas[0].price
+      };
+    }
+
+    const totalConDescuento =
+      subtotal -
+      totalDescuentosGenerales -
+      (descuentoTorta ? descuentoTorta.monto : 0);
+
+    const detalleFinal = [
+      ...descuentosGenerales,
+      ...(descuentoTorta ? [descuentoTorta] : [])
+    ];
+
+    setTotal(totalConDescuento);
+    setDescuentoDetalle(detalleFinal);
+  }, [cart, descuentos]);
+
+
+  // --- RENDER ---
   return (
     <main className="carrito-main">
       <div className="carrito-box">
-        <h2 className="carrito-title">🛒 Tu Carrito</h2>
+        <h2 className="carrito-title">Tu Carrito</h2>
 
         {cart.length === 0 ? (
           <div className="carrito-vacio">
@@ -49,48 +159,47 @@ export default function CarritoPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {cart.map((item, index) => (
-                    <tr key={index}>
-                      <td className="d-flex align-items-center">
-                        {item.img && (
-                          <img
-                            src={item.img}
-                            alt={item.title}
-                            width="60"
-                            height="60"
+                  {cart.map((item, index) => {
+                    const subtotal = item.price * (item.cantidad || 1);
+                    return (
+                      <tr key={index}>
+                        <td>{item.title}</td>
+                        <td>${item.price}</td>
+                        <td>
+                          <input
+                            type="number"
+                            min="1"
+                            value={item.cantidad || 1}
+                            onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
                           />
-                        )}
-                        <span>{item.title}</span>
-                      </td>
-                      <td>${item.price}</td>
-                      <td>
-                        <input
-                          type="number"
-                          min="1"
-                          value={item.cantidad || 1}
-                          className="form-control form-control-sm w-50"
-                          onChange={(e) =>
-                            updateQuantity(item.id, parseInt(e.target.value))
-                          }
-                        />
-                      </td>
-                      <td>${(item.price * (item.cantidad || 1)).toFixed(2)}</td>
-                      <td>
-                        <button
-                          className="btn btn-outline-danger btn-sm"
-                          onClick={() => removeFromCart(item.id)}
-                        >
-                          <i className="bi bi-trash"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                        </td>
+                        <td>${subtotal.toFixed(2)}</td>
+                        <td>
+                          <button onClick={() => removeFromCart(item.id)}>Eliminar</button>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
 
             <div className="carrito-footer">
               <h4>Total: ${total.toFixed(2)}</h4>
+
+              {descuentoDetalle.length > 0 && (
+                <div style={{ fontSize: "0.9rem", color: "#555", marginTop: "0.5rem" }}>
+                  <strong>DESCUENTOS APLICADOS</strong>
+                  <ul style={{ margin: 0, paddingLeft: "1rem" }}>
+                    {descuentoDetalle.map((d, i) => (
+                      <li key={i}>
+                        {d.codigo}: -${d.monto.toFixed(2)} ({d.porcentaje}%)
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
               <div>
                 <button className="btn btn-danger me-2" onClick={clearCart}>
                   Vaciar carrito
@@ -104,34 +213,25 @@ export default function CarritoPage() {
         )}
       </div>
 
-
       {showModal && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0,0,0,0.5)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 1000,
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: "white",
-              padding: "2rem",
-              borderRadius: "8px",
-              textAlign: "center",
-            }}
-          >
+        <div style={{
+          position: "fixed",
+          top: 0, left: 0,
+          width: "100%", height: "100%",
+          backgroundColor: "rgba(0,0,0,0.5)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          zIndex: 1000
+        }}>
+          <div style={{
+            backgroundColor: "white",
+            padding: "2rem",
+            borderRadius: "8px",
+            textAlign: "center"
+          }}>
             <h2>Pago exitoso</h2>
-            <button className="btn btn-primary" onClick={cerrarModal}>
-              Cerrar
-            </button>
+            <button className="btn btn-primary" onClick={cerrarModal}>Cerrar</button>
           </div>
         </div>
       )}

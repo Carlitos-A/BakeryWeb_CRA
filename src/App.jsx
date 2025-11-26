@@ -7,7 +7,7 @@ import './styles/style.css';
 import './styles/editPerfil.css';
 import Home from './pages/Home';
 import CartPage from './pages/CartPage';
-import Catalogo from './pages/Catalogo' ;
+import Catalogo from './pages/Catalogo';
 import Login from './pages/Login';
 import Registro from './pages/Registro';
 import Header from "./components/header";
@@ -24,33 +24,39 @@ import BakeryNews from './pages/BakeryNews'
 import BakeryConsejos from './pages/BakeryConsejos'
 import RecetasChilenas from './pages/RecetasChilenas'
 import AgregarProducto from './pages/AgregarProducto';
+import PanelAdmin from './pages/PanelAdmin.jsx';
+import EditarProducto from './pages/EditarProducto.jsx';
+import EditarUsuarioAdmin from './pages/EditarPerfilAdmin.jsx';
 
 
 function App() {
   return (
-         <AuthProvider>
-          <Header />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/catalogo" element={<Catalogo />} />
-            <Route path="/catalogo/:categoria" element={<Catalogo />} />
-            <Route path="/procesos" element={<Procesos />} />
-            <Route path="/nuestrahistoria" element={<NuestraHistoria />} />
-            <Route path="/equipo" element={<Equipo />} />
-            <Route path='/comunidad' element={<Comunidad />} />
-            <Route path="/Login" element={<Login />} />
-            <Route path="/Registro" element={<Registro />} />
-            <Route path='/Perfil' element={<Perfil/>}/>
-            <Route path='/MisCompras' element={<Compras/>}/>
-            <Route path="/bakeryBlog" element={<BakeryBlog />} />
-            <Route path="/bakeryNews" element={<BakeryNews/>}/>
-            <Route path="/bakeryConsejos" element={<BakeryConsejos/>}/>
-            <Route path="/RecetasChilenas" element={<RecetasChilenas/>}/>
-            <Route path="/AgregarProducto" element={<AgregarProducto/>}/>
-           </Routes>
-          <Footer />
-           </AuthProvider>
+    <AuthProvider>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/catalogo" element={<Catalogo />} />
+        <Route path="/catalogo/:categoria" element={<Catalogo />} />
+        <Route path="/procesos" element={<Procesos />} />
+        <Route path="/nuestrahistoria" element={<NuestraHistoria />} />
+        <Route path="/equipo" element={<Equipo />} />
+        <Route path='/comunidad' element={<Comunidad />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Registro" element={<Registro />} />
+        <Route path='/Perfil' element={<Perfil />} />
+        <Route path='/MisCompras' element={<Compras />} />
+        <Route path="/bakeryBlog" element={<BakeryBlog />} />
+        <Route path="/bakeryNews" element={<BakeryNews />} />
+        <Route path="/bakeryConsejos" element={<BakeryConsejos />} />
+        <Route path="/RecetasChilenas" element={<RecetasChilenas />} />
+        <Route path="/AgregarProducto" element={<AgregarProducto />} />
+        <Route path="/PanelAdmin" element={<PanelAdmin />} />
+        <Route path="/admin/editar-usuario/:id" element={<EditarUsuarioAdmin />} />
+        <Route path="/admin/editar-producto/:id" element={<EditarProducto />} />
+      </Routes>
+      <Footer />
+    </AuthProvider>
   );
 }
 

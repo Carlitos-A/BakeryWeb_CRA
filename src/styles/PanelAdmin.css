@@ -1,0 +1,189 @@
+.panel-admin {
+  min-height: 100vh;
+  background: url('../assets/img/fondo/tortafondo.jpg') no-repeat center center fixed;
+  background-size: cover;
+  padding: 50px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Contenedor general */
+.panel-box {
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 30px;
+  width: 100%;
+  max-width: 1200px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  gap: 30px;
+}
+
+/* Lista de usuarios */
+.lista-usuarios {
+  width: 40%;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.lista-usuarios h3 {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.usuario-item {
+  background: #f6f6f6;
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 1px solid #ddd;
+}
+
+.usuario-item:hover {
+  background: #e8f0ff;
+  border-color: #007bff;
+}
+
+/* Panel para editar usuario */
+.editar-usuario {
+  width: 60%;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.editar-usuario h3 {
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+/* Inputs */
+.form-grupo {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.form-input,
+.form-select {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Botón */
+.btn-guardar {
+  background-color: #445b74;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.btn-guardar:hover {
+  background-color: #062f5c;
+}
+
+/* Mensaje cuando no hay usuario seleccionado */
+.texto-muted {
+  text-align: center;
+  font-size: 18px;
+  padding-top: 20px;
+  color: #555;
+}
+
+/* Errores */
+.text-danger {
+  color: #d9534f;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .panel-box {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+
+  }
+  .btn-admin-editar {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 100%;
+  margin-top: 10px;
+}
+.btn-admin-editar:hover {
+  background-color: #0056b3;
+}
+.admin-texto-muted {
+  text-align: center;
+  font-size: 18px;
+  color: #555;
+  margin-top: 20px;
+}
+.admin-detalle-box {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  margin-top: 20px;
+}
+.btn-admin-eliminar {
+  background-color: #d9534f;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 100%;
+  margin-top: 10px;
+}
+.btn-admin-eliminar:hover {
+  background-color: #b03a37;
+}
+  .lista-usuarios,
+  .editar-usuario {
+    width: 100%;
+
+}

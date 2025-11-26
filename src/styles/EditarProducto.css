@@ -1,0 +1,107 @@
+/* Fondo principal */
+.editar-producto-fondo {
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  padding: 50px 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  font-family: 'Arial', sans-serif;
+}
+
+
+.editar-producto-container {
+  width: 100%;
+  max-width: 900px;   /* AUMENTADO, antes 600px */
+  margin-top: 40px;
+
+  background: rgba(255, 255, 255, 0.92);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.editar-producto-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-weight: 700;
+  color: #333;
+}
+
+.editar-producto-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.editar-producto-form label {
+  font-weight: 600;
+  color: #444;
+}
+
+.editar-producto-form input,
+.editar-producto-form textarea,
+.editar-producto-form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fafafa;
+  transition: 0.2s;
+}
+
+.editar-producto-form input:focus,
+.editar-producto-form textarea:focus,
+.editar-producto-form select:focus {
+  border-color: #ff8fb2;
+  box-shadow: 0 0 5px rgba(255,143,178,0.3);
+  outline: none;
+}
+
+.editar-producto-form textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+/* Botones */
+.btn-guardar,
+.btn-volver {
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.btn-guardar {
+  background-color: #ff8fb2;
+  color: white;
+}
+
+.btn-guardar:hover {
+  background-color: #ff709d;
+}
+
+.btn-volver {
+  background-color: #ddd;
+  color: #333;
+}
+
+.btn-volver:hover {
+  background-color: #c7c7c7;
+}
+
+/* Animación suave */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+  }
+}
